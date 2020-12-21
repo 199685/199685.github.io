@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/functions";
+@import "./helpers/variables";
+@import "./helpers/my-variables";
+@import "~bootstrap/scss/bootstrap";
+@import "./fontsize";
+
+@import "./dashboard";
+@import "./CustomerOrders";
+@import "./loading";
+@import "./Sidebar";
+@import "./index";
+@import "./product";
+
