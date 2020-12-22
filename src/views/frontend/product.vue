@@ -27,8 +27,8 @@
                 <div class="col-md-6 mb-5">
                     <div class="product-one-title d-flex justify-content-between mb-3 mt-3 mt-md-0">
                         <h2 class="h1">{{product.title}}</h2>
-                        <p class="m-0 text-secondary" @click="clickFavourite()">
-                            <i class="far fa-heart h1 pointer" :class="{favouriteStyle : addFavourite}"></i></p>
+                        <p class="m-0 text-secondary" @click="addFavourite()">
+                            <i class="far fa-heart h1 pointer" :class="{favouriteStyle : product.favourite}"></i></p>
                     </div>
 
                     <table class="product-table">
@@ -101,8 +101,9 @@ export default {
     return {
        isLoading: false,
        carts: 0,
+       cartsProductID: [],
        quantityValue: 1,
-       addFavourite: false,
+       favourite: [],
        openImg: false,
        product: []
     }
@@ -111,11 +112,76 @@ export default {
   components: {
       Carticon
   },
+  computed: {
+      
+  },
   methods: {
         getCarts() {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            let vm = this
+            vm.isLoading = true
             this.$http.get(api).then((response) => {
-                this.carts = response.data.data.carts.length
+                this.carts = response.data.data.carts.length 
+                for (let i = 0; i < this.carts; i++){
+                    let data ={
+                        title: response.data.data.carts[i].product.title,
+                        qty: response.data.data.carts[i].qty,
+                        id : response.data.data.carts[i].id
+                    }
+                    this.cartsProductID.push(data)
+                 }
+                vm.isLoading =false
+            })
+        },
+        getProduct() {
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/-MOGye4SvZU3X2IueO-W`;
+            const vm = this
+            this.$http.get(api).then((response) => {
+                vm.product = response.data.product
+                vm.product.favourite = false;
+                vm.getFavourite()
+            })
+        },
+        getFavourite() {
+            this.favourite = JSON.parse(localStorage.getItem('Favourite')) || []
+            let vm = this
+            this.favourite.forEach(item => {
+                if(item === vm.product.id) {
+                    vm.product.favourite = true;
+                }
+            })
+        },
+        addCart() {
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            const vm = this
+            let allQuantity = vm.quantityValue
+            vm.isLoading = true
+            vm.cartsProductID.forEach((item) => {
+                if(item.title === vm.product.title){
+                    allQuantity = parseInt(vm.quantityValue) + parseInt(item.qty)
+                    vm.removeProduct(item.id) 
+                }
+            })
+            
+            let carts= {
+                product_id: vm.product.id,
+                qty: allQuantity
+            }
+            this.$http.post(api, { data: carts}).then((response) => {
+                vm.getCarts()
+                vm.quantityValue = 1
+            })
+        },
+        addFavourite() {
+            let data =[this.product.id]
+            localStorage.setItem('Favourite', JSON.stringify(data))
+            this.getFavourite()
+        },
+        removeProduct(id) {
+           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+           let vm =this
+           this.$http.delete(api).then(() => {
+               vm.cartsProductID = []
             })
         },
         quantity(name) {
@@ -126,33 +192,11 @@ export default {
                     this.quantityValue -= 1
                 }
         },
-        clickFavourite() {
-                this.addFavourite = !this.addFavourite
-        },
         zoomImg() {
                 this.openImg = !this.openImg
                 document.querySelector('body').classList.toggle('hideScroll')
         },
-        getProduct() {
-            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/-MOGye4SvZU3X2IueO-W`;
-            const vm = this
-            this.$http.get(api).then((response) => {
-                
-                vm.product = response.data.product
-            })
-        },
-        addCart() {
-            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-            const vm = this
-            let carts= {
-                product_id: vm.product.id,
-                qty: vm.quantityValue
-            }
-            this.$http.post(api, { data: carts}).then((response) => {
-               
-                vm.getCarts()
-            })
-        }
+       
   
   },
   created() {
