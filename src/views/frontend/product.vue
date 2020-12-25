@@ -78,7 +78,7 @@
                     </table>
 
                     <div class="text-right">
-                        <button class="btn new-btn new-btn-cart" @click="addCart()">加入購物車</button>
+                        <button class="btn new-btn new-btn-cart" @click="addCart(product.id)">加入購物車</button>
                     </div>
 
                 </div>
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <Carticon :carts="carts"></Carticon>
+        <Carticon :carts="cartsNumber"></Carticon>
     </div>
 </template>
 
@@ -100,12 +100,14 @@ export default {
   data() {
     return {
        isLoading: false,
-       carts: 0,
-       cartsProductID: [],
+       cartsNumber: 0,
+       cartProductID: [],
+       cartID: [], 
        quantityValue: 1,
        favourite: [],
        openImg: false,
-       product: []
+       product: [],
+       productID: ''
     }
        
   },
@@ -119,69 +121,84 @@ export default {
         getCarts() {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
             let vm = this
-            vm.isLoading = true
             this.$http.get(api).then((response) => {
-                this.carts = response.data.data.carts.length 
-                for (let i = 0; i < this.carts; i++){
-                    let data ={
-                        title: response.data.data.carts[i].product.title,
-                        qty: response.data.data.carts[i].qty,
-                        id : response.data.data.carts[i].id
-                    }
-                    this.cartsProductID.push(data)
-                 }
-                vm.isLoading =false
+                 this.cartsNumber = response.data.data.carts.length;
+                 vm.cartProductID.splice(0)
+                 vm.cartID.splice(0) 
+                 response.data.data.carts.forEach(product => {
+                     console.log(product.id)
+                     let data ={
+                         id : product.id,
+                         qty: product.qty
+                     }
+                     vm.cartID.push(data)
+                     vm.cartProductID.push(product.product_id)
+                })
+                vm.isLoading = false
             })
         },
         getProduct() {
-            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/-MOGye4SvZU3X2IueO-W`;
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${this.productID}`;
             const vm = this
+            vm.isLoading = true
             this.$http.get(api).then((response) => {
                 vm.product = response.data.product
-                vm.product.favourite = false;
                 vm.getFavourite()
+                
             })
         },
         getFavourite() {
-            this.favourite = JSON.parse(localStorage.getItem('Favourite')) || []
+            this.favourite = JSON.parse(localStorage.getItem('Favourite'))
             let vm = this
+            vm.$set(vm.product, 'favourite', false)
             this.favourite.forEach(item => {
                 if(item === vm.product.id) {
-                    vm.product.favourite = true;
+                    vm.$set(vm.product, 'favourite', true)
                 }
             })
         },
-        addCart() {
+        addCart(id) {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-            const vm = this
-            let allQuantity = vm.quantityValue
+            let newQty = parseInt(this.quantityValue) 
+            let vm = this
             vm.isLoading = true
-            vm.cartsProductID.forEach((item) => {
-                if(item.title === vm.product.title){
-                    allQuantity = parseInt(vm.quantityValue) + parseInt(item.qty)
-                    vm.removeProduct(item.id) 
-                }
-            })
-            
-            let carts= {
-                product_id: vm.product.id,
-                qty: allQuantity
+            let sameID = this.cartProductID.indexOf(id)
+            if(sameID >= 0){
+                newQty += parseInt(vm.cartID[sameID].qty)
             }
-            this.$http.post(api, { data: carts}).then((response) => {
+            let addproduct ={
+                product_id: id,
+                qty: newQty
+            }
+            this.$http.post(api, { data: addproduct}).then((response) => {
+                console.log("addCart",response.data.data)
+              if(sameID >= 0){
+                vm.removeProduct(vm.cartID[sameID].id)
+                console.log("addCart")
+              }else{
                 vm.getCarts()
+              }
                 vm.quantityValue = 1
             })
         },
-        addFavourite() {
-            let data =[this.product.id]
-            localStorage.setItem('Favourite', JSON.stringify(data))
+        addFavourite() { 
+            let add = this.favourite.indexOf(this.product.id)
+            if(add > -1){
+               this.favourite.splice(add)
+            }else{
+                this.favourite.push(this.product.id)   
+            }
+            localStorage.setItem('Favourite', JSON.stringify(this.favourite))
             this.getFavourite()
         },
         removeProduct(id) {
-           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-           let vm =this
-           this.$http.delete(api).then(() => {
-               vm.cartsProductID = []
+            
+           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;  
+           let vm = this
+           this.$http.delete(api).then((response) => {
+               console.log(id)
+               console.log("removeProduct", response.data.message)
+               vm.getCarts()
             })
         },
         quantity(name) {
@@ -198,9 +215,10 @@ export default {
         },
        
   
-  },
+    },
   created() {
      this.getCarts()
+     this.productID = this.$route.params.productId
      this.getProduct()
   },
   mounted() {

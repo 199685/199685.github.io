@@ -189,6 +189,8 @@
     border: 1px solid #000;
 }
 
+
+
 .no-borderbottom {
     border-bottom-color: transparent;
 }
@@ -340,6 +342,13 @@
         background-color: rgba(0, 0, 0, 0.3);
         color: $light;
         left: 0;
+       
+    }
+    &:hover .heartStyle{
+        color: red;
+        & i{
+            font-weight: bold;
+        }
     }
 
     &:hover .product-name {
@@ -369,7 +378,10 @@
 
 .product-item {
     background-color: $light;
-
+    &:hover{
+        color: transparent;
+        text-decoration: none;
+    }
 }
 
 //top icon

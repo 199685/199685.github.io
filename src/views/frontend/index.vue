@@ -124,16 +124,20 @@
             <p class="py-5 text-center text-danger h4">熱門水果</p>
             <ul class="row p-0 pb-3">
 
-                <li class="col-md-6 col-lg-3 mb-4 mb-0 list-style-none" v-for="product in hotproducts">
+                <li class="col-md-6 col-lg-3 mb-4 mb-0 list-style-none" v-for="product in hotproducts" :key="product.id">
 
                     <div class="position-relative product">
                         <img class="img-size pointer" :src="product.imageUrl" alt="">
                         <div class="position-absolute 
                         product-icon d-flex flex-column justify-content-center align-items-center">
-                            <p class="pointer">加入最愛 <i class="far fa-heart"></i></p>
-                            <p class="pointer">加入購物車 <i class="fas fa-shopping-cart"></i></p>
+                            <p class="pointer" :class="{heartStyle : product.favourite}"
+                            @click="addFavourite(product.id)">
+                            加入最愛 <i class="far fa-heart"></i></p>
+                            <p class="pointer" @click="addCart(product.id)">加入購物車 <i class="fas fa-shopping-cart"></i></p>
                         </div>
-                        <div class="product-item p-2">
+                      
+                         <router-link class="product-item p-2 d-block" 
+                        :to="{ name: 'Product', params: { productId: product.id }}">
                             <p class="py-2 h7 product-name">{{product.title}}</p>
                             <div class="cost d-flex justify-content-between align-items-center mb-2">
                                 <p class="text-line-through h9 m-0">原價{{product.origin_price | currency}}</p>
@@ -147,13 +151,13 @@
                                 <a href="#" class="h9 m-0">查看更多
                                     <i class="far fa-hand-point-up"></i>
                                 </a>
-                            </div>
-                        </div>
+                            </div>   
+                        </router-link>
                     </div>
 
-
+                     
                 </li>
-             
+                
             </ul>
         </div>
         
@@ -175,7 +179,7 @@
             </div>
         </div>
 
-        <Carticon :carts="carts"></Carticon>
+        <Carticon :carts="cartsNumber"></Carticon>
     </div>
 </template>
 
@@ -190,10 +194,14 @@ export default {
     return {
         message: 'HAPPYFRUIT3YEARS',
         colsepopup: false,
-        carts: 0,
+        cartsNumber: 0,
         products: [],
         hotproducts: [],
         isLoading: false,
+        cartProductID: [], //商品ID固定
+        cartID: [], //下單商品ID不是唯一,內有qty
+        quantityValue: 1,
+        favourite:[],
         img:{
                 point: [
                     require("../../assets/images/無農藥.jpg"),
@@ -241,8 +249,21 @@ export default {
         },
         getCarts() {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            let vm = this
             this.$http.get(api).then((response) => {
-                this.carts = response.data.data.carts.length
+                 this.cartsNumber = response.data.data.carts.length;
+                 vm.cartProductID.splice(0)
+                 vm.cartID.splice(0) 
+                 response.data.data.carts.forEach(product => {
+                     console.log(product.id)
+                     let data ={
+                         id : product.id,
+                         qty: product.qty
+                     }
+                     vm.cartID.push(data)
+                     vm.cartProductID.push(product.product_id)
+                })
+             vm.isLoading = false 
             })
         },
         getProducts() {
@@ -252,11 +273,23 @@ export default {
             this.$http.get(api).then((response) => {
                 this.products = response.data.products;  
                 this.hotProducts()
-                setTimeout(() =>{
-                    vm.isLoading = false;
-                },300)
+                this.getFavourite()
             })
          
+        },
+        getFavourite() {
+            this.favourite = JSON.parse(localStorage.getItem('Favourite'))
+            let vm = this
+            // vm.$set(vm.product, 'favourite', false)
+            this.products.forEach(item => {
+               vm.$set(item, 'favourite', false)
+               let favourite = vm.favourite.includes(item.id)
+
+               if(favourite){
+                vm.$set(item, 'favourite', true)
+                
+               }
+            })
         },
         hotProducts() {
             let productsname = [];
@@ -269,7 +302,52 @@ export default {
                 }
               
             }
-        }
+        },
+        addFavourite(id) { 
+            let add = this.favourite.indexOf(id)
+            if(add > -1){
+               this.favourite.splice(add)
+            }else{
+                this.favourite.push(id)   
+            }
+            localStorage.setItem('Favourite', JSON.stringify(this.favourite))
+            this.getFavourite()
+        },
+        addCart(id) {
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            let newQty = parseInt(this.quantityValue) 
+            let vm = this
+            let sameID = this.cartProductID.indexOf(id)
+            vm.isLoading = true;
+            if(sameID >= 0){
+                newQty += parseInt(vm.cartID[sameID].qty)
+            }
+            let addproduct ={
+                product_id: id,
+                qty: newQty
+            }
+            this.$http.post(api, { data: addproduct}).then((response) => {
+                console.log("addCart",response.data.data)
+              if(sameID >= 0){
+                vm.removeProduct(vm.cartID[sameID].id)
+                console.log("addCart")
+              }else{
+                vm.getCarts()
+              }
+                vm.quantityValue = 1
+                
+            })
+        },
+        removeProduct(id) {
+            
+           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;  
+           let vm = this
+           this.$http.delete(api).then((response) => {
+               console.log(id)
+               console.log("removeProduct", response.data.message)
+               vm.getCarts()
+            })
+        },
   },
   created() {
       this.getCarts();
@@ -282,6 +360,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  
+  .add{
+    
+  }
     
 </style>

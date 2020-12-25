@@ -13,6 +13,7 @@ const OrderList = () => import('./views/backend/back-OrderList.vue');
 const Layout = () => import('./components/frontend/layout.vue');
 const Index = () => import('./views/frontend/index.vue');
 const Product = () => import('./views/frontend/product.vue');
+const ShoppingCart = () => import('./views/frontend/ShoppingCart.vue');
 const Text = () => import('./components/frontend/text.vue');
 
 
@@ -85,9 +86,14 @@ export default new Router({
           component: Index
         },
         {
-          path: 'product',
+          path: 'product/:productId',
           name: 'Product',
           component: Product
+        },
+        {
+          path: 'shoppingcart',
+          name: 'ShoppingCart',
+          component: ShoppingCart
         },
         {
           path: 'text',

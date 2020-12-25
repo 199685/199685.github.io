@@ -1,0 +1,120 @@
+<template>
+    <div>
+
+        <loading :active.sync="isLoading">
+         <div class="loadingio-spinner-spin-5xz8vi7q1c2"><div class="ldio-2zmxuno6hnw">
+          <div><div></div></div><div><div></div></div><div><div>
+          </div></div><div><div></div></div><div><div></div></div>
+          <div><div></div></div><div><div></div></div><div><div></div></div>
+          </div></div>
+        </loading>
+
+        <div class="container-100  container my-4">
+            <div class="row bg-Favourite container-75">
+                
+                <nav aria-label="breadcrumb" class="col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Favourite</li>
+                    </ol>
+                </nav>
+                <div class="col text-center pb-5">
+                    <p class="h4 mb-5 text-c1">目前我的最愛沒有任何商品</p>
+                    <div class="text-center">
+                        <a href="#"><button class="btn new-btn new-btn-favourite">採購去~~</button></a>
+                    </div> 
+                </div>
+                <div class="col-md-4 mb-4 mb-0">
+                    <div class="position-relative product">
+                        <img class="img-size pointer" src="./styles/images/文旦柚.jpg" alt="">
+                        <div class="position-absolute 
+                        product-icon d-flex flex-column justify-content-center align-items-center">
+                            <p class="pointer">加入最愛 <i class="far fa-heart"></i></p>
+                            <p class="pointer">加入購物車 <i class="fas fa-shopping-cart"></i></p>
+                        </div>
+                        <div class="product-item p-2">
+                            <p class="py-2 h7 product-name">文旦柚</p>
+                            <div class="cost d-flex justify-content-between align-items-center mb-2">
+                                <p class="text-line-through h9 m-0">原價$100</p>
+                                <div>
+                                    <span class="text-success h9 badges-boder-success">可超商取</span>
+                                    <span class="text-danger h9 badges-boder-danger">不甜退差價</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="h5 text-c4">特價$355</p>
+                                <a href="#" class="h9 m-0">查看更多
+                                    <i class="far fa-hand-point-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+              
+            </div>
+        </div>
+        
+        <Carticon :carts="carts"></Carticon>
+    </div>
+</template>
+
+<script>
+
+
+
+import Carticon from '../../components/frontend/carticon.vue'
+export default {
+    
+  data() {
+    return {
+       isLoading: false,
+       carts: 0,
+       cartsProductID: [],
+       favourite: [],
+       product: [],
+       productID: ''
+    }
+       
+  },
+  components: {
+      Carticon
+  },
+  computed: {
+      
+  },
+  methods: {
+    getCarts() {
+            const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+            let vm = this
+            vm.isLoading = true
+            this.$http.get(api).then((response) => {
+                this.carts = response.data.data.carts.length 
+                for (let i = 0; i < this.carts; i++){
+                    let data ={
+                        title: response.data.data.carts[i].product.title,
+                        qty: response.data.data.carts[i].qty,
+                        id : response.data.data.carts[i].id
+                    }
+                    this.cartsProductID.push(data)
+                 }
+                vm.isLoading =false
+            })
+        },
+  
+  },
+  created() {
+    
+  },
+  mounted() {
+     
+  }
+};
+
+</script>
+
+<style lang="scss" scoped>
+  
+    
+</style>
