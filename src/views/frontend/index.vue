@@ -137,7 +137,7 @@
                         </div>
                       
                          <router-link class="product-item p-2 d-block" 
-                        :to="{ name: 'Product', params: { productId: product.id }}">
+                        :to="{ name: 'ProductDetail', params: { productId: product.id }}">
                             <p class="py-2 h7 product-name">{{product.title}}</p>
                             <div class="cost d-flex justify-content-between align-items-center mb-2">
                                 <p class="text-line-through h9 m-0">原價{{product.origin_price | currency}}</p>
@@ -305,7 +305,7 @@ export default {
             let add = this.favourite.indexOf(id)
             if(add > -1){
                this.favourite.splice(add,1)
-               console.log('123',this.favourite)
+               
             }else{
                 this.favourite.push(id)   
                 

@@ -18,15 +18,15 @@
                         <li class="breadcrumb-item active" aria-current="page">Favourite</li>
                     </ol>
                 </nav>
-                <div class="col text-center pb-5">
+                <div class="col text-center pb-5" :class="{'d-none' : zerofavourite}">
                     <p class="h4 mb-5 text-c1">目前我的最愛沒有任何商品</p>
                     <div class="text-center">
                         <a href="#"><button class="btn new-btn new-btn-favourite">採購去~~</button></a>
                     </div> 
                 </div>
-                <div class="col-md-4 mb-4 mb-0">
+                <div class="col-md-4 mb-4 mb-0" v-for="product in favouriteProducts">
                     <div class="position-relative product">
-                        <img class="img-size pointer" src="" alt="">
+                        <img class="img-size pointer" :src="product.imageUrl" alt="">
                          <div class="position-absolute 
                         product-icon d-flex flex-column justify-content-center align-items-center">
                             <p class="pointer" :class="{heartStyle : product.favourite}"
@@ -34,22 +34,23 @@
                             加入最愛 <i class="far fa-heart"></i></p>
                             <p class="pointer" @click="addCart(product.id)">加入購物車 <i class="fas fa-shopping-cart"></i></p>
                         </div>
-                        <div class="product-item p-2">
-                            <p class="py-2 h7 product-name">文旦柚</p>
+                        <router-link class="product-item p-2 d-block" 
+                        :to="{ name: 'ProductDetail', params: { productId: product.id }}">
+                            <p class="py-2 h7 product-name">{{product.title}}</p>
                             <div class="cost d-flex justify-content-between align-items-center mb-2">
-                                <p class="text-line-through h9 m-0">原價$100</p>
-                                <div>
-                                    <span class="text-success h9 badges-boder-success">可超商取</span>
-                                    <span class="text-danger h9 badges-boder-danger">不甜退差價</span>
+                                <p class="text-line-through h9 m-0">原價{{product.origin_price | currency}}</p>
+                                <div class="d-flex">
+                                    <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
+                                    <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <p class="h5 text-c4">特價$355</p>
+                                <p class="h5 text-c4">特價{{product.price | currency}}</p>
                                 <a href="#" class="h9 m-0">查看更多
                                     <i class="far fa-hand-point-up"></i>
                                 </a>
-                            </div>
-                        </div>
+                            </div>   
+                        </router-link>
                     </div>
 
 
@@ -78,6 +79,8 @@ export default {
         cartID: [], //下單商品ID不是唯一,內有qty
         quantityValue: 1,
         favourite:[],
+        favouriteProducts:[],
+        zerofavourite: true
     }
        
   },
@@ -112,7 +115,6 @@ export default {
             this.isLoading = true;
             this.$http.get(api).then((response) => {
                 this.products = response.data.products;  
-                this.hotProducts()
                 this.getFavourite()
             })
          
@@ -128,6 +130,10 @@ export default {
                 
                }
             })
+            if(this.favourite.length === 0){
+               this.zerofavourite = false
+            }
+            this.FavouriteProduct()
     },
     addCart(id) {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
@@ -164,6 +170,26 @@ export default {
                vm.getCarts()
             })
     },
+    addFavourite(id) { 
+            let add = this.favourite.indexOf(id)
+            if(add > -1){
+               this.favourite.splice(add,1)
+               console.log('123',this.favourite)
+            }else{
+                this.favourite.push(id)   
+                
+            }
+            localStorage.setItem('Favourite', JSON.stringify(this.favourite))
+             
+            this.getFavourite()
+    },
+    FavouriteProduct() {
+        this.favouriteProducts = this.products.filter(item => {
+            if(item.favourite === true){
+                return item
+            }
+        })
+    }
   
   },
   created() {

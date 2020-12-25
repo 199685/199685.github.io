@@ -34,7 +34,7 @@
                     <table class="product-table">
                         <tr>
                             <td width="150" class="h7">特價</td>
-                            <td class="text-c4 h3">{{product.price | currency}}</td>
+                            <td class="text-c4 h3">{{product.price || 0 | currency}}</td>
                         </tr>
                         <tr>
                             <td width="150" class="h7">數量</td>
@@ -44,7 +44,7 @@
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <input type="number" class="qtyInput__1dbgq " min="1" max="200" name="quantity"
-                                        v-model="quantityValue">
+                                        v-model="quantityValue" @change="inputQuanproduct(product)">
                                     <button class="count" @click="quantity('plus')">
                                         <i class="fas fa-plus"></i>
                                     </button>
@@ -148,7 +148,7 @@ export default {
             })
         },
         getFavourite() {
-            this.favourite = JSON.parse(localStorage.getItem('Favourite'))
+            this.favourite = JSON.parse(localStorage.getItem('Favourite')) || []
             let vm = this
             vm.$set(vm.product, 'favourite', false)
             this.favourite.forEach(item => {
@@ -184,7 +184,7 @@ export default {
         addFavourite() { 
             let add = this.favourite.indexOf(this.product.id)
             if(add > -1){
-               this.favourite.splice(add)
+               this.favourite.splice(add,1)
             }else{
                 this.favourite.push(this.product.id)   
             }
@@ -208,6 +208,11 @@ export default {
                 } else if (this.quantityValue > 1) {
                     this.quantityValue -= 1
                 }
+        },
+        inputQuanproduct(product) {
+            if(this.quantityValue <= 0 || !this.quantityValue){
+              this.quantityValue = 1
+            }          
         },
         zoomImg() {
                 this.openImg = !this.openImg

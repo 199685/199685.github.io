@@ -12,8 +12,9 @@ const Coupons = () => import('./views/backend/back-Coupons.vue');
 const OrderList = () => import('./views/backend/back-OrderList.vue');
 const Layout = () => import('./components/frontend/layout.vue');
 const Index = () => import('./views/frontend/index.vue');
-const Product = () => import('./views/frontend/product.vue');
+const ProductDetail = () => import('./views/frontend/productDetail.vue');
 const ShoppingCart = () => import('./views/frontend/ShoppingCart.vue');
+const Favourite = () => import('./views/frontend/Favourite.vue');
 const Text = () => import('./components/frontend/text.vue');
 
 
@@ -87,13 +88,18 @@ export default new Router({
         },
         {
           path: 'product/:productId',
-          name: 'Product',
-          component: Product
+          name: 'ProductDetail',
+          component: ProductDetail
         },
         {
           path: 'shoppingcart',
           name: 'ShoppingCart',
           component: ShoppingCart
+        },
+        {
+          path: 'favourite',
+          name: 'Favourite',
+          component: Favourite,
         },
         {
           path: 'text',
