@@ -278,13 +278,11 @@ export default {
          
         },
         getFavourite() {
-            this.favourite = JSON.parse(localStorage.getItem('Favourite'))
+            this.favourite = JSON.parse(localStorage.getItem('Favourite')) || []
             let vm = this
-            // vm.$set(vm.product, 'favourite', false)
             this.products.forEach(item => {
                vm.$set(item, 'favourite', false)
                let favourite = vm.favourite.includes(item.id)
-
                if(favourite){
                 vm.$set(item, 'favourite', true)
                 
@@ -306,11 +304,14 @@ export default {
         addFavourite(id) { 
             let add = this.favourite.indexOf(id)
             if(add > -1){
-               this.favourite.splice(add)
+               this.favourite.splice(add,1)
+               console.log('123',this.favourite)
             }else{
                 this.favourite.push(id)   
+                
             }
             localStorage.setItem('Favourite', JSON.stringify(this.favourite))
+             
             this.getFavourite()
         },
         addCart(id) {
