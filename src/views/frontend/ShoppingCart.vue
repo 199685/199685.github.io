@@ -42,9 +42,9 @@
                                         <th scope="col" width="200">單價</th>
                                         <th scope="col" width="200">小計</th>
                                     </tr>
-                                    <tr v-for="product in carts.carts">
+                                    <tr v-for="(product, index) in carts.carts">
                                         <td width="100" class="text-center">
-                                            <i class="far fa-trash-alt pointer p-3" @click="removeProduct(product.id);removeChangeProducts(product.id)"></i>
+                                            <i class="far fa-trash-alt pointer p-3" @click="removeProduct(product, index)"></i>
                                         </td>
                                         <td class="table-img"><img class="img-fluid" :src="product.product.imageUrl"
                                                 alt=""></td>
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="text-right mt-2">
-                        <button class="btn new-btn new-btn-checkout">結帳去</button>
+                        <button class="btn new-btn new-btn-checkout"@click="nextpage()">結帳去</button>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,6 @@ export default {
        carts:[],
        total: [],
        changeProductsID: [],
-       updateData:false
     }
        
   },
@@ -126,9 +125,6 @@ export default {
                  vm.carts = response.data.data
                  vm.total = [response.data.data.total]
                  vm.isLoading = false
-                 if(vm.updateData){
-                     vm.updateProducts()
-                 }
             })
         },
         removeProduct(id) {
@@ -164,36 +160,25 @@ export default {
         },
         addCart(id) {
             const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-            let newQty = parseInt(this.quantityValue) 
-            let vm = this
-            let sameID = this.cartProductID.indexOf(id)
-            vm.isLoading = true;
-            if(sameID >= 0){
-                newQty += parseInt(vm.cartID[sameID].qty)
-            }
+          
             let addproduct ={
                 product_id: id,
                 qty: newQty
             }
             this.$http.post(api, { data: addproduct}).then((response) => {
-                console.log("addCart",response.data.data)
-              if(sameID >= 0){
-                vm.removeProduct(vm.cartID[sameID].id)
-                console.log("addCart")
-              }else{
-                vm.getCarts()
-              }
-                vm.quantityValue = 1
-                
+              
             })
         },
-        removeProduct(id) {
-           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;  
+        removeProduct(product, index) {
+           const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${product.id}`;  
            let vm = this
+           vm.isLoading = true
            this.$http.delete(api).then((response) => {
-               vm.updateData =true
-               vm.getCarts()
+               vm.total[0] = vm.total[0] - (product.qty * product.product.price)
+                this.removeChangeProducts(product.product_id, index)
+                vm.isLoading = false
             })
+            vm.cartsNumber-=1
         },
         addChangeProducts(product) {
             let changeID = this.changeProductsID.map(item=>item.product_id)
@@ -211,14 +196,36 @@ export default {
    
             }
         },
-        removeChangeProducts(id){
+        removeChangeProducts(id, index){
             let changeID = this.changeProductsID.map(item=>item.product_id)
             let removeIndex = changeID.indexOf(id)
-            
+            this.changeProductsID.splice(removeIndex, 1)
+            this.carts.carts.splice(index, 1)
+              
         },
-        updateProducts() {
-            this.updateData =true
+        nextpage() {
+            let vm = this
+            vm.isLoading = true
+            let number =0
+            this.changeProductsID.forEach(item => {
+                const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+                const apitwo = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${item.id}`;  
+                let addproduct ={
+                    product_id: item.product_id,
+                    qty: item.qty
+                }
+                this.$http.post(api, { data: addproduct}).then((response) => {
+                   
+                })  
+                this.$http.delete(apitwo).then((response) => {
+                    
+                 })
+    
+            })
+            vm.$router.push('/index');
+
         }
+        
   },
   created() {
     this.getCarts();
