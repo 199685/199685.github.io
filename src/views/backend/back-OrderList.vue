@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <tr v-for="(item) in orders" :key="item.id">
-          <td>{{ item.paid_date | date }}</td>
+          <td>{{ item.paid_date || item.create_at |  date }}</td>
           <td>{{ item.user.email }}</td>
           <td>{{ item.user.name }}</td>
           <td>
@@ -208,7 +208,7 @@ export default {
       if (isNew === 'edit') {
         this.tempOrder = Object.assign({}, item);
         this.isNew = 'edit';
-        const newDate = new Date(this.tempOrder.paid_date);
+        const newDate = new Date(this.tempOrder.paid_date *1000);
         const year = newDate.getFullYear();
         let month = newDate.getMonth() + 1;
         let day = newDate.getDate();
@@ -218,7 +218,7 @@ export default {
         if (day < 10) {
           day = 0 + String(day);
         }
-        console.log(this.tempOrder.paid_date);
+
         this.paid_date = `${year}-${month}-${day}`;
       }
       if (this.isNew !== 'delete') {
@@ -255,7 +255,7 @@ export default {
   watch: {
     paid_date() {
       const vm = this;
-      vm.tempOrder.paid_date = new Date(vm.paid_date).getTime();
+      vm.tempOrder.paid_date = Math.floor(new Date(vm.paid_date).getTime() / 1000);
     },
   },
 };

@@ -5,17 +5,17 @@
 </template>
 
 <script>
-
-
 export default {
-  name: 'App',
-
-
+  name: "App",
+  watch: {
+    $route(to, from) {
+      document.title = to.meta.title || "Your Website";
+    
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 @import "./assets/scss/all.scss";
-
-
 </style>

@@ -27,7 +27,7 @@
           <td>
             {{ item.percent | percent }}
           </td>
-          <td>{{ item.due_date | date }}</td>
+          <td>{{ item.due_date  | date }}</td>
           <td>
             <span v-if="item.is_enabled" class="text-success">啟用</span>
 
@@ -145,7 +145,9 @@ export default {
     return {
       coupons: [],
       pagination: {},
-      tempCoupon: {},
+      tempCoupon: {
+        due_date: ''
+      },
       isNew: false,
       isLoading: false,
       status: {
@@ -174,7 +176,6 @@ export default {
       let year;
       let month;
       let day;
-
       switch (isNew) {
         case 'add':
           this.tempCoupon = {};
@@ -184,7 +185,7 @@ export default {
 
         case 'edit':
           this.tempCoupon = Object.assign({}, item);
-          newDate = new Date(this.tempCoupon.due_date);
+          newDate = new Date(this.tempCoupon.due_date *1000);
           year = newDate.getFullYear();
           month = newDate.getMonth() + 1;
           day = newDate.getDate();
@@ -235,9 +236,9 @@ export default {
       }
 
 
-      // console.log(process.env.VUE_APP_APIPATH, process.env.VUE_APP_CUSTOMPATH);
+     
       this.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
-        // console.log(response.data);
+       
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
             // eslint-disable-next-line
@@ -260,8 +261,8 @@ export default {
   },
   watch: {
     due_date() {
-      const vm = this;
-      vm.tempCoupon.due_date = new Date(vm.due_date).getTime();
+      let vm = this;
+      vm.tempCoupon.due_date = Math.floor(new Date(vm.due_date).getTime() / 1000);
     },
   },
 };

@@ -19,6 +19,9 @@
     max-width: 100%;
     height: auto;
 }
+.big-size{
+    height: 70vh;
+}
 
 .product-table {
     tr {
@@ -140,4 +143,10 @@ input[type="number"] {
         }
     }
 
+}
+
+.font-space{
+    letter-spacing: 0.3em;
+    line-height: 1.7em;
+    text-align: justify;
 }

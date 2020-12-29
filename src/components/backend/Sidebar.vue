@@ -14,7 +14,7 @@
                     <ul class="nav flex-column mb-2">
                     <li class="nav-item gray-hover"
                      @click="linkname='products'">
-                        <router-link to="/admin/products" class="nav-link"
+                        <router-link to="/admin/adminproducts" class="nav-link"
                         active-class="gray-active">
                         <i class="fas fa-box-open mr-1"></i>
                         <p class="d-inline-block m-0">產品列表</p>

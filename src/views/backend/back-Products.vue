@@ -10,6 +10,7 @@
     <div class="text-right mt-8">
       <button class="btn btn-primary" @click="openModal('add')">建立新的產品</button>
     </div>
+    
     <div class="table-responsive-md">
       <table class="table mt-4">
       <thead>

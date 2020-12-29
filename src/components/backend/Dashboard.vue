@@ -39,5 +39,8 @@ export default {
     this.$http.defaults.headers.common.Authorization = myCookie;
     // console.log("123",myCookie)
   },
+  mounted() {
+    document.body.style.background = 'white';
+  },
 };
 </script>

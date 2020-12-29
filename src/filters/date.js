@@ -1,5 +1,5 @@
 export default function (num) {
-  const newDate = new Date(num);
+  const newDate = new Date(num*1000);
   const year = newDate.getFullYear();
   let month = newDate.getMonth() + 1;
   let day = newDate.getDate();
@@ -9,6 +9,6 @@ export default function (num) {
   if (day < 10) {
     day = 0 + String(day);
   }
-  // return `${year}/${month}/${day}`;
+  
   return `${year}/${month}/${day}`;
 }
