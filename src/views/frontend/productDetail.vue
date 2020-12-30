@@ -248,9 +248,16 @@ export default {
     zoomImg() {
       this.openImg = !this.openImg;
       document.querySelector("body").classList.toggle("hideScroll");
-    }
+    },
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+      });
+    },
   },
   created() {
+    this.Top()
     this.getCarts();
     this.productID = this.$route.params.productId;
     this.getProduct();

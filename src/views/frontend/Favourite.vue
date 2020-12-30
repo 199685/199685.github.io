@@ -34,6 +34,7 @@
               <button class="btn new-btn new-btn-favourite">採購去~~</button>
             </router-link>
           </div>
+          
         </div>
         <div class="col-lg-4 col-md-6 mb-4 mb-0" v-for="product in favouriteProducts" :key="product.id">
           <div class="position-relative product">
@@ -75,6 +76,9 @@
             </router-link>
           </div>
         </div>
+        <div class="col-12">
+         <ProductSwiper class="mb-3"></ProductSwiper>
+        </div>
       </div>
     </div>
 
@@ -84,7 +88,7 @@
 
 <script>
 import Carticon from '../../components/frontend/carticon.vue';
-
+import ProductSwiper from "../../components/frontend/ProductSwiper";
 export default {
   data() {
     return {
@@ -101,6 +105,7 @@ export default {
   },
   components: {
     Carticon,
+    ProductSwiper
   },
   computed: {},
   methods: {

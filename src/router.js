@@ -27,14 +27,14 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: 'login',
+      redirect: 'login_index',
     },
 
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
-    },
+    // {
+    //   path: '/login',
+    //   name: 'Login',
+    //   component: Login,
+    // },
     {
       path: '/admin',
       name: 'Dashboard',

@@ -241,7 +241,7 @@ export default {
           if (vm.isNew !== 'delete') {
             $('#orderModal').modal('hide');
           }
-          vm.getorders();
+          vm.getorders(vm.pagination.current_page);
         } else {
           // 失敗了
         }

@@ -30,19 +30,19 @@
           </nav>
           <ul class="fruit-item pl-0 text-center">
             <li class="list-style-none">
-              <a class="fruit p-3 d-block active h6 m-0" href="#">全部</a>
+              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='all'}" @click="touchKind('all')">全部</a>
             </li>
             <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#">春季水果</a>
+              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='spring'}" @click="touchKind('spring')">春季水果</a>
             </li>
             <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#">夏季水果</a>
+              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='summer'}" @click="touchKind('summer')">夏季水果</a>
             </li>
             <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#">秋季水果</a>
+              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='autumn'}" @click="touchKind('autumn')">秋季水果</a>
             </li>
             <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#">冬季水果</a>
+              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='winter'}" @click="touchKind('winter')">冬季水果</a>
             </li>
           </ul>
         </div>
@@ -55,7 +55,7 @@
           <ul class="row p-0 pb-3">
             <li
               class="col-md-6 col-lg-4 mb-4 mb-0 list-style-none"
-              v-for="product in products"
+              v-for="product in filterProducts"
               :key="product.id"
             >
               <div class="position-relative product">
@@ -107,6 +107,7 @@
     </div>
 
     <Carticon :carts="cartsNumber"></Carticon>
+   
   </div>
 </template>
 
@@ -125,12 +126,23 @@ export default {
       cartID: [], // 下單商品ID不是唯一,內有qty
       quantityValue: 1,
       favourite: [],
+      select: 'all'
     };
   },
   components: {
     Carticon,
   },
-  computed: {},
+  computed: {
+    filterProducts: function() {
+      let NewProducts = JSON.parse(JSON.stringify(this.products))
+      let vm = this
+      if(this.select ==='all'){
+        return NewProducts
+      }else{
+        return NewProducts.filter((product) => product.season.includes(vm.select))
+      }
+    }
+  },
   methods: {
     getCarts() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
@@ -211,6 +223,12 @@ export default {
         vm.getCarts();
       });
     },
+    touchKind(name) {
+      let touchName = name
+      this.select =touchName
+    }
+    
+
   },
   created() {
     this.getCarts();

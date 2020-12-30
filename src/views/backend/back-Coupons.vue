@@ -248,7 +248,7 @@ export default {
             // eslint-disable-next-line
             $('#delCouponModal').modal('hide');
           }
-          vm.getCoupons();
+          vm.getCoupons(vm.pagination.current_page);
         } else {
           // 失敗了
         }

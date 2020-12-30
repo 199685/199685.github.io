@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="col-12">
-          <p class="py-5 text-center text-danger h4">暢銷水果</p>
+          
           <ProductSwiper class="mb-3"></ProductSwiper>
         </div>
       </div>

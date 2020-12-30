@@ -1,6 +1,6 @@
 <template>
-  <div class="my-3 container-100  container">
-    <div class="row bg-Favourite container-75 justify-content-center align-items-center">
+  <div class="my-4 container">
+    <div class="row bg-Favourite py-4 justify-content-center align-items-center">
       <div class="col-lg-10">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb pt-0">

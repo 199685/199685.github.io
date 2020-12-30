@@ -1,7 +1,8 @@
 <template>
   <div>
+    <p class="py-5 text-center text-danger h4">暢銷水果</p>
     <swiper class="swiper productsSwiper-size" :options="swiperOption">
-      <swiper-slide v-for="product in products">
+      <swiper-slide v-for="product in products" v-show="!changeSwiper">
         <router-link :to="{ name: 'ProductDetail', params: { productId: product.id } }">
           <div
             class="bg-cover swiper-imgsize"
@@ -10,7 +11,19 @@
         </router-link>
       </swiper-slide>
 
-      <div class="swiper-pagination" slot="pagination"></div>
+      <div class="swiper-pagination" slot="pagination" v-show="!changeSwiper"></div>
+    </swiper>
+
+    <swiper class="swiper productsSwiper-size" :options="swiperOption1">
+      <swiper-slide v-for="product in products" v-show="changeSwiper">
+        <router-link :to="{ name: 'ProductDetail', params: { productId: product.id } }">
+          <div
+            class="bg-cover swiper-imgsize"
+            :style="` background-image: url( ${product.imageUrl} )`"
+          ></div>
+        </router-link>
+      </swiper-slide>
+
     </swiper>
   </div>
 </template>
@@ -21,6 +34,8 @@ export default {
   data() {
     return {
       products: [],
+      windowSize: "",
+      changeSwiper: false,
       swiperOption: {
         spaceBetween: 30,
         centeredSlides: true,
@@ -37,7 +52,20 @@ export default {
           el: ".swiper-pagination",
           clickable: true
         }
-      }
+      },
+      swiperOption1: {
+        spaceBetween: 30,
+        centeredSlides: true,
+        slidesPerView: 1,
+        spaceBetween: 30,
+        freeMode: true,
+        loop: true,
+        effect: "fade",
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false
+        }
+      },
     };
   },
   components: {},
@@ -47,12 +75,18 @@ export default {
       this.$http.get(api).then(response => {
         this.products = response.data.products;
       });
-    }
+    },
   },
   created() {
     this.getProducts();
+     window.matchMedia("(MAX-width: 768px)").addListener((changeSwiper)=>{
+        this.changeSwiper = changeSwiper.matches
+        console.log(changeSwiper)
+    })
   },
-  mounted() {}
+  mounted() {
+   
+  }
 };
 </script>
 
@@ -62,5 +96,4 @@ export default {
   width: 100%;
   border-radius: 10px;
 }
-
 </style>

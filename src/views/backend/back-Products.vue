@@ -227,6 +227,7 @@ export default {
       status: {
         fileUploading: false,
       },
+      originalpage:0
 
     };
   },
@@ -303,7 +304,7 @@ export default {
             // eslint-disable-next-line
             $('#delProductModal').modal('hide');
           }
-          vm.getProducts();
+          vm.getProducts(vm.pagination.current_page);
         } else {
           // 失敗了
         }

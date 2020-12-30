@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <loading :active.sync="isLoading">
@@ -35,7 +34,8 @@
         <swiper class="swiper swiper-size col-md-10 ml-auto" :options="swiperOption">
           <swiper-slide
             v-for="url in img.swiper"
-            :style="` background-image: url( ${url} )`" :key="url"
+            :style="` background-image: url( ${url} )`"
+            :key="url"
           ></swiper-slide>
           <div class="swiper-pagination text-c1 text-left pl-4" slot="pagination"></div>
         </swiper>
@@ -127,55 +127,11 @@
           ></div>
           <p class="p-2 point-about h8">-10°C的超低溫配送環境，完美呈現水果的鮮甜</p>
         </div>
-      </div>
-      <p class="py-5 text-center text-danger h4">熱門水果</p>
-      <ul class="row p-0 pb-3">
-        <li
-          class="col-md-6 col-lg-3 mb-4 mb-0 list-style-none"
-          v-for="product in hotproducts"
-          :key="product.id"
-        >
-          <div class="position-relative product">
-            <img class="img-size pointer" :src="product.imageUrl" alt="" />
-            <div
-              class="position-absolute
-                        product-icon d-flex flex-column justify-content-center align-items-center"
-            >
-              <p
-                class="pointer"
-                :class="{ heartStyle: product.favourite }"
-                @click="addFavourite(product.id)"
-              >
-                加入最愛 <i class="far fa-heart"></i>
-              </p>
-              <p class="pointer" @click="addCart(product.id)">
-                加入購物車 <i class="fas fa-shopping-cart"></i>
-              </p>
-            </div>
 
-            <router-link
-              class="product-item p-2 d-block"
-              :to="{ name: 'ProductDetail', params: { productId: product.id } }"
-            >
-              <p class="py-2 h7 product-name">{{ product.title }}</p>
-              <div class="cost d-flex justify-content-between align-items-center mb-2">
-                <p class="text-line-through h9 m-0">原價{{ product.origin_price | currency }}</p>
-                <div class="d-flex">
-                  <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
-                  <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <p class="h5 text-c4">特價{{ product.price | currency }}</p>
-                <a href="#" class="h9 m-0"
-                  >查看更多
-                  <i class="far fa-hand-point-up"></i>
-                </a>
-              </div>
-            </router-link>
-          </div>
-        </li>
-      </ul>
+        <div class="col-12">
+          <ProductSwiper class="mb-3"></ProductSwiper>
+        </div>
+      </div>
     </div>
 
     <div
@@ -207,167 +163,79 @@
 
 <script>
 /* eslint-disable */
-import {
-  Swiper, SwiperSlide, Navigation, Pagination,
-} from 'vue-awesome-swiper';
-import Carticon from '../../components/frontend/carticon.vue';
-
+import { Swiper, SwiperSlide, Navigation, Pagination } from "vue-awesome-swiper";
+import Carticon from "../../components/frontend/carticon.vue";
+import ProductSwiper from "../../components/frontend/ProductSwiper";
 export default {
   data() {
     return {
-      message: 'HAPPYFRUIT3YEARS',
+      message: "HAPPYFRUIT3YEARS",
       colsepopup: false,
       cartsNumber: 0,
-      products: [],
-      hotproducts: [],
       isLoading: false,
-      cartProductID: [], // 商品ID固定
-      cartID: [], // 下單商品ID不是唯一,內有qty
-      quantityValue: 1,
-      favourite: [],
       img: {
         point: [
-          require('../../assets/images/無農藥.jpg'),
-          require('../../assets/images/採收.jpg'),
-          require('../../assets/images/cold.jpg'),
+          require("../../assets/images/無農藥.jpg"),
+          require("../../assets/images/採收.jpg"),
+          require("../../assets/images/cold.jpg")
         ],
         swiper: [
-          require('../../assets/images/輪播-2.jpg'),
-          require('../../assets/images/輪播-3.jpg'),
-          require('../../assets/images/輪播-4.jpg'),
-          require('../../assets/images/輪播-5.jpg'),
-          require('../../assets/images/輪播-6.jpg'),
-        ],
+          require("../../assets/images/輪播-2.jpg"),
+          require("../../assets/images/輪播-3.jpg"),
+          require("../../assets/images/輪播-4.jpg"),
+          require("../../assets/images/輪播-5.jpg"),
+          require("../../assets/images/輪播-6.jpg")
+        ]
       },
       swiperOption: {
         spaceBetween: 30,
         centeredSlides: true,
         loop: true,
-        effect: 'fade',
+        effect: "fade",
         autoplay: {
           delay: 4000,
-          disableOnInteraction: false,
+          disableOnInteraction: false
         },
         pagination: {
-          el: '.swiper-pagination',
+          el: ".swiper-pagination",
           clickable: true,
-          type: 'fraction',
+          type: "fraction"
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      },
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      }
     };
   },
   components: {
     Carticon,
+    ProductSwiper
   },
   methods: {
     colsePopup() {
       this.colsepopup = true;
-      document.querySelector('body').classList.remove('hideScroll');
+      document.querySelector("body").classList.remove("hideScroll");
     },
     getCarts() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
-      this.$http.get(api).then((response) => {
+      vm.isLoading = true;
+      this.$http.get(api).then(response => {
         this.cartsNumber = response.data.data.carts.length;
-        vm.cartProductID.splice(0);
-        vm.cartID.splice(0);
-        response.data.data.carts.forEach((product) => {
-          const data = {
-            id: product.id,
-            qty: product.qty,
-          };
-          vm.cartID.push(data);
-          vm.cartProductID.push(product.product_id);
-        });
         vm.isLoading = false;
       });
     },
-    getProducts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.isLoading = true;
-      this.$http.get(api).then((response) => {
-        this.products = response.data.products;
-        this.hotProducts();
-        this.getFavourite();
-      });
-    },
-    getFavourite() {
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
-      const vm = this;
-      this.products.forEach((item) => {
-        vm.$set(item, 'favourite', false);
-        const favourite = vm.favourite.includes(item.id);
-        if (favourite) {
-          vm.$set(item, 'favourite', true);
-        }
-      });
-    },
-    hotProducts() {
-      const productsname = [];
-      while (this.hotproducts.length < 4) {
-        const count = Math.floor(Math.random() * this.products.length);
-        const same = productsname.includes(this.products[count].title);
-        if (!same) {
-          this.hotproducts.push(this.products[count]);
-          productsname.push(this.products[count].title);
-        }
-      }
-    },
-    addFavourite(id) {
-      const add = this.favourite.indexOf(id);
-      if (add > -1) {
-        this.favourite.splice(add, 1);
-      } else {
-        this.favourite.push(id);
-      }
-      localStorage.setItem('Favourite', JSON.stringify(this.favourite));
-
-      this.getFavourite();
-    },
-    addCart(id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let newQty = parseInt(this.quantityValue, 10);
-      const vm = this;
-      const sameID = this.cartProductID.indexOf(id);
-      vm.isLoading = true;
-      if (sameID >= 0) {
-        newQty += parseInt(vm.cartID[sameID].qty, 10);
-      }
-      const addproduct = {
-        product_id: id,
-        qty: newQty,
-      };
-      this.$http.post(api, { data: addproduct }).then((response) => {
-        if (sameID >= 0) {
-          vm.removeProduct(vm.cartID[sameID].id);
-        } else {
-          vm.getCarts();
-        }
-        vm.quantityValue = 1;
-      });
-    },
-    removeProduct(id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      const vm = this;
-      this.$http.delete(api).then((response) => {
-        vm.getCarts();
-      });
-    },
+  
   },
   created() {
     this.getCarts();
-    this.getProducts();
+    
   },
   mounted() {
-    document.querySelector('body').classList.add('hideScroll');
-  },
+    document.querySelector("body").classList.add("hideScroll");
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
