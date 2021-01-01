@@ -114,7 +114,7 @@
                     <th scope="col" class="text-center" width="150">數量</th>
                     <th scope="col" width="200">小計</th>
                   </tr>
-                  <tr v-for="product in carts.carts">
+                  <tr v-for="product in carts.carts" :key="product.id">
                     <td class="table-img">
                       <img class="img-fluid" :src="product.product.imageUrl" alt="" />
                     </td>
@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import Carticon from "../../components/frontend/carticon.vue";
+import Carticon from '../../components/frontend/carticon.vue';
 
 export default {
   data() {
@@ -163,16 +163,16 @@ export default {
       cartsProductID: [],
       carts: [],
       total: [],
-      CouponCode: ""
+      CouponCode: '',
     };
   },
   components: {
-    Carticon
+    Carticon,
   },
   computed: {
-    CouponMoney: function() {
+    CouponMoney() {
       return this.carts.total - this.carts.final_total;
-    }
+    },
   },
   methods: {
     getCarts() {
@@ -180,7 +180,7 @@ export default {
       const vm = this;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then(response => {
+        this.$http.get(api).then((response) => {
           this.cartsNumber = response.data.data.carts.length;
           vm.carts = response.data.data;
           vm.total = [response.data.data.total];
@@ -189,28 +189,43 @@ export default {
       }, 1500);
     },
     Couponinput() {
-      let vm = this;
+      const vm = this;
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      let postcoupon = {
-        code: this.CouponCode
+      const postcoupon = {
+        code: this.CouponCode,
       };
-      this.$http.post(api, { data: postcoupon }).then(response => {
-        vm.getCarts()
+      this.$http.post(api, { data: postcoupon }).then((response) => {
+        vm.getCarts();
+        if (response.data.success) {
+          vm.alertDisplay('優惠券使用成功', 'success');
+        } else {
+          vm.alertDisplay('優惠券已過期或輸入錯誤', 'error');
+        }
       });
     },
     nextpage() {
-      let vm = this;
+      const vm = this;
       vm.isLoading = true;
       setTimeout(() => {
         vm.$router.push('/checkout2');
-      },500)
-    }
+      }, 500);
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 3,
+        position: 'topCenter',
+        language: 'en',
+      });
+    },
   },
   created() {
     this.getCarts();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

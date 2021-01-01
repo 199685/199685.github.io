@@ -84,7 +84,7 @@
                     <th scope="col" class="text-center" width="150">數量</th>
                     <th scope="col" width="200">小計</th>
                   </tr>
-                  <tr v-for="product in products">
+                  <tr v-for="product in products" :key="product.id">
                     <td class="table-img">
                       <img class="img-fluid" :src="product.product.imageUrl" alt="" />
                     </td>
@@ -172,45 +172,45 @@
 </template>
 
 <script>
-import Carticon from "../../components/frontend/carticon.vue";
+import Carticon from '../../components/frontend/carticon.vue';
 
 export default {
   data() {
     return {
       isLoading: false,
       cartsNumber: 0,
-      OrderId: "",
+      OrderId: '',
       Order: {
         user: {
-          name: ""
-        }
+          name: '',
+        },
       },
-      products: []
+      products: [],
     };
   },
   components: {
-    Carticon
+    Carticon,
   },
   computed: {
-    couponsmoney: function() {
-      let total = this.Order.total;
+    couponsmoney() {
+      const { total } = this.Order;
       let oraingeTotal = 0;
-      this.products.forEach(item => {
+      this.products.forEach((item) => {
         oraingeTotal += item.total;
       });
       return oraingeTotal - total;
-    }
+    },
   },
   methods: {
     getOrder() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.OrderId}`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.Order = response.data.order;
         vm.isLoading = false;
-        let productsID = Object.keys(vm.Order.products);
-        productsID.forEach(item => {
+        const productsID = Object.keys(vm.Order.products);
+        productsID.forEach((item) => {
           vm.products.push(vm.Order.products[item]);
         });
       });
@@ -219,18 +219,17 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.OrderId}`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.post(api).then(response => {
-        console.log(response);
+      this.$http.post(api).then(() => {
         vm.Order.is_paid = true;
         vm.isLoading = false;
       });
-    }
+    },
   },
   created() {
     this.OrderId = this.$route.params.orderId;
     this.getOrder();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

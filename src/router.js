@@ -45,25 +45,28 @@ export default new Router({
           path: 'adminproducts',
           name: 'adminProducts',
           component: adminProducts,
-          meta: { requiresAuth: true,
-                  title:'開心水果_產品列表'
+          meta: {
+            requiresAuth: true,
+            title: '開心水果_產品列表',
           },
         },
         {
           path: 'order_list',
           name: 'OrderList',
           component: OrderList,
-          meta: { requiresAuth: true,
-                  title:'開心水果_訂單列表'
-            },
+          meta: {
+            requiresAuth: true,
+            title: '開心水果_訂單列表',
+          },
         },
         {
           path: 'coupons',
           name: 'Coupons',
           component: Coupons,
-          meta: { requiresAuth: true ,
-                  title:'開心水果_優惠券'
-            },
+          meta: {
+            requiresAuth: true,
+            title: '開心水果_優惠券',
+          },
         },
       ],
     },
@@ -94,73 +97,73 @@ export default new Router({
           path: 'index',
           name: 'Index',
           component: Index,
-          meta:{
-            title:'開心水果_首頁'
-          }
+          meta: {
+            title: '開心水果_首頁',
+          },
         },
         {
           path: 'product/:productId',
           name: 'ProductDetail',
           component: ProductDetail,
-          meta:{
-            title:'開心水果_產品'
-          }
+          meta: {
+            title: '開心水果_產品',
+          },
         },
         {
           path: 'shoppingcart',
           name: 'ShoppingCart',
           component: ShoppingCart,
-          meta:{
-            title:'開心水果_購物車'
-          }
+          meta: {
+            title: '開心水果_購物車',
+          },
         },
         {
           path: 'favourite',
           name: 'Favourite',
           component: Favourite,
-          meta:{
-            title:'開心水果_我的最愛'
-          }
+          meta: {
+            title: '開心水果_我的最愛',
+          },
         },
         {
           path: 'products',
           name: 'Products',
           component: Products,
-          meta:{
-            title:'開心水果_商店'
-          }
+          meta: {
+            title: '開心水果_商店',
+          },
         },
         {
           path: 'login_index',
           name: 'LoginIndex',
           component: Login,
-          meta:{
-            title:'開心水果_會員登入'
-          }
+          meta: {
+            title: '開心水果_會員登入',
+          },
         },
         {
           path: 'checkout1',
           name: 'Checkout1',
           component: Checkout1,
-          meta:{
-            title:'開心水果_訂單step1'
-          }
+          meta: {
+            title: '開心水果_訂單step1',
+          },
         },
         {
           path: 'checkout2',
           name: 'Checkout2',
           component: Checkout2,
-          meta:{
-            title:'開心水果_訂單step2'
-          }
+          meta: {
+            title: '開心水果_訂單step2',
+          },
         },
         {
           path: 'checkout3/:orderId',
           name: 'Checkout3',
           component: Checkout3,
-          meta:{
-            title:'開心水果_訂單step3'
-          }
+          meta: {
+            title: '開心水果_訂單step3',
+          },
         },
         {
           path: 'text',
@@ -172,6 +175,3 @@ export default new Router({
 
   ],
 });
-
-
-

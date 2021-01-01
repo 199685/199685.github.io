@@ -28,29 +28,19 @@
               <li class="breadcrumb-item active" aria-current="page">Products</li>
             </ol>
           </nav>
-          <ul class="fruit-item pl-0 text-center">
-            <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='all'}" @click="touchKind('all')">全部</a>
-            </li>
-            <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='spring'}" @click="touchKind('spring')">春季水果</a>
-            </li>
-            <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='summer'}" @click="touchKind('summer')">夏季水果</a>
-            </li>
-            <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='autumn'}" @click="touchKind('autumn')">秋季水果</a>
-            </li>
-            <li class="list-style-none">
-              <a class="fruit p-3 d-block h6 m-0" href="#" :class="{active :select==='winter'}" @click="touchKind('winter')">冬季水果</a>
-            </li>
-          </ul>
+
+          <ProductsNavbar :select="select" @touchKind="touchKind"> </ProductsNavbar>
         </div>
         <div class="col-lg-9 mb-3">
-          <select name="sortProducts" id="sortProducts" class="sort text-c1 mb-3 p-1">
-            <option selected disabled>商品排序</option>
-            <option value="highToLow">價格由高至低</option>
-            <option value="lowToHigh">價格由低至高</option>
+          <select
+            name="sortProducts"
+            id="sortProducts"
+            class="sort text-c1 mb-3 p-1"
+            v-model="sort"
+          >
+            <option selected disabled value="">商品排序</option>
+            <option value="high">價格由高至低</option>
+            <option value="low">價格由低至高</option>
           </select>
           <ul class="row p-0 pb-3">
             <li
@@ -107,12 +97,12 @@
     </div>
 
     <Carticon :carts="cartsNumber"></Carticon>
-   
   </div>
 </template>
 
 <script>
 import Carticon from '../../components/frontend/carticon.vue';
+import ProductsNavbar from '../../components/frontend/Products_Navbar.vue';
 
 export default {
   data() {
@@ -126,22 +116,28 @@ export default {
       cartID: [], // 下單商品ID不是唯一,內有qty
       quantityValue: 1,
       favourite: [],
-      select: 'all'
+      select: 'all',
+      sort: '',
     };
   },
   components: {
     Carticon,
+    ProductsNavbar,
   },
   computed: {
-    filterProducts: function() {
-      let NewProducts = JSON.parse(JSON.stringify(this.products))
-      let vm = this
-      if(this.select ==='all'){
-        return NewProducts
-      }else{
-        return NewProducts.filter((product) => product.season.includes(vm.select))
+    filterProducts() {
+      const NewProducts = JSON.parse(JSON.stringify(this.products));
+      const vm = this;
+      if (this.sort === 'high') {
+        NewProducts.sort((a, b) => b.price - a.price);
+      } else if (this.sort === 'low') {
+        NewProducts.sort((a, b) => a.price - b.price);
       }
-    }
+      if (this.select === 'all') {
+        return NewProducts;
+      }
+      return NewProducts.filter(product => product.season.includes(vm.select));
+    },
   },
   methods: {
     getCarts() {
@@ -186,8 +182,10 @@ export default {
       const add = this.favourite.indexOf(id);
       if (add > -1) {
         this.favourite.splice(add, 1);
+        this.alertDisplay('已移除我的最愛', 'warning');
       } else {
         this.favourite.push(id);
+        this.alertDisplay('已加入我的最愛', 'info');
       }
 
       localStorage.setItem('Favourite', JSON.stringify(this.favourite));
@@ -214,6 +212,7 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
+        vm.alertDisplay('已加入購屋車', 'info');
       });
     },
     removeProduct(id) {
@@ -224,11 +223,19 @@ export default {
       });
     },
     touchKind(name) {
-      let touchName = name
-      this.select =touchName
-    }
-    
-
+      const touchName = name;
+      this.select = touchName;
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 3,
+        position: 'topCenter',
+        language: 'en',
+      });
+    },
   },
   created() {
     this.getCarts();

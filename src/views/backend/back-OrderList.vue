@@ -208,7 +208,7 @@ export default {
       if (isNew === 'edit') {
         this.tempOrder = Object.assign({}, item);
         this.isNew = 'edit';
-        const newDate = new Date(this.tempOrder.paid_date *1000);
+        const newDate = new Date(this.tempOrder.paid_date * 1000);
         const year = newDate.getFullYear();
         let month = newDate.getMonth() + 1;
         let day = newDate.getDate();

@@ -140,7 +140,6 @@
           </div>
         </div>
         <div class="col-12">
-          
           <ProductSwiper class="mb-3"></ProductSwiper>
         </div>
       </div>
@@ -151,8 +150,9 @@
 </template>
 
 <script>
-import Carticon from "../../components/frontend/carticon.vue";
-import ProductSwiper from "../../components/frontend/ProductSwiper";
+import Carticon from '../../components/frontend/carticon.vue';
+import ProductSwiper from '../../components/frontend/ProductSwiper.vue';
+
 export default {
   data() {
     return {
@@ -161,12 +161,12 @@ export default {
       carts: [],
       total: [],
       changeProductsID: [],
-      zerocarts: true
+      zerocarts: true,
     };
   },
   components: {
     Carticon,
-    ProductSwiper
+    ProductSwiper,
   },
   computed: {},
   methods: {
@@ -174,7 +174,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
           vm.zerocarts = false;
@@ -187,7 +187,7 @@ export default {
     quantity(name, product) {
       const changeproduct = product;
       changeproduct.qty = parseInt(changeproduct.qty, 10);
-      if (name === "plus") {
+      if (name === 'plus') {
         changeproduct.qty += 1;
         this.total[0] += parseInt(changeproduct.product.price, 10);
       } else if (changeproduct.qty > 1) {
@@ -202,10 +202,9 @@ export default {
         changeproduct.qty = 1;
       }
       const vm = this;
-      const NewTotal =
-        this.total[0] -
-        parseInt(changeproduct.total, 10) +
-        parseInt(changeproduct.product.price, 10) * changeproduct.qty;
+      const NewTotal = this.total[0]
+        - parseInt(changeproduct.total, 10)
+        + parseInt(changeproduct.product.price, 10) * changeproduct.qty;
       vm.$set(vm.total, 0, NewTotal);
       changeproduct.total = parseInt(changeproduct.product.price, 10) * changeproduct.qty;
     },
@@ -217,6 +216,7 @@ export default {
         vm.total[0] -= product.qty * product.product.price;
         this.removeChangeProducts(product.product_id, index);
         vm.isLoading = false;
+        vm.alertDisplay(`${product.product.title}已移除購物車`, 'error');
       });
       vm.cartsNumber -= 1;
       if (vm.cartsNumber === 0) {
@@ -230,7 +230,7 @@ export default {
         const data = {
           id: product.id,
           qty: product.qty,
-          product_id: product.product_id
+          product_id: product.product_id,
         };
         this.changeProductsID.push(data);
       } else {
@@ -246,23 +246,33 @@ export default {
     nextpage() {
       const vm = this;
       vm.isLoading = true;
-      this.changeProductsID.forEach(item => {
+      this.changeProductsID.forEach((item) => {
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
         const apitwo = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${item.id}`;
         const addproduct = {
           product_id: item.product_id,
-          qty: item.qty
+          qty: item.qty,
         };
         this.$http.post(api, { data: addproduct }).then(() => {});
         this.$http.delete(apitwo).then(() => {});
       });
-      vm.$router.push("/checkout1");
-    }
+      vm.$router.push('/checkout1');
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 2,
+        position: 'topCenter',
+        language: 'en',
+      });
+    },
   },
   created() {
     this.getCarts();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

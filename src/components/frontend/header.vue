@@ -54,7 +54,7 @@
             active-class="active"
             class="text-color"
             :to="{ name: 'LoginIndex' }"
-            
+
           >
             Sign in
           </router-link>
@@ -76,7 +76,6 @@ export default {
   methods: {
     ChangeBar() {
       this.changebar = !this.changebar;
-      
     },
   },
   created() {},

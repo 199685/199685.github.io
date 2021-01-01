@@ -34,9 +34,10 @@
               <button class="btn new-btn new-btn-favourite">採購去~~</button>
             </router-link>
           </div>
-          
+
         </div>
-        <div class="col-lg-4 col-md-6 mb-4 mb-0" v-for="product in favouriteProducts" :key="product.id">
+        <div class="col-lg-4 col-md-6 mb-4 mb-0"
+        v-for="product in favouriteProducts" :key="product.id">
           <div class="position-relative product">
             <img class="img-size pointer" :src="product.imageUrl" alt="" />
             <div
@@ -88,7 +89,8 @@
 
 <script>
 import Carticon from '../../components/frontend/carticon.vue';
-import ProductSwiper from "../../components/frontend/ProductSwiper";
+import ProductSwiper from '../../components/frontend/ProductSwiper.vue';
+
 export default {
   data() {
     return {
@@ -105,7 +107,7 @@ export default {
   },
   components: {
     Carticon,
-    ProductSwiper
+    ProductSwiper,
   },
   computed: {},
   methods: {
@@ -124,7 +126,6 @@ export default {
           vm.cartID.push(data);
           vm.cartProductID.push(product.product_id);
         });
-        vm.isLoading = false;
       });
     },
     getProducts() {
@@ -144,6 +145,7 @@ export default {
         if (favourite) {
           vm.$set(item, 'favourite', true);
         }
+        vm.isLoading = false;
       });
       if (this.favourite.length === 0) {
         this.zerofavourite = false;
@@ -170,6 +172,8 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
+        vm.alertDisplay('已加入購屋車', 'info');
+        vm.isLoading = false;
       });
     },
     removeProduct(id) {
@@ -183,8 +187,10 @@ export default {
       const add = this.favourite.indexOf(id);
       if (add > -1) {
         this.favourite.splice(add, 1);
+        this.alertDisplay('已移除我的最愛', 'warning');
       } else {
         this.favourite.push(id);
+        this.alertDisplay('已加入我的最愛', 'info');
       }
       localStorage.setItem('Favourite', JSON.stringify(this.favourite));
 
@@ -196,6 +202,16 @@ export default {
           return item;
         }
         return null;
+      });
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 2,
+        position: 'topCenter',
+        language: 'en',
       });
     },
   },

@@ -2,7 +2,7 @@
   <div>
     <p class="py-5 text-center text-danger h4">暢銷水果</p>
     <swiper class="swiper productsSwiper-size" :options="swiperOption">
-      <swiper-slide v-for="product in products" v-show="!changeSwiper">
+      <swiper-slide v-for="product in products" v-show="!changeSwiper" :key="product.id">
         <router-link :to="{ name: 'ProductDetail', params: { productId: product.id } }">
           <div
             class="bg-cover swiper-imgsize"
@@ -15,7 +15,7 @@
     </swiper>
 
     <swiper class="swiper productsSwiper-size" :options="swiperOption1">
-      <swiper-slide v-for="product in products" v-show="changeSwiper">
+      <swiper-slide v-for="product in products" v-show="changeSwiper" :key="product.id">
         <router-link :to="{ name: 'ProductDetail', params: { productId: product.id } }">
           <div
             class="bg-cover swiper-imgsize"
@@ -23,13 +23,14 @@
           ></div>
         </router-link>
       </swiper-slide>
-
     </swiper>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import { Swiper, SwiperSlide, Navigation, Pagination } from "vue-awesome-swiper";
+
 export default {
   data() {
     return {
@@ -65,7 +66,7 @@ export default {
           delay: 4000,
           disableOnInteraction: false
         }
-      },
+      }
     };
   },
   components: {},
@@ -75,18 +76,15 @@ export default {
       this.$http.get(api).then(response => {
         this.products = response.data.products;
       });
-    },
+    }
   },
   created() {
     this.getProducts();
-     window.matchMedia("(MAX-width: 768px)").addListener((changeSwiper)=>{
-        this.changeSwiper = changeSwiper.matches
-        console.log(changeSwiper)
-    })
+    window.matchMedia("(MAX-width: 768px)").addListener(changeSwiper => {
+      this.changeSwiper = changeSwiper.matches;
+    });
   },
-  mounted() {
-   
-  }
+  mounted() {}
 };
 </script>
 

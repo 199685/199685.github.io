@@ -63,6 +63,7 @@
 
 <script>
 import Carticon from '../../components/frontend/carticon.vue';
+
 export default {
   data() {
     return {
@@ -84,14 +85,26 @@ export default {
 
           document.cookie = `hexCookie=${token}; expires=${new Date(expired)};`;
           vm.$router.push('/admin/adminproducts');
+        } else {
+          vm.alertDisplay('帳號或密碼輸入錯誤', 'warning');
         }
       });
     },
     getCarts() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      const vm = this;
+
       this.$http.get(api).then((response) => {
-      this.cartsNumber = response.data.data.carts.length;
+        this.cartsNumber = response.data.data.carts.length;
+      });
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 2,
+        position: 'topCenter',
+        language: 'en',
       });
     },
   },
@@ -100,7 +113,6 @@ export default {
   },
   created() {
     this.getCarts();
-    
   },
 };
 </script>
@@ -160,8 +172,8 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
   border-color: green;
 }
-.form-control{
-   border-color: green;
+.form-control {
+  border-color: green;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

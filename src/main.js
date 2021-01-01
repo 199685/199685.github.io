@@ -12,6 +12,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import numeral from 'numeral';
 import $ from 'jquery';
 import VueClipboard from 'vue-clipboard2';
+import vDialogs from 'v-dialogs'
+
 
 
 import './plugs/Swiper';
@@ -37,6 +39,7 @@ Vue.filter('percent', percentFilter);
 Vue.filter('date', dateFilter);
 Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
+Vue.use(vDialogs)
 Vue.config.productionTip = false;
 
 

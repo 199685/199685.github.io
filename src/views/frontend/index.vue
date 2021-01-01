@@ -149,7 +149,8 @@
         <p class="text-center popup-code p-2">{{ message }}</p>
         <p>活動日期：2020/04/20 - 2020/5/19</p>
         <div class="text-center">
-          <button class="btn new-btn new-btn-code" v-clipboard:copy="message">複製優惠序號</button>
+          <button class="btn new-btn new-btn-code" v-clipboard:copy="message"
+           @click="alertDisplay('複製成功', 'info')">複製優惠序號</button>
         </div>
         <div class="position-absolute close-circle pointer" @click="colsePopup()">
           <i class="far fa-times-circle h5"></i>
@@ -226,11 +227,26 @@ export default {
         vm.isLoading = false;
       });
     },
-  
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0
+      });
+    },
+    alertDisplay(text, type) {
+      let message = text;
+      let messageType = type;
+      this.$dlg.toast(message, {
+        messageType: messageType,
+        closeTime: 2,
+        position: "topCenter",
+        language: "en"
+      });
+    }
   },
   created() {
     this.getCarts();
-    
+    this.Top();
   },
   mounted() {
     document.querySelector("body").classList.add("hideScroll");

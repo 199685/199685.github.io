@@ -146,7 +146,7 @@ export default {
       coupons: [],
       pagination: {},
       tempCoupon: {
-        due_date: ''
+        due_date: '',
       },
       isNew: false,
       isLoading: false,
@@ -185,7 +185,7 @@ export default {
 
         case 'edit':
           this.tempCoupon = Object.assign({}, item);
-          newDate = new Date(this.tempCoupon.due_date *1000);
+          newDate = new Date(this.tempCoupon.due_date * 1000);
           year = newDate.getFullYear();
           month = newDate.getMonth() + 1;
           day = newDate.getDate();
@@ -236,9 +236,7 @@ export default {
       }
 
 
-     
       this.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
-       
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
             // eslint-disable-next-line
@@ -261,7 +259,7 @@ export default {
   },
   watch: {
     due_date() {
-      let vm = this;
+      const vm = this;
       vm.tempCoupon.due_date = Math.floor(new Date(vm.due_date).getTime() / 1000);
     },
   },

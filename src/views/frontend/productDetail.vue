@@ -213,14 +213,17 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
+        vm.alertDisplay('已加入購物車', 'info')
       });
     },
     addFavourite() {
       const add = this.favourite.indexOf(this.product.id);
       if (add > -1) {
         this.favourite.splice(add, 1);
+        this.alertDisplay('已移除我的最愛', 'warning')
       } else {
         this.favourite.push(this.product.id);
+        this.alertDisplay('已加入我的最愛', 'info')
       }
       localStorage.setItem("Favourite", JSON.stringify(this.favourite));
       this.getFavourite();
@@ -252,12 +255,22 @@ export default {
     Top() {
       window.scrollTo({
         top: 0,
-        left: 0,
+        left: 0
       });
     },
+    alertDisplay(text, type) {
+      let message = text;
+      let messageType = type;
+      this.$dlg.toast(message, {
+        messageType: messageType,
+        closeTime: 2,
+        position: "topCenter",
+        language: "en"
+      });
+    }
   },
   created() {
-    this.Top()
+    this.Top();
     this.getCarts();
     this.productID = this.$route.params.productId;
     this.getProduct();

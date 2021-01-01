@@ -162,33 +162,34 @@
 </template>
 
 <script>
+/* eslint-disable */
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  "use strict";
+import Carticon from '../../components/frontend/carticon.vue';
+
+(function () {
   window.addEventListener(
-    "load",
-    function() {
+    'load',
+    () => {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName("needs-validation");
+      const forms = document.getElementsByClassName('needs-validation');
       // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
+      const validation = Array.prototype.filter.call(forms, (form) => {
         form.addEventListener(
-          "submit",
-          function(event) {
+          'submit',
+          (event) => {
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
             }
-            form.classList.add("was-validated");
+            form.classList.add('was-validated');
           },
-          false
+          false,
         );
       });
     },
-    false
+    false,
   );
-})();
-import Carticon from "../../components/frontend/carticon.vue";
+}());
 
 export default {
   data() {
@@ -197,18 +198,18 @@ export default {
       cartsNumber: 0,
       orderData: {
         user: {
-          name: "",
-          email: "",
-          tel: "",
-          address: "",
-          paymethod: ""
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
+          paymethod: '',
         },
-        message: ""
-      }
+        message: '',
+      },
     };
   },
   components: {
-    Carticon
+    Carticon,
   },
   computed: {},
   methods: {
@@ -217,7 +218,7 @@ export default {
       const vm = this;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then(response => {
+        this.$http.get(api).then((response) => {
           this.cartsNumber = response.data.data.carts.length;
           vm.isLoading = false;
         });
@@ -225,21 +226,21 @@ export default {
     },
     createOrder() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
-      let vm = this;
+      const vm = this;
       vm.isLoading = true;
 
-      this.$http.post(api, { data: vm.orderData }).then(response => {
+      this.$http.post(api, { data: vm.orderData }).then((response) => {
         vm.$router.push({ path: `/checkout3/${response.data.orderId}` });
-        console.log(response);
+
         vm.isLoading = false;
       });
-    }
+    },
   },
 
   created() {
     this.getCarts();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 
