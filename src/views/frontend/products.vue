@@ -38,7 +38,7 @@
             class="sort text-c1 mb-3 p-1"
             v-model="sort"
           >
-            <option selected disabled value="">商品排序</option>
+            <option selected value="">商品排序</option>
             <option value="high">價格由高至低</option>
             <option value="low">價格由低至高</option>
           </select>
@@ -48,48 +48,50 @@
               v-for="product in filterProducts"
               :key="product.id"
             >
-              <div class="position-relative product">
-                <img class="img-size pointer" :src="product.imageUrl" alt="" />
-                <div
-                  class="position-absolute
+
+                <div class="position-relative product">
+                  <img class="img-size pointer" :src="product.imageUrl" alt="" />
+                  <div
+                    class="position-absolute
                     product-icon d-flex flex-column
                     justify-content-center align-items-center"
-                >
-                  <p
-                    class="pointer"
-                    :class="{ heartStyle: product.favourite }"
-                    @click="addFavourite(product.id)"
                   >
-                    加入最愛 <i class="far fa-heart"></i>
-                  </p>
-                  <p class="pointer" @click="addCart(product.id)">
-                    加入購物車 <i class="fas fa-shopping-cart"></i>
-                  </p>
+                    <p
+                      class="pointer"
+                      :class="{ heartStyle: product.favourite }"
+                      @click="addFavourite(product.id)"
+                    >
+                      加入最愛 <i class="far fa-heart"></i>
+                    </p>
+                    <p class="pointer" @click="addCart(product.id)">
+                      加入購物車 <i class="fas fa-shopping-cart"></i>
+                    </p>
+                  </div>
+
+                  <router-link
+                    class="product-item p-2 d-block"
+                    :to="{ name: 'ProductDetail', params: { productId: product.id } }"
+                  >
+                    <p class="py-2 h7 product-name">{{ product.title }}</p>
+                    <div class="cost d-flex justify-content-between align-items-center mb-2">
+                      <p class="text-line-through h9 m-0">
+                        原價{{ product.origin_price | currency }}
+                      </p>
+                      <div class="d-flex">
+                        <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
+                        <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <p class="h5 text-c4">特價{{ product.price | currency }}</p>
+                      <a href="#" class="h9 m-0"
+                        >查看更多
+                        <i class="far fa-hand-point-up"></i>
+                      </a>
+                    </div>
+                  </router-link>
                 </div>
 
-                <router-link
-                  class="product-item p-2 d-block"
-                  :to="{ name: 'ProductDetail', params: { productId: product.id } }"
-                >
-                  <p class="py-2 h7 product-name">{{ product.title }}</p>
-                  <div class="cost d-flex justify-content-between align-items-center mb-2">
-                    <p class="text-line-through h9 m-0">
-                      原價{{ product.origin_price | currency }}
-                    </p>
-                    <div class="d-flex">
-                      <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
-                      <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <p class="h5 text-c4">特價{{ product.price | currency }}</p>
-                    <a href="#" class="h9 m-0"
-                      >查看更多
-                      <i class="far fa-hand-point-up"></i>
-                    </a>
-                  </div>
-                </router-link>
-              </div>
             </li>
           </ul>
         </div>
@@ -123,6 +125,7 @@ export default {
   components: {
     Carticon,
     ProductsNavbar,
+
   },
   computed: {
     filterProducts() {

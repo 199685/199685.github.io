@@ -222,6 +222,17 @@ export default {
       this.$http.post(api).then(() => {
         vm.Order.is_paid = true;
         vm.isLoading = false;
+        vm.alertDisplay('付款成功', 'success');
+      });
+    },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 2,
+        position: 'topCenter',
+        language: 'en',
       });
     },
   },

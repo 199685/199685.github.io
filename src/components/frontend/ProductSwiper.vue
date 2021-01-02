@@ -34,7 +34,7 @@ import { Swiper, SwiperSlide, Navigation, Pagination } from "vue-awesome-swiper"
 export default {
   data() {
     return {
-      products: [],
+      // products: [],
       windowSize: "",
       changeSwiper: false,
       swiperOption: {
@@ -69,22 +69,29 @@ export default {
       }
     };
   },
+  props: ["products"],
   components: {},
   methods: {
-    getProducts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.$http.get(api).then(response => {
-        this.products = response.data.products;
-      });
+    Size() {
+      let vm = this;
+      if (window.innerWidth < 768) {
+        vm.changeSwiper = true;
+      } else {
+        vm.changeSwiper = false;
+      }
+    },
+    SwiperSize(e) {
+      this.changeSwiper = e.matches;
     }
   },
   created() {
-    this.getProducts();
-    window.matchMedia("(MAX-width: 768px)").addListener(changeSwiper => {
-      this.changeSwiper = changeSwiper.matches;
-    });
+    this.Size();
+    window.matchMedia("(max-width: 768px)").addEventListener("change", this.SwiperSize);
   },
-  mounted() {}
+  mounted() {},
+  beforeDestroy() {
+    window.matchMedia("(max-width: 768px)").removeEventListener("change", this.SwiperSize);
+  }
 };
 </script>
 

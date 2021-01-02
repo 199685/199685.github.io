@@ -74,6 +74,7 @@
           <p class="h6 mb-0 bg-white p-2 title md-w-75 no-borderbottom mt-md-9 text-center">
             <span class="gradient text">吃外食很容易營養不均衡</span>
           </p>
+
           <p class="h6 bg-white p-2 title md-w-75 text-center">
             <span class="gradient text">您缺少的營養由本店來補足</span>
           </p>
@@ -129,7 +130,7 @@
         </div>
 
         <div class="col-12">
-          <ProductSwiper class="mb-3"></ProductSwiper>
+          <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
         </div>
       </div>
     </div>
@@ -149,8 +150,13 @@
         <p class="text-center popup-code p-2">{{ message }}</p>
         <p>活動日期：2020/04/20 - 2020/5/19</p>
         <div class="text-center">
-          <button class="btn new-btn new-btn-code" v-clipboard:copy="message"
-           @click="alertDisplay('複製成功', 'info')">複製優惠序號</button>
+          <button
+            class="btn new-btn new-btn-code"
+            v-clipboard:copy="message"
+            @click="alertDisplay('複製成功', 'info')"
+          >
+            複製優惠序號
+          </button>
         </div>
         <div class="position-absolute close-circle pointer" @click="colsePopup()">
           <i class="far fa-times-circle h5"></i>
@@ -167,6 +173,7 @@
 import { Swiper, SwiperSlide, Navigation, Pagination } from "vue-awesome-swiper";
 import Carticon from "../../components/frontend/carticon.vue";
 import ProductSwiper from "../../components/frontend/ProductSwiper";
+
 export default {
   data() {
     return {
@@ -174,6 +181,7 @@ export default {
       colsepopup: false,
       cartsNumber: 0,
       isLoading: false,
+      products: [],
       img: {
         point: [
           require("../../assets/images/無農藥.jpg"),
@@ -211,7 +219,7 @@ export default {
   },
   components: {
     Carticon,
-    ProductSwiper
+    ProductSwiper,
   },
   methods: {
     colsePopup() {
@@ -224,7 +232,7 @@ export default {
       vm.isLoading = true;
       this.$http.get(api).then(response => {
         this.cartsNumber = response.data.data.carts.length;
-        vm.isLoading = false;
+        this.getProducts();
       });
     },
     Top() {
@@ -241,6 +249,14 @@ export default {
         closeTime: 2,
         position: "topCenter",
         language: "en"
+      });
+    },
+    getProducts() {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
+      let vm = this;
+      this.$http.get(api).then(response => {
+        this.products = response.data.products;
+        vm.isLoading = false;
       });
     }
   },

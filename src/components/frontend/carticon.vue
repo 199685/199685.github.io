@@ -32,18 +32,22 @@ export default {
         behavior: 'smooth',
       });
     },
-  },
-  created() {},
-  mounted() {
-    const icon = document.querySelector('.cart-icon');
-    const topicon = document.querySelector('.fa-arrow-circle-up');
-    window.addEventListener('scroll', () => {
+    addhide() {
+      const icon = document.querySelector('.cart-icon');
+      const topicon = document.querySelector('.fa-arrow-circle-up');
       if (window.pageYOffset > icon.offsetTop / 2) {
         topicon.classList.remove('hide');
       } else {
         topicon.classList.add('hide');
       }
-    });
+    },
+  },
+  created() {},
+  mounted() {
+    window.addEventListener('scroll', this.addhide);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.addhide);
   },
 };
 </script>

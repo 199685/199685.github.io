@@ -38,26 +38,6 @@
                         </router-link>
                     </li>
                     </ul>
-                    <h6 class="sidebar-heading d-flex justify-content-between
-                    align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>模擬功能</span>
-                    <a class="d-flex align-items-center text-muted" href="#"
-                     aria-label="Add a new report">
-
-                    </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                    <li class="nav-item gray-hover"
-
-                    @click="linkname='customer_order'">
-                        <router-link to="/customer_order" class="nav-link"
-                        active-class="gray-active">
-
-                        <i class="fas fa-shopping-cart mr-1"></i>
-                        <p class="d-inline-block m-0">模擬訂單</p>
-                        </router-link>
-                    </li>
-                    </ul>
                 </div>
         </nav>
     </div>

@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="col-12">
-          <ProductSwiper class="mb-3"></ProductSwiper>
+          <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
         </div>
       </div>
     </div>
@@ -162,6 +162,7 @@ export default {
       total: [],
       changeProductsID: [],
       zerocarts: true,
+      products: [],
     };
   },
   components: {
@@ -181,7 +182,7 @@ export default {
         }
         vm.carts = response.data.data;
         vm.total = [response.data.data.total];
-        vm.isLoading = false;
+        vm.getProducts();
       });
     },
     quantity(name, product) {
@@ -266,6 +267,14 @@ export default {
         closeTime: 2,
         position: 'topCenter',
         language: 'en',
+      });
+    },
+    getProducts() {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
+      const vm = this;
+      this.$http.get(api).then((response) => {
+        this.products = response.data.products;
+        vm.isLoading = false;
       });
     },
   },

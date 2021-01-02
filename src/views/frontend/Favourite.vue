@@ -78,7 +78,7 @@
           </div>
         </div>
         <div class="col-12">
-         <ProductSwiper class="mb-3"></ProductSwiper>
+         <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
         </div>
       </div>
     </div>

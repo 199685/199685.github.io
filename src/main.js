@@ -12,7 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import numeral from 'numeral';
 import $ from 'jquery';
 import VueClipboard from 'vue-clipboard2';
-import vDialogs from 'v-dialogs'
+import vDialogs from 'v-dialogs';
 
 
 

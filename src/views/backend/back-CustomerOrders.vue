@@ -311,7 +311,7 @@ export default {
       this.$http.post(url, { data: order }).then((response) => {
         vm.isLoading = false;
         if (response.data.success) {
-          vm.$router.push(`/customer_checkout/${response.data.orderId}`);
+          vm.$router.push(`customer_order/${response.data.orderId}`);
         }
       });
     },
@@ -337,5 +337,11 @@ export default {
 <style scoped>
 textarea{
   resize: none
+}
+.min-height-400{
+  height: 100%;
+}
+.card-text{
+  height: 60%
 }
 </style>
