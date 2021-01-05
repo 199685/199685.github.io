@@ -44,7 +44,7 @@
           </select>
           <ul class="row p-0 pb-3">
             <li
-              class="col-md-6 col-lg-4 mb-4 mb-0 list-style-none"
+              class="col-md-6 mb-4 mb-0 list-style-none"
               v-for="product in filterProducts"
               :key="product.id"
             >
@@ -215,7 +215,7 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
-        vm.alertDisplay('已加入購屋車', 'info');
+        vm.alertDisplay('已加入購物車', 'info');
       });
     },
     removeProduct(id) {
