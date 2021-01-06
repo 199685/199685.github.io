@@ -2,7 +2,7 @@
 
 水果為主題的電商網站。
 
-Demo: [Happy Fruit](https://199685.github.io/Vue_HappyFruit_page/#/index)
+Demo: [Happy Fruit](https://199685.github.io/Vue_HappyFruit_page-1/#/index)
 
 ## 使用技術
 
