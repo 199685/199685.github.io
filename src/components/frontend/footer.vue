@@ -18,10 +18,6 @@
 
 <script>
 export default {
-  data() {
-    return {};
-  },
-  components: {},
   methods: {
     Top() {
       window.scrollTo({
@@ -31,8 +27,6 @@ export default {
       });
     },
   },
-  created() {},
-  mounted() {},
 };
 </script>
 

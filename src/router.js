@@ -2,22 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 
-const Login = () => import('./views/backend/back-Login.vue');
-const Dashboard = () => import('./components/backend/Dashboard.vue');
-const adminProducts = () => import('./views/backend/back-Products.vue');
-const Coupons = () => import('./views/backend/back-Coupons.vue');
-const OrderList = () => import('./views/backend/back-OrderList.vue');
-const Layout = () => import('./components/frontend/layout.vue');
-const Index = () => import('./views/frontend/index.vue');
-const ProductDetail = () => import('./views/frontend/productDetail.vue');
-const ShoppingCart = () => import('./views/frontend/ShoppingCart.vue');
-const Favourite = () => import('./views/frontend/Favourite.vue');
-const Products = () => import('./views/frontend/products.vue');
-const Checkout1 = () => import('./views/frontend/order-1.vue');
-const Checkout2 = () => import('./views/frontend/order-2.vue');
-const Checkout3 = () => import('./views/frontend/order-3.vue');
-
-
 Vue.use(Router);
 
 export default new Router({
@@ -33,12 +17,12 @@ export default new Router({
     {
       path: '/admin',
       name: 'Dashboard',
-      component: Dashboard,
+      component: () => import('./components/backend/Dashboard.vue'),
       children: [
         {
           path: 'adminproducts',
           name: 'adminProducts',
-          component: adminProducts,
+          component: () => import('./views/backend/back-Products.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_產品列表',
@@ -47,7 +31,7 @@ export default new Router({
         {
           path: 'order_list',
           name: 'OrderList',
-          component: OrderList,
+          component: () => import('./views/backend/back-OrderList.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_訂單列表',
@@ -56,7 +40,7 @@ export default new Router({
         {
           path: 'coupons',
           name: 'Coupons',
-          component: Coupons,
+          component: () => import('./views/backend/back-Coupons.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_優惠券',
@@ -67,12 +51,12 @@ export default new Router({
     {
       path: '/',
       name: 'Layout',
-      component: Layout,
+      component: () => import('./components/frontend/layout.vue'),
       children: [
         {
           path: 'index',
           name: 'Index',
-          component: Index,
+          component: () => import('./views/frontend/index.vue'),
           meta: {
             title: '開心水果_首頁',
           },
@@ -80,7 +64,7 @@ export default new Router({
         {
           path: 'product/:productId',
           name: 'ProductDetail',
-          component: ProductDetail,
+          component: () => import('./views/frontend/productDetail.vue'),
           meta: {
             title: '開心水果_產品',
           },
@@ -88,7 +72,7 @@ export default new Router({
         {
           path: 'shoppingcart',
           name: 'ShoppingCart',
-          component: ShoppingCart,
+          component: () => import('./views/frontend/ShoppingCart.vue'),
           meta: {
             title: '開心水果_購物車',
           },
@@ -96,7 +80,7 @@ export default new Router({
         {
           path: 'favourite',
           name: 'Favourite',
-          component: Favourite,
+          component: () => import('./views/frontend/Favourite.vue'),
           meta: {
             title: '開心水果_我的最愛',
           },
@@ -104,7 +88,7 @@ export default new Router({
         {
           path: 'products',
           name: 'Products',
-          component: Products,
+          component: () => import('./views/frontend/products.vue'),
           meta: {
             title: '開心水果_商店',
           },
@@ -112,7 +96,7 @@ export default new Router({
         {
           path: 'login_index',
           name: 'LoginIndex',
-          component: Login,
+          component: () => import('./views/backend/back-Login.vue'),
           meta: {
             title: '開心水果_會員登入',
           },
@@ -120,7 +104,7 @@ export default new Router({
         {
           path: 'checkout1',
           name: 'Checkout1',
-          component: Checkout1,
+          component: () => import('./views/frontend/order-1.vue'),
           meta: {
             title: '開心水果_訂單step1',
           },
@@ -128,7 +112,7 @@ export default new Router({
         {
           path: 'checkout2',
           name: 'Checkout2',
-          component: Checkout2,
+          component: () => import('./views/frontend/order-2.vue'),
           meta: {
             title: '開心水果_訂單step2',
           },
@@ -136,7 +120,7 @@ export default new Router({
         {
           path: 'checkout3/:orderId',
           name: 'Checkout3',
-          component: Checkout3,
+          component: () => import('./views/frontend/order-3.vue'),
           meta: {
             title: '開心水果_訂單step3',
           },
@@ -144,6 +128,7 @@ export default new Router({
 
       ],
     },
+
 
   ],
 });

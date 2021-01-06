@@ -86,7 +86,8 @@
                   </tr>
                   <tr v-for="product in products" :key="product.id">
                     <td class="table-img">
-                      <img class="img-fluid" :src="product.product.imageUrl" alt="" />
+                      <img class="img-fluid" :src="product.product.imageUrl"
+                      :alt="product.product.title" />
                     </td>
 
                     <td>{{ product.product.title }}</td>
@@ -172,7 +173,7 @@
 </template>
 
 <script>
-import Carticon from '../../components/frontend/carticon.vue';
+import Carticon from '@/components/frontend/carticon.vue';
 
 export default {
   data() {
@@ -203,8 +204,8 @@ export default {
   },
   methods: {
     getOrder() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.OrderId}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.OrderId}`;
       vm.isLoading = true;
       this.$http.get(api).then((response) => {
         vm.Order = response.data.order;
@@ -216,8 +217,8 @@ export default {
       });
     },
     pay() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.OrderId}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.OrderId}`;
       vm.isLoading = true;
       this.$http.post(api).then(() => {
         vm.Order.is_paid = true;
@@ -240,7 +241,6 @@ export default {
     this.OrderId = this.$route.params.orderId;
     this.getOrder();
   },
-  mounted() {},
 };
 </script>
 

@@ -19,7 +19,7 @@
       <div class="row position-relative">
         <div class="col-md-2">
           <div class="maker mb-4">
-            <img src="../../assets/images/1606967135095.png" alt="" />
+            <img src="../../assets/images/1606967135095.png" alt="Happy Fruit" />
           </div>
           <div class="vertical-rl mt-md-9 text-c1">
             <p class="h5">有機水果專賣店</p>
@@ -87,12 +87,12 @@
           </p>
         </div>
       </div>
-      <p class="py-5 text-center text-danger h4">為了給您最好的品質，以下幾點是我們不變的堅持</p>
+      <p class="py-5 text-center title-color h4">為了給您最好的品質，以下幾點是我們不變的堅持</p>
       <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 position-relative animation-updown mb-4">
           <div class="point-title position-relative">
             <p class="m-0">POINT</p>
-            <p class="m-0 pl-2">01</p>
+            <p class="m-0 pl-18">01</p>
           </div>
           <img class="point-star" src="../../assets/images/star.png" alt="" width="125" />
           <div
@@ -106,7 +106,7 @@
         <div class="col-lg-4 col-md-6 position-relative mt-md-100 animation-updown mb-4">
           <div class="point-title position-relative">
             <p class="m-0">POINT</p>
-            <p class="m-0 pl-2">02</p>
+            <p class="m-0 pl-18">02</p>
           </div>
           <img class="point-star" src="../../assets/images/star.png" alt="" width="125" />
           <div
@@ -119,7 +119,7 @@
         <div class="col-lg-4 col-md-6 position-relative mt-md-200 animation-updown mb-4">
           <div class="pointImg3 point-title position-relative">
             <p class="m-0">POINT</p>
-            <p class="m-0 pl-2">03</p>
+            <p class="m-0 pl-18">03</p>
           </div>
           <img class="point-star" src="../../assets/images/star.png" alt="" width="125" />
           <div
@@ -145,6 +145,7 @@
             class="fas fa-seedling pl-1 d-none d-md-inline-block "
           ></i>
         </h3>
+
         <p>適用通路：網路</p>
         <p>適用商品：架上商品</p>
         <p class="text-center popup-code p-2">{{ message }}</p>
@@ -169,52 +170,50 @@
 </template>
 
 <script>
-/* eslint-disable */
-import { Swiper, SwiperSlide, Navigation, Pagination } from "vue-awesome-swiper";
-import Carticon from "../../components/frontend/carticon.vue";
-import ProductSwiper from "../../components/frontend/ProductSwiper";
+import Carticon from '@/components/frontend/carticon.vue';
+import ProductSwiper from '@/components/frontend/ProductSwiper.vue';
 
 export default {
   data() {
     return {
-      message: "HAPPYFRUIT3YEARS",
+      message: 'HAPPYFRUIT3YEARS',
       colsepopup: false,
       cartsNumber: 0,
       isLoading: false,
       products: [],
       img: {
         point: [
-          require("../../assets/images/無農藥.jpg"),
-          require("../../assets/images/採收.jpg"),
-          require("../../assets/images/cold.jpg")
+          require('../../assets/images/無農藥.jpg'),
+          require('../../assets/images/採收.jpg'),
+          require('../../assets/images/cold.jpg'),
         ],
         swiper: [
-          require("../../assets/images/輪播-2.jpg"),
-          require("../../assets/images/輪播-3.jpg"),
-          require("../../assets/images/輪播-4.jpg"),
-          require("../../assets/images/輪播-5.jpg"),
-          require("../../assets/images/輪播-6.jpg")
-        ]
+          require('../../assets/images/輪播-2.jpg'),
+          require('../../assets/images/輪播-3.jpg'),
+          require('../../assets/images/輪播-4.jpg'),
+          require('../../assets/images/輪播-5.jpg'),
+          require('../../assets/images/輪播-6.jpg'),
+        ],
       },
       swiperOption: {
         spaceBetween: 30,
         centeredSlides: true,
         loop: true,
-        effect: "fade",
+        effect: 'fade',
         autoplay: {
           delay: 4000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         },
         pagination: {
-          el: ".swiper-pagination",
+          el: '.swiper-pagination',
           clickable: true,
-          type: "fraction"
+          type: 'fraction',
         },
         navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      }
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      },
     };
   },
   components: {
@@ -224,13 +223,13 @@ export default {
   methods: {
     colsePopup() {
       this.colsepopup = true;
-      document.querySelector("body").classList.remove("hideScroll");
+      document.querySelector('body').classList.remove('hideScroll');
     },
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         this.getProducts();
       });
@@ -238,36 +237,43 @@ export default {
     Top() {
       window.scrollTo({
         top: 0,
-        left: 0
+        left: 0,
       });
     },
     alertDisplay(text, type) {
-      let message = text;
-      let messageType = type;
+      const message = text;
+      const messageType = type;
       this.$dlg.toast(message, {
-        messageType: messageType,
+        messageType,
         closeTime: 2,
-        position: "topCenter",
-        language: "en"
+        position: 'topCenter',
+        language: 'en',
       });
     },
     getProducts() {
+      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      let vm = this;
-      this.$http.get(api).then(response => {
-        this.products = response.data.products;
+      this.$http.get(api).then((response) => {
+        vm.products = response.data.products;
         vm.isLoading = false;
       });
-    }
+    },
   },
   created() {
     this.getCarts();
     this.Top();
   },
   mounted() {
-    document.querySelector("body").classList.add("hideScroll");
-  }
+    document.querySelector('body').classList.add('hideScroll');
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pl-18{
+  padding-left: 18px;
+}
+.title-color{
+  color: #2d76c5;
+}
+</style>

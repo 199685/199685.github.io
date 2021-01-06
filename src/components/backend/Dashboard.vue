@@ -38,7 +38,6 @@ export default {
   created() {
     const myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)hexCookie\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.$http.defaults.headers.common.Authorization = myCookie;
-    // console.log("123",myCookie)
   },
   mounted() {
     document.body.style.background = 'white';

@@ -5,11 +5,11 @@
 </template>
 
 <script>
-/* eslint-disable */
+
 export default {
   name: 'App',
   watch: {
-    $route(to, from) {
+    $route(to) {
       document.title = to.meta.title || 'Your Website';
     },
   },

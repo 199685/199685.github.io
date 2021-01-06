@@ -1,18 +1,28 @@
 <template>
   <div>
-     <loading :active.sync="isLoading">
-        <div class="loadingio-spinner-spin-5xz8vi7q1c2"><div class="ldio-2zmxuno6hnw">
-          <div><div></div></div><div><div></div></div><div>
-          <div></div></div><div><div></div></div><div><div>
-          </div></div><div><div></div></div><div><div></div></div><div><div></div></div>
-        </div></div>
+    <loading :active.sync="isLoading">
+      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
+        <div class="ldio-2zmxuno6hnw">
+          <div><div></div></div>
+          <div><div></div></div>
+          <div>
+            <div></div>
+          </div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+        </div>
+      </div>
     </loading>
     <div class="row mt-7">
       <div class="col-lg-6 col-xl-4 mb-4" v-for="item in products" :key="item.id">
         <div class="card shadow-sm min-height-400">
-          <div style="height: 150px; background-size: cover; background-position: center"
-            :style="{backgroundImage: `url(${item.imageUrl})`}">
-          </div>
+          <div
+            style="height: 150px; background-size: cover; background-position: center"
+            :style="{ backgroundImage: `url(${item.imageUrl})` }"
+          ></div>
           <div class="card-body">
             <span class="badge badge-secondary float-right ml-2">{{ item.category }}</span>
             <h5 class="card-title">
@@ -26,23 +36,34 @@
             </div>
           </div>
           <div class="card-footer d-flex">
-            <button type="button" class="btn btn-outline-secondary btn-sm"
-              @click="getProduct(item.id)">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              @click="getProduct(item.id)"
+            >
               <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
               查看更多
             </button>
-             <button type="button" class="btn btn-outline-danger btn-sm ml-auto"
-              @click="addtoCart(item.id)">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm ml-auto"
+              @click="addtoCart(item.id)"
+            >
               <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
               加到購物車
             </button>
           </div>
         </div>
-
       </div>
     </div>
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="productModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -52,7 +73,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <img :src="product.imageUrl" class="img-fluid" alt="">
+            <img :src="product.imageUrl" class="img-fluid" alt="" />
             <blockquote class="blockquote mt-3">
               <p class="mb-0">{{ product.content }}</p>
               <footer class="blockquote-footer text-right">{{ product.description }}</footer>
@@ -64,7 +85,7 @@
             </div>
             <select name="" class="form-control mt-3" v-model="product.num">
               <option :value="num" v-for="num in 10" :key="num">
-                選購 {{num}} {{product.unit}}
+                選購 {{ num }} {{ product.unit }}
               </option>
             </select>
           </div>
@@ -72,8 +93,11 @@
             <div class="text-muted text-nowrap mr-3">
               小計 <strong>{{ total }}</strong> 元
             </div>
-            <button type="button" class="btn btn-primary"
-              @click="addtoCart(product.id, product.num)">
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="addtoCart(product.id, product.num)"
+            >
               <i class="fas fa-spinner fa-spin" v-if="product.id === status.loadingItem"></i>
               加到購物車
             </button>
@@ -81,7 +105,7 @@
         </div>
       </div>
     </div>
-     <div class="my-5 row justify-content-center " v-if="cart.final_total>0">
+    <div class="my-5 row justify-content-center " v-if="cart.final_total > 0">
       <div class="my-5 col-lg-6 justify-content-center">
         <div class="table-responsive">
           <table class="table">
@@ -94,8 +118,11 @@
             <tbody>
               <tr v-for="item in cart.carts" :key="item.id">
                 <td class="align-middle">
-                  <button type="button" class="btn btn-outline-danger btn-sm"
-                   @click="removeCartItem(item.id)">
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    @click="removeCartItem(item.id)"
+                  >
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </td>
@@ -122,95 +149,125 @@
           </table>
         </div>
 
-
         <div class="input-group mb-3 input-group-sm">
-          <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼">
+          <input
+            type="text"
+            class="form-control"
+            v-model="coupon_code"
+            placeholder="請輸入優惠碼"
+          />
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" @click="addCouponCode()">
               套用優惠碼
             </button>
           </div>
         </div>
-
       </div>
     </div>
 
     <div class="my-5 row justify-content-center">
       <validation-observer v-slot="{ invalid }" class="col-lg-6">
-          <form  @submit.prevent="createOrder">
+        <form @submit.prevent="createOrder">
+          <validation-provider
+            class="form-group"
+            rules="required|email"
+            v-slot="{ errors, classes }"
+          >
+            <div class="form-group">
+              <!-- 輸入框 -->
+              <label for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                class="form-control"
+                v-model="form.user.email"
+                :class="classes"
+              />
+              <!-- 錯誤訊息 -->
+              <span class="invalid-feedback">{{ errors[0] }}</span>
+            </div>
+          </validation-provider>
 
-              <validation-provider class="form-group" rules="required|email"
-               v-slot="{ errors,  classes }">
-                <div class="form-group">
-                   <!-- 輸入框 -->
-                  <label for="email">Email</label>
-                  <input id="email" type="email" name="email"
-                      class="form-control" v-model="form.user.email" :class="classes">
-                  <!-- 錯誤訊息 -->
-                  <span class="invalid-feedback">{{ errors[0] }}</span>
-                </div>
+          <validation-provider class="form-group" rules="required" v-slot="{ errors, classes }">
+            <div class="form-group">
+              <!-- 輸入框 -->
+              <label for="username">收件人姓名</label>
+              <input
+                id="username"
+                type="username"
+                name="username"
+                class="form-control"
+                v-model="form.user.name"
+                :class="classes"
+              />
+              <!-- 錯誤訊息 -->
+              <span class="invalid-feedback">收件人姓名為必填</span>
+            </div>
+          </validation-provider>
 
-              </validation-provider>
+          <validation-provider
+            class="form-group"
+            rules="required|digits:10"
+            v-slot="{ errors, classes }"
+          >
+            <div class="form-group">
+              <!-- 輸入框 -->
+              <label for="usertel">收件人電話</label>
+              <input
+                id="usertel"
+                type="usertel"
+                name="usertel"
+                class="form-control"
+                v-model="form.user.tel"
+                :class="classes"
+              />
+              <!-- 錯誤訊息 -->
+              <span class="invalid-feedback">{{ errors[0] }}</span>
+            </div>
+          </validation-provider>
 
-              <validation-provider class="form-group" rules="required"
-              v-slot="{ errors,  classes }">
-                <div class="form-group">
-                   <!-- 輸入框 -->
-                  <label for="username">收件人姓名</label>
-                  <input id="username" type="username" name="username"
-                      class="form-control" v-model="form.user.name" :class="classes">
-                  <!-- 錯誤訊息 -->
-                  <span class="invalid-feedback">收件人姓名為必填</span>
-                </div>
+          <validation-provider class="form-group" rules="required" v-slot="{ errors, classes }">
+            <div class="form-group">
+              <!-- 輸入框 -->
+              <label for="useraddress">收件人地址</label>
+              <input
+                id="useraddress"
+                type="useraddress"
+                name="useraddress"
+                class="form-control"
+                v-model="form.user.address"
+                :class="classes"
+              />
+              <!-- 錯誤訊息 -->
+              <span class="invalid-feedback">{{ errors[0] }}</span>
+            </div>
+          </validation-provider>
 
-              </validation-provider>
+          <div class="form-group">
+            <label for="useraddress">留言</label>
+            <textarea
+              name=""
+              id=""
+              class="form-control"
+              cols="30"
+              rows="10"
+              v-model="form.message"
+            ></textarea>
+          </div>
 
-              <validation-provider class="form-group" rules="required|digits:10"
-              v-slot="{ errors,  classes }">
-                <div class="form-group">
-                   <!-- 輸入框 -->
-                  <label for="usertel">收件人電話</label>
-                  <input id="usertel" type="usertel" name="usertel"
-                      class="form-control" v-model="form.user.tel" :class="classes">
-                  <!-- 錯誤訊息 -->
-                  <span class="invalid-feedback">{{ errors[0] }}</span>
-                </div>
-
-              </validation-provider>
-
-              <validation-provider class="form-group" rules="required"
-              v-slot="{ errors,  classes }">
-                <div class="form-group">
-                   <!-- 輸入框 -->
-                  <label for="useraddress">收件人地址</label>
-                  <input id="useraddress" type="useraddress" name="useraddress"
-                      class="form-control" v-model="form.user.address" :class="classes">
-                  <!-- 錯誤訊息 -->
-                  <span class="invalid-feedback">{{ errors[0] }}</span>
-                </div>
-
-              </validation-provider>
-
-                <div class="form-group">
-                <label for="useraddress">留言</label>
-                <textarea name="" id="" class="form-control" cols="30" rows="10"
-                  v-model="form.message"></textarea>
-                </div>
-
-
-              <div class="text-right">
-                <button class="btn btn-danger" :disabled="invalid">送出訂單</button>
-              </div>
-          </form>
-        </validation-observer>
-      </div>
-
+          <div class="text-right">
+            <button class="btn btn-danger" :disabled="invalid">送出訂單</button>
+          </div>
+        </form>
+      </validation-observer>
+    </div>
   </div>
 </template>
 
 <script>
+/* global $ */
 export default {
-
   data() {
     return {
       products: [],
@@ -251,7 +308,7 @@ export default {
 
       this.$http.get(url).then((response) => {
         vm.product = response.data.product;
-        // eslint-disable-next-line
+
         $('#productModal').modal('show');
 
         vm.status.loadingItem = '';
@@ -268,7 +325,7 @@ export default {
       this.$http.post(url, { data: cart }).then(() => {
         vm.status.loadingItem = '';
         vm.getCart();
-        // eslint-disable-next-line
+
         $('#productModal').modal('hide');
       });
     },
@@ -315,7 +372,6 @@ export default {
         }
       });
     },
-
   },
   created() {
     this.getProducts();
@@ -331,17 +387,16 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped>
-textarea{
-  resize: none
+textarea {
+  resize: none;
 }
-.min-height-400{
+.min-height-400 {
   height: 100%;
 }
-.card-text{
-  height: 60%
+.card-text {
+  height: 60%;
 }
 </style>

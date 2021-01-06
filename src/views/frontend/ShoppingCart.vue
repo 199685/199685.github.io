@@ -79,7 +79,8 @@
                       ></i>
                     </td>
                     <td class="table-img">
-                      <img class="img-fluid" :src="product.product.imageUrl" alt="" />
+                      <img class="img-fluid" :src="product.product.imageUrl"
+                      :alt="product.product.title" />
                     </td>
 
                     <td>{{ product.product.title }}</td>
@@ -150,8 +151,8 @@
 </template>
 
 <script>
-import Carticon from '../../components/frontend/carticon.vue';
-import ProductSwiper from '../../components/frontend/ProductSwiper.vue';
+import Carticon from '@/components/frontend/carticon.vue';
+import ProductSwiper from '@/components/frontend/ProductSwiper.vue';
 
 export default {
   data() {
@@ -169,11 +170,10 @@ export default {
     Carticon,
     ProductSwiper,
   },
-  computed: {},
   methods: {
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
@@ -198,11 +198,11 @@ export default {
       changeproduct.total = parseInt(changeproduct.product.price, 10) * changeproduct.qty;
     },
     inputQuanproduct(product) {
+      const vm = this;
       const changeproduct = product;
       if (changeproduct.qty <= 0 || !changeproduct.qty) {
         changeproduct.qty = 1;
       }
-      const vm = this;
       const NewTotal = this.total[0]
         - parseInt(changeproduct.total, 10)
         + parseInt(changeproduct.product.price, 10) * changeproduct.qty;
@@ -270,8 +270,8 @@ export default {
       });
     },
     getProducts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then((response) => {
         this.products = response.data.products;
         vm.isLoading = false;
@@ -281,7 +281,6 @@ export default {
   created() {
     this.getCarts();
   },
-  mounted() {},
 };
 </script>
 

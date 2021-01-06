@@ -39,7 +39,7 @@
         <div class="col-lg-4 col-md-6 mb-4 mb-0"
         v-for="product in favouriteProducts" :key="product.id">
           <div class="position-relative product">
-            <img class="img-size pointer" :src="product.imageUrl" alt="" />
+            <img class="img-size pointer" :src="product.imageUrl" :alt="product.title" />
             <div
               class="position-absolute
                         product-icon d-flex flex-column justify-content-center align-items-center"
@@ -88,8 +88,8 @@
 </template>
 
 <script>
-import Carticon from '../../components/frontend/carticon.vue';
-import ProductSwiper from '../../components/frontend/ProductSwiper.vue';
+import Carticon from '@/components/frontend/carticon.vue';
+import ProductSwiper from '@/components/frontend/ProductSwiper.vue';
 
 export default {
   data() {
@@ -109,11 +109,10 @@ export default {
     Carticon,
     ProductSwiper,
   },
-  computed: {},
   methods: {
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         vm.cartProductID.splice(0);
@@ -137,8 +136,8 @@ export default {
       });
     },
     getFavourite() {
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
       const vm = this;
+      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
       this.products.forEach((item) => {
         vm.$set(item, 'favourite', false);
         const favourite = vm.favourite.includes(item.id);
@@ -153,9 +152,9 @@ export default {
       this.FavouriteProduct();
     },
     addCart(id) {
+      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       let newQty = parseInt(this.quantityValue, 10);
-      const vm = this;
       const sameID = this.cartProductID.indexOf(id);
       vm.isLoading = true;
       if (sameID >= 0) {
@@ -177,8 +176,8 @@ export default {
       });
     },
     removeProduct(id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       this.$http.delete(api).then(() => {
         vm.getCarts();
       });
@@ -219,7 +218,6 @@ export default {
     this.getCarts();
     this.getProducts();
   },
-  mounted() {},
 };
 </script>
 

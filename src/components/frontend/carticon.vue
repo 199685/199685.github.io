@@ -23,7 +23,6 @@ export default {
     };
   },
   props: ['carts'],
-  components: {},
   methods: {
     Top() {
       window.scrollTo({
@@ -42,7 +41,6 @@ export default {
       }
     },
   },
-  created() {},
   mounted() {
     window.addEventListener('scroll', this.addhide);
   },

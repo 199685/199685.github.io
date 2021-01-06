@@ -58,7 +58,6 @@ export default {
 
     };
   },
-  components: {},
   methods: {
     touchKind(name) {
       const touchName = name;
@@ -66,8 +65,6 @@ export default {
       this.$emit('touchKind', touchName);
     },
   },
-  created() {},
-  mounted() {},
 };
 </script>
 

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import Carticon from '../../components/frontend/carticon.vue';
+import Carticon from '@/components/frontend/carticon.vue';
 
 export default {
   data() {
@@ -117,7 +117,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 html,
 body {
   height: 100%;

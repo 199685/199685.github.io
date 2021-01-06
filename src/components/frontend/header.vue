@@ -1,18 +1,25 @@
 <template>
   <div>
     <div class="header py-2" :class="{ openmenu: changebar }">
-      <div class="d-flex">
-        <h1 class="text-center logo mx-auto">
-          <router-link :to="{ name: 'Index' }" class="text-color">
-              <img class="" src="../../assets/images/logo-1.png" alt="" width="100" />
-              HAPPY FRUIT
-              <span class="h8 d-none d-md-inline-block ">since 1996</span>
-          </router-link>
-        </h1>
-        <div class="menu mt-4 mr-md-5 mr-3 pointer" @click="ChangeBar()">
-          <div class="bar1" :class="{ change: changebar }"></div>
-          <div class="bar2 my-1" :class="{ change: changebar }"></div>
-          <div class="bar3" :class="{ change: changebar }"></div>
+
+      <div class="container px-0">
+        <div class="row mx-0">
+          <div class="col-10 px-0">
+            <h1 class="logo ml-2 ml-md-0">
+              <router-link :to="{ name: 'Index' }" class="text-color">
+                <img class="" src="../../assets/images/logo-1.png" alt="" width="75" />
+                HAPPY FRUIT
+                <span class="h8 d-none d-md-inline-block ">since 1996</span>
+              </router-link>
+            </h1>
+          </div>
+          <div class="col-2 justify-content-end d-flex px-0">
+            <div class="menu pointer d-inline-block mt-3 mr-2 mr-md-0" @click="ChangeBar()">
+              <div class="bar1" :class="{ change: changebar }"></div>
+              <div class="bar2 my-1" :class="{ change: changebar }"></div>
+              <div class="bar3" :class="{ change: changebar }"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -43,7 +50,7 @@
             @click.native="ChangeBar()"
             active-class="active"
             class="text-color"
-             :to="{ name: 'Favourite' }"
+            :to="{ name: 'Favourite' }"
           >
             Favourite
           </router-link>
@@ -54,7 +61,6 @@
             active-class="active"
             class="text-color"
             :to="{ name: 'LoginIndex' }"
-
           >
             Sign in
           </router-link>
@@ -72,15 +78,13 @@ export default {
       carts: [],
     };
   },
-  components: {},
   methods: {
     ChangeBar() {
       this.changebar = !this.changebar;
     },
   },
-  created() {},
   mounted() {
-    document.body.style.background = 'linear-gradient(270deg, rgba(193, 255, 170, .23), rgba(240, 135, 135, .52))';
+    document.body.style.background = '#6c757d26';
   },
 };
 </script>

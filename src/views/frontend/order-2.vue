@@ -58,7 +58,8 @@
                 <validation-provider
                   :rules="{ regex: /^([^0-9]*)$/ }"
                   v-slot="{ errors, classes }"
-                  class="col-md-6 mb-4">
+                  class="col-md-6 mb-4"
+                >
                   <label for="姓名">姓名</label>
                   <input
                     type="text"
@@ -75,7 +76,8 @@
                 <validation-provider
                   :rules="{ regex: /^[0-9]{10}$/g }"
                   v-slot="{ errors, classes }"
-                  class="col-md-6 mb-3">
+                  class="col-md-6 mb-3"
+                >
                   <label for="手機號碼">手機號碼</label>
                   <input
                     type="tel"
@@ -93,7 +95,8 @@
                 <validation-provider
                   rules="required|email"
                   v-slot="{ errors, classes }"
-                  class="col-md-6 mb-4">
+                  class="col-md-6 mb-4"
+                >
                   <label for="Email">Email</label>
                   <input
                     type="email"
@@ -110,7 +113,8 @@
                 <validation-provider
                   rules="required"
                   v-slot="{ errors, classes }"
-                  class="col-md-6 mb-3">
+                  class="col-md-6 mb-3"
+                >
                   <label for="付款方式">付款方式</label>
 
                   <select
@@ -164,32 +168,7 @@
 <script>
 /* eslint-disable */
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-import Carticon from '../../components/frontend/carticon.vue';
-
-(function () {
-  window.addEventListener(
-    'load',
-    () => {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      const forms = document.getElementsByClassName('needs-validation');
-      // Loop over them and prevent submission
-      const validation = Array.prototype.filter.call(forms, (form) => {
-        form.addEventListener(
-          'submit',
-          (event) => {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          },
-          false,
-        );
-      });
-    },
-    false,
-  );
-}());
+import Carticon from "@/components/frontend/carticon.vue";
 
 export default {
   data() {
@@ -198,49 +177,72 @@ export default {
       cartsNumber: 0,
       orderData: {
         user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-          paymethod: '',
+          name: "",
+          email: "",
+          tel: "",
+          address: "",
+          paymethod: ""
         },
-        message: '',
-      },
+        message: ""
+      }
     };
   },
   components: {
-    Carticon,
+    Carticon
   },
-  computed: {},
   methods: {
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then((response) => {
+        this.$http.get(api).then(response => {
           this.cartsNumber = response.data.data.carts.length;
           vm.isLoading = false;
         });
       }, 1500);
     },
     createOrder() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       vm.isLoading = true;
 
-      this.$http.post(api, { data: vm.orderData }).then((response) => {
+      this.$http.post(api, { data: vm.orderData }).then(response => {
         vm.$router.push({ path: `/checkout3/${response.data.orderId}` });
 
         vm.isLoading = false;
       });
-    },
+    }
   },
-
   created() {
     this.getCarts();
   },
-  mounted() {},
+  mounted() {
+    (function() {
+      window.addEventListener(
+        "load",
+        () => {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.getElementsByClassName("needs-validation");
+          // Loop over them and prevent submission
+          const validation = Array.prototype.filter.call(forms, form => {
+            form.addEventListener(
+              "submit",
+              event => {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add("was-validated");
+              },
+              false
+            );
+          });
+        },
+        false
+      );
+    })();
+  }
 };
 </script>
 

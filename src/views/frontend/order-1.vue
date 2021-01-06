@@ -116,7 +116,8 @@
                   </tr>
                   <tr v-for="product in carts.carts" :key="product.id">
                     <td class="table-img">
-                      <img class="img-fluid" :src="product.product.imageUrl" alt="" />
+                      <img class="img-fluid" :src="product.product.imageUrl"
+                      :alt="product.product.title" />
                     </td>
 
                     <td>{{ product.product.title }}</td>
@@ -176,12 +177,12 @@ export default {
   },
   methods: {
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
         this.$http.get(api).then((response) => {
-          this.cartsNumber = response.data.data.carts.length;
+          vm.cartsNumber = response.data.data.carts.length;
           vm.carts = response.data.data;
           vm.total = [response.data.data.total];
           vm.isLoading = false;
@@ -225,7 +226,6 @@ export default {
   created() {
     this.getCarts();
   },
-  mounted() {},
 };
 </script>
 

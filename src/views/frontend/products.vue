@@ -50,7 +50,7 @@
             >
 
                 <div class="position-relative product">
-                  <img class="img-size pointer" :src="product.imageUrl" alt="" />
+                  <img class="img-size pointer" :src="product.imageUrl" :alt="product.title" />
                   <div
                     class="position-absolute
                     product-icon d-flex flex-column
@@ -103,8 +103,8 @@
 </template>
 
 <script>
-import Carticon from '../../components/frontend/carticon.vue';
-import ProductsNavbar from '../../components/frontend/Products_Navbar.vue';
+import Carticon from '@/components/frontend/carticon.vue';
+import ProductsNavbar from '@/components/frontend/Products_Navbar.vue';
 
 export default {
   data() {
@@ -114,8 +114,8 @@ export default {
       products: [],
       hotproducts: [],
       isLoading: false,
-      cartProductID: [], // 商品ID固定
-      cartID: [], // 下單商品ID不是唯一,內有qty
+      cartProductID: [],
+      cartID: [],
       quantityValue: 1,
       favourite: [],
       select: 'all',
@@ -129,8 +129,8 @@ export default {
   },
   computed: {
     filterProducts() {
-      const NewProducts = JSON.parse(JSON.stringify(this.products));
       const vm = this;
+      const NewProducts = JSON.parse(JSON.stringify(this.products));
       if (this.sort === 'high') {
         NewProducts.sort((a, b) => b.price - a.price);
       } else if (this.sort === 'low') {
@@ -144,8 +144,8 @@ export default {
   },
   methods: {
     getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         vm.cartProductID.splice(0);
@@ -171,8 +171,8 @@ export default {
       });
     },
     getFavourite() {
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
       const vm = this;
+      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
       this.products.forEach((item) => {
         vm.$set(item, 'favourite', false);
         const favourite = vm.favourite.includes(item.id);
@@ -196,9 +196,9 @@ export default {
       this.getFavourite();
     },
     addCart(id) {
+      const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       let newQty = parseInt(this.quantityValue, 10);
-      const vm = this;
       const sameID = this.cartProductID.indexOf(id);
       vm.isLoading = true;
       if (sameID >= 0) {
@@ -219,8 +219,8 @@ export default {
       });
     },
     removeProduct(id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       this.$http.delete(api).then(() => {
         vm.getCarts();
       });
@@ -239,12 +239,22 @@ export default {
         language: 'en',
       });
     },
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    },
   },
   created() {
     this.getCarts();
     this.getProducts();
   },
-  mounted() {},
+  mounted() {
+    this.Top();
+  },
+
 };
 </script>
 

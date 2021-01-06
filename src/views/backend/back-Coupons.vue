@@ -1,56 +1,70 @@
 <template>
   <div>
     <loading :active.sync="isLoading">
-         <div class="loadingio-spinner-spin-5xz8vi7q1c2"><div class="ldio-2zmxuno6hnw">
-          <div><div></div></div><div><div></div></div><div><div>
-          </div></div><div><div></div></div><div><div></div></div>
-          <div><div></div></div><div><div></div></div><div><div></div></div>
-          </div></div>
+      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
+        <div class="ldio-2zmxuno6hnw">
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+        </div>
+      </div>
     </loading>
     <div class="text-right mt-8">
       <button class="btn btn-warning" @click="openModal('add')">建立新的優惠券</button>
     </div>
     <div class="table-responsive-md">
       <table class="table mt-4">
-      <thead>
-        <tr>
-          <th width="250">名稱</th>
-          <th width="150">折扣百分比</th>
-          <th width="250">到期日</th>
-          <th>是否啟用</th>
-          <th width="150">編輯</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item) in coupons" :key="item.id">
-          <td>{{ item.title }}</td>
-          <td>
-            {{ item.percent | percent }}
-          </td>
-          <td>{{ item.due_date  | date }}</td>
-          <td>
-            <span v-if="item.is_enabled" class="text-success">啟用</span>
+        <thead>
+          <tr>
+            <th width="250">名稱</th>
+            <th width="150">折扣百分比</th>
+            <th width="250">到期日</th>
+            <th>是否啟用</th>
+            <th width="150">編輯</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in coupons" :key="item.id">
+            <td>{{ item.title }}</td>
+            <td>
+              {{ item.percent | percent }}
+            </td>
+            <td>{{ item.due_date | date }}</td>
+            <td>
+              <span v-if="item.is_enabled" class="text-success">啟用</span>
 
-            <span v-else>未啟用</span>
-          </td>
-          <td>
+              <span v-else>未啟用</span>
+            </td>
+            <td>
               <div class="btn-group d-block d-md-flex" role="group" aria-label="Third group">
-                 <button class="btn btn-outline-primary btn-sm"
-                 @click="openModal('edit', item)">編輯</button>
-                 <button class="btn btn-outline-danger btn-sm"
-                  @click="openModal('delete', item)">刪除</button>
+                <button class="btn btn-outline-primary btn-sm" @click="openModal('edit', item)">
+                  編輯
+                </button>
+                <button class="btn btn-outline-danger btn-sm" @click="openModal('delete', item)">
+                  刪除
+                </button>
               </div>
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-   <Page :pagination="pagination" @products-getProducts="getCoupons"></Page>
+    <Page :pagination="pagination" @products-getProducts="getCoupons"></Page>
 
     <!-- Modal -->
-    <div class="modal fade" id="couponModal" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="couponModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content border-0">
           <div class="modal-header bg-dark text-white">
@@ -63,37 +77,58 @@
           </div>
           <div class="modal-body">
             <div class="row">
-
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="title">標題</label>
-                  <input type="text" class="form-control" id="title"
-                    placeholder="請輸入標題" v-model="tempCoupon.title">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    placeholder="請輸入標題"
+                    v-model="tempCoupon.title"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="coupon">優惠碼</label>
-                  <input type="text" class="form-control" id="coupon"
-                    placeholder="請輸入優惠碼" v-model="tempCoupon.code">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="coupon"
+                    placeholder="請輸入優惠碼"
+                    v-model="tempCoupon.code"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="due_date">到期日</label>
-                  <input type="date" class="form-control" id="due_date"
-                    placeholder="請輸入到期日" v-model="due_date"  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="due_date"
+                    placeholder="請輸入到期日"
+                    v-model="due_date"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="percent">折扣百分百</label>
-                  <input type="text" class="form-control" id="percent"
-                    placeholder="請輸入折扣百分百" v-model="tempCoupon.percent">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="percent"
+                    placeholder="請輸入折扣百分百"
+                    v-model="tempCoupon.percent"
+                  />
                 </div>
-
 
                 <div class="form-group">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox"
-                    v-model="tempCoupon.is_enabled"
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="tempCoupon.is_enabled"
                       :true-value="1"
                       :false-value="0"
-                      id="is_enabled" >
+                      id="is_enabled"
+                    />
                     <label class="form-check-label" for="is_enabled">
                       是否啟用
                     </label>
@@ -103,15 +138,24 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary"
-            data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="updateCoupon()">更新優惠券</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" @click="updateCoupon()">
+              更新優惠券
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="delCouponModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="delCouponModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content border-0">
           <div class="modal-header bg-danger text-white">
@@ -126,9 +170,10 @@
             是否刪除 <strong class="text-danger"></strong> 優惠券(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" @click="updateCoupon()"
-              >確認刪除</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+              取消
+            </button>
+            <button type="button" class="btn btn-danger" @click="updateCoupon()">確認刪除</button>
           </div>
         </div>
       </div>
@@ -136,9 +181,9 @@
   </div>
 </template>
 
-
 <script>
-import Page from '../../components/Pagination.vue';
+/* global $ */
+import Page from '@/components/Pagination.vue';
 
 export default {
   data() {
@@ -154,7 +199,6 @@ export default {
         fileUploading: false,
       },
       due_date: '',
-
     };
   },
   components: {
@@ -207,10 +251,8 @@ export default {
       }
 
       if (this.isNew !== 'delete') {
-        // eslint-disable-next-line
         $('#couponModal').modal('show');
       } else {
-        // eslint-disable-next-line
         $('#delCouponModal').modal('show');
       }
     },
@@ -218,7 +260,6 @@ export default {
       let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       const vm = this;
       let httpMethod = 'post';
-      //   vm.tempCoupon.due_date = Date.now(vm.tempCoupon.due_date);
 
       switch (vm.isNew) {
         case 'add':
@@ -235,24 +276,18 @@ export default {
           break;
       }
 
-
       this.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
-            // eslint-disable-next-line
             $('#couponModal').modal('hide');
             vm.due_date = '2019-12-12';
           } else {
-            // eslint-disable-next-line
             $('#delCouponModal').modal('hide');
           }
           vm.getCoupons(vm.pagination.current_page);
-        } else {
-          // 失敗了
         }
       });
     },
-
   },
   created() {
     this.getCoupons();
@@ -267,9 +302,7 @@ export default {
 </script>
 
 <style scoped>
-#customFile{
+#customFile {
   width: 108%;
 }
-
-
 </style>
