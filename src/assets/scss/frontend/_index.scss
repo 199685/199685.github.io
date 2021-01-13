@@ -38,7 +38,9 @@
 
 .openmenu {
     height: 100vh;
-    background-color: $c2;
+    background-color: white;
+    position: relative;
+    z-index: 101;
 }
 
 .bar1,

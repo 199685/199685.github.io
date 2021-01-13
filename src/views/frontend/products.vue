@@ -57,13 +57,13 @@
                     justify-content-center align-items-center"
                   >
                     <p
-                      class="pointer"
+                      class="pointer w-100 text-center py-2 mb-3 icon-hover"
                       :class="{ heartStyle: product.favourite }"
                       @click="addFavourite(product.id)"
                     >
                       加入最愛 <i class="far fa-heart"></i>
                     </p>
-                    <p class="pointer" @click="addCart(product.id)">
+                    <p class="pointer w-100 text-center icon-hover" @click="addCart(product.id)">
                       加入購物車 <i class="fas fa-shopping-cart"></i>
                     </p>
                   </div>
@@ -258,4 +258,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon-hover{
+  transition: font-size .3s;
+  &:hover{
+    color: yellow;
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+}
+</style>

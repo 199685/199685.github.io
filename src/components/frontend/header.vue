@@ -1,20 +1,51 @@
 <template>
   <div>
     <div class="header py-2" :class="{ openmenu: changebar }">
-
       <div class="container px-0">
         <div class="row mx-0">
-          <div class="col-10 px-0">
-            <h1 class="logo ml-2 ml-md-0">
-              <router-link :to="{ name: 'Index' }" class="text-color">
+          <div class="col-11 col-lg-12 px-0 d-flex">
+            <h1 class="logo ml-2 ml-md-0 width-50">
+              <router-link :to="{ name: 'Index' }" class="text-color" @click.native="Top()">
                 <img class="" src="../../assets/images/logo-1.png" alt="" width="75" />
                 HAPPY FRUIT
                 <span class="h8 d-none d-md-inline-block ">since 1996</span>
               </router-link>
             </h1>
+
+            <nav class="width-50 nav-m d-none d-lg-inline-block ">
+              <ul class="d-flex list-none justify-content-end">
+                <li>
+                  <router-link active-class="active" class="nav-font" :to="{ name: 'Products' }">
+                    商品
+                  </router-link>
+                </li>
+                <li>
+                  <router-link
+                    active-class="active"
+                    class="nav-font"
+                    :to="{ name: 'ShoppingCart' }"
+                  >
+                    購物車
+                  </router-link>
+                </li>
+                <li>
+                  <router-link active-class="active" class="nav-font" :to="{ name: 'Favourite' }">
+                    最愛商品
+                  </router-link>
+                </li>
+                <li>
+                  <router-link active-class="active" class="nav-font" :to="{ name: 'LoginIndex' }">
+                    登入
+                  </router-link>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <div class="col-2 justify-content-end d-flex px-0">
-            <div class="menu pointer d-inline-block mt-3 mr-2 mr-md-0" @click="ChangeBar()">
+          <div class="col-1 justify-content-end d-flex px-0">
+            <div
+              class="menu pointer d-inline-block mt-3 mr-2 mr-md-0 d-lg-none"
+              @click="ChangeBar()"
+            >
               <div class="bar1" :class="{ change: changebar }"></div>
               <div class="bar2 my-1" :class="{ change: changebar }"></div>
               <div class="bar3" :class="{ change: changebar }"></div>
@@ -31,7 +62,7 @@
             class="text-color"
             :to="{ name: 'Products' }"
           >
-            Products
+            商品
           </router-link>
         </h3>
 
@@ -42,7 +73,7 @@
             class="text-color"
             :to="{ name: 'ShoppingCart' }"
           >
-            Shopping Cart
+            購物車
           </router-link>
         </h3>
         <h3>
@@ -52,7 +83,7 @@
             class="text-color"
             :to="{ name: 'Favourite' }"
           >
-            Favourite
+            最愛商品
           </router-link>
         </h3>
         <h3>
@@ -62,7 +93,7 @@
             class="text-color"
             :to="{ name: 'LoginIndex' }"
           >
-            Sign in
+            登入
           </router-link>
         </h3>
       </div>
@@ -75,18 +106,65 @@ export default {
   data() {
     return {
       changebar: false,
-      carts: [],
+      carts: []
     };
   },
   methods: {
     ChangeBar() {
       this.changebar = !this.changebar;
+      this.Top();
+    },
+    showNav() {
+      let Header =document.querySelector('.header')
+      if(window.pageYOffset > window.innerHeight/4){
+        Header.classList.add('header-fixed')
+      }else{
+          Header.classList.remove('header-fixed')
+      }
+     
+    },
+     Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+      });
     },
   },
   mounted() {
-    document.body.style.background = '#6c757d26';
+    document.body.style.background = "#6c757d26";
+    window.addEventListener('scroll', this.showNav);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.showNav);
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@media (min-width: 992px) {
+  .width-50 {
+    width: 50%;
+  }
+}
+.list-none {
+  list-style: none;
+}
+.nav-m {
+  margin-top: auto;
+}
+.nav-font {
+  color: #28a745;
+  padding: 15px;
+  font-size: 20px;
+  &:hover{
+    text-decoration: none;
+  }
+}
+.header-fixed{
+  position: fixed;
+  width: 100%;
+  z-index: 198;
+  top: 0;
+  background: white;
+}
+</style>
