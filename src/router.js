@@ -8,11 +8,11 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: 'index',
+      redirect: 'Text',
     },
     {
       path: '/',
-      redirect: 'index',
+      redirect: 'Text',
     },
     {
       path: '/admin',
@@ -123,6 +123,14 @@ export default new Router({
           component: () => import('./views/frontend/order-3.vue'),
           meta: {
             title: '開心水果_訂單step3',
+          },
+        },
+        {
+          path: 'text',
+          name: 'Text',
+          component: () => import('./views/frontend/text.vue'),
+          meta: {
+            title: 'text',
           },
         },
 

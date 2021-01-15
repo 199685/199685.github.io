@@ -20,24 +20,26 @@
         <nav aria-label="breadcrumb" class="col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-               <router-link :to="{ path: 'index' }">
-                Home
+              <router-link :to="{ path: 'index' }">
+                首頁
               </router-link>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Favourite</li>
+            <li class="breadcrumb-item active" aria-current="page">最愛商品</li>
           </ol>
         </nav>
         <div class="col text-center pb-5" :class="{ 'd-none': zerofavourite }">
-          <p class="h4 mb-5 text-c1">目前我的最愛沒有任何商品</p>
+          <p class="h4 mb-5 text-c1">目前最愛商品沒有任何商品</p>
           <div class="text-center">
-             <router-link :to="{ path: 'products' }">
+            <router-link :to="{ path: 'products' }">
               <button class="btn new-btn new-btn-favourite">採購去~~</button>
             </router-link>
           </div>
-
         </div>
-        <div class="col-lg-4 col-md-6 mb-4 mb-0"
-        v-for="product in favouriteProducts" :key="product.id">
+        <div
+          class="col-lg-4 col-md-6 mb-4 mb-0"
+          v-for="product in favouriteProducts"
+          :key="product.id"
+        >
           <div class="position-relative product">
             <img class="img-size pointer" :src="product.imageUrl" :alt="product.title" />
             <div
@@ -45,13 +47,15 @@
                         product-icon d-flex flex-column justify-content-center align-items-center"
             >
               <p
-                class="pointer"
+                class="pointer w-100 text-center py-2 mb-3 icon-hover"
                 :class="{ heartStyle: product.favourite }"
                 @click="addFavourite(product.id)"
               >
-                加入最愛 <i class="far fa-heart"></i>
+                <span :class="{ 'd-none': product.favourite }">加入最愛</span>
+                <span :class="{ 'd-none': !product.favourite }">移除最愛</span>
+                <i class="far fa-heart"></i>
               </p>
-              <p class="pointer" @click="addCart(product.id)">
+              <p class="pointer w-100 text-center icon-hover" @click="addCart(product.id)">
                 加入購物車 <i class="fas fa-shopping-cart"></i>
               </p>
             </div>
@@ -63,8 +67,8 @@
               <div class="cost d-flex justify-content-between align-items-center mb-2">
                 <p class="text-line-through h9 m-0">原價{{ product.origin_price | currency }}</p>
                 <div class="d-flex">
-                  <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
-                  <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
+                  <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取貨</p>
+                  <p class="text-danger h9 badges-boder-danger mb-0">不甜退費</p>
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-center">
@@ -78,7 +82,7 @@
           </div>
         </div>
         <div class="col-12">
-         <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
+          <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
         </div>
       </div>
     </div>
@@ -88,8 +92,8 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
-import ProductSwiper from '@/components/frontend/ProductSwiper.vue';
+import Carticon from "@/components/frontend/carticon.vue";
+import ProductSwiper from "@/components/frontend/ProductSwiper.vue";
 
 export default {
   data() {
@@ -102,25 +106,25 @@ export default {
       quantityValue: 1,
       favourite: [],
       favouriteProducts: [],
-      zerofavourite: true,
+      zerofavourite: true
     };
   },
   components: {
     Carticon,
-    ProductSwiper,
+    ProductSwiper
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
+      this.$http.get(api).then(response => {
         this.cartsNumber = response.data.data.carts.length;
         vm.cartProductID.splice(0);
         vm.cartID.splice(0);
-        response.data.data.carts.forEach((product) => {
+        response.data.data.carts.forEach(product => {
           const data = {
             id: product.id,
-            qty: product.qty,
+            qty: product.qty
           };
           vm.cartID.push(data);
           vm.cartProductID.push(product.product_id);
@@ -130,19 +134,19 @@ export default {
     getProducts() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.isLoading = true;
-      this.$http.get(api).then((response) => {
+      this.$http.get(api).then(response => {
         this.products = response.data.products;
         this.getFavourite();
       });
     },
     getFavourite() {
       const vm = this;
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
-      this.products.forEach((item) => {
-        vm.$set(item, 'favourite', false);
+      this.favourite = JSON.parse(localStorage.getItem("Favourite")) || [];
+      this.products.forEach(item => {
+        vm.$set(item, "favourite", false);
         const favourite = vm.favourite.includes(item.id);
         if (favourite) {
-          vm.$set(item, 'favourite', true);
+          vm.$set(item, "favourite", true);
         }
         vm.isLoading = false;
       });
@@ -162,7 +166,7 @@ export default {
       }
       const addproduct = {
         product_id: id,
-        qty: newQty,
+        qty: newQty
       };
       this.$http.post(api, { data: addproduct }).then(() => {
         if (sameID >= 0) {
@@ -171,7 +175,7 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
-        vm.alertDisplay('已加入購屋車', 'info');
+        vm.alertDisplay("已加入購屋車", "info");
         vm.isLoading = false;
       });
     },
@@ -186,17 +190,17 @@ export default {
       const add = this.favourite.indexOf(id);
       if (add > -1) {
         this.favourite.splice(add, 1);
-        this.alertDisplay('已移除我的最愛', 'warning');
+        this.alertDisplay("已移除我的最愛", "warning");
       } else {
         this.favourite.push(id);
-        this.alertDisplay('已加入我的最愛', 'info');
+        this.alertDisplay("已加入我的最愛", "info");
       }
-      localStorage.setItem('Favourite', JSON.stringify(this.favourite));
+      localStorage.setItem("Favourite", JSON.stringify(this.favourite));
 
       this.getFavourite();
     },
     FavouriteProduct() {
-      this.favouriteProducts = this.products.filter((item) => {
+      this.favouriteProducts = this.products.filter(item => {
         if (item.favourite === true) {
           return item;
         }
@@ -209,16 +213,25 @@ export default {
       this.$dlg.toast(message, {
         messageType,
         closeTime: 2,
-        position: 'topCenter',
-        language: 'en',
+        position: "topCenter",
+        language: "en"
       });
-    },
+    }
   },
   created() {
     this.getCarts();
     this.getProducts();
-  },
+  }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon-hover {
+  transition: font-size 0.3s;
+  &:hover {
+    color: yellow;
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+}
+</style>

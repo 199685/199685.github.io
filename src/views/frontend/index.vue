@@ -274,6 +274,6 @@ export default {
   padding-left: 18px;
 }
 .title-color{
-  color: #2d76c5;
+  color: #055fc1;
 }
 </style>

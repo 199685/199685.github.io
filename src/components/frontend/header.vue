@@ -15,13 +15,17 @@
             <nav class="width-50 nav-m d-none d-lg-inline-block ">
               <ul class="d-flex list-none justify-content-end">
                 <li>
-                  <router-link active-class="active" class="nav-font" :to="{ name: 'Products' }">
+                  <router-link
+                    active-class="nav-active"
+                    class="nav-font"
+                    :to="{ name: 'Products' }"
+                  >
                     商品
                   </router-link>
                 </li>
                 <li>
                   <router-link
-                    active-class="active"
+                    active-class="nav-active"
                     class="nav-font"
                     :to="{ name: 'ShoppingCart' }"
                   >
@@ -29,12 +33,20 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link active-class="active" class="nav-font" :to="{ name: 'Favourite' }">
+                  <router-link
+                    active-class="nav-active"
+                    class="nav-font"
+                    :to="{ name: 'Favourite' }"
+                  >
                     最愛商品
                   </router-link>
                 </li>
                 <li>
-                  <router-link active-class="active" class="nav-font" :to="{ name: 'LoginIndex' }">
+                  <router-link
+                    active-class="nav-active"
+                    class="nav-font"
+                    :to="{ name: 'LoginIndex' }"
+                  >
                     登入
                   </router-link>
                 </li>
@@ -59,7 +71,7 @@
           <router-link
             @click.native="ChangeBar()"
             active-class="active"
-            class="text-color"
+            class="text-black"
             :to="{ name: 'Products' }"
           >
             商品
@@ -70,7 +82,7 @@
           <router-link
             @click.native="ChangeBar()"
             active-class="active"
-            class="text-color"
+            class="text-black"
             :to="{ name: 'ShoppingCart' }"
           >
             購物車
@@ -80,7 +92,7 @@
           <router-link
             @click.native="ChangeBar()"
             active-class="active"
-            class="text-color"
+            class="text-black"
             :to="{ name: 'Favourite' }"
           >
             最愛商品
@@ -90,7 +102,7 @@
           <router-link
             @click.native="ChangeBar()"
             active-class="active"
-            class="text-color"
+            class="text-black"
             :to="{ name: 'LoginIndex' }"
           >
             登入
@@ -115,28 +127,27 @@ export default {
       this.Top();
     },
     showNav() {
-      let Header =document.querySelector('.header')
-      if(window.pageYOffset > window.innerHeight/4){
-        Header.classList.add('header-fixed')
-      }else{
-          Header.classList.remove('header-fixed')
+      let Header = document.querySelector(".header");
+      if (window.pageYOffset > window.innerHeight / 4) {
+        Header.classList.add("header-fixed");
+      } else {
+        Header.classList.remove("header-fixed");
       }
-     
     },
-     Top() {
+    Top() {
       window.scrollTo({
         top: 0,
-        left: 0,
+        left: 0
       });
-    },
+    }
   },
   mounted() {
-    document.body.style.background = "#6c757d26";
-    window.addEventListener('scroll', this.showNav);
+    document.body.style.background = "#6c757d1a";
+    window.addEventListener("scroll", this.showNav);
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.showNav);
-  },
+    window.removeEventListener("scroll", this.showNav);
+  }
 };
 </script>
 
@@ -153,18 +164,64 @@ export default {
   margin-top: auto;
 }
 .nav-font {
-  color: #28a745;
+  color: rgba(0, 0, 0, 1);
   padding: 15px;
   font-size: 20px;
-  &:hover{
+  border-bottom: 2px solid transparent;
+  position: relative;
+  &:hover {
     text-decoration: none;
+    color: #055fc1;
+  }
+  &:before {
+    content: " ";
+    width: 0%;
+    height: 3px;
+    border-bottom: 2px solid transparent;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    transition: width .5s;
+    margin: auto;
+  }
+  &:hover:before{
+    border-bottom: 3px solid ;
+    width: 80%;
   }
 }
-.header-fixed{
+.header-fixed {
   position: fixed;
   width: 100%;
   z-index: 198;
   top: 0;
   background: white;
+}
+.nav-active {
+  color: green;
+  font-weight: bold;
+  border-bottom: 3px solid transparent;
+  position: relative;
+   &:before {
+    content: " ";
+    width: 100%;
+    height: 3px;
+    border-bottom: 3px solid green;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+  }
+}
+.text-black {
+  color: black;
+}
+.active {
+  color: green;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+  border-bottom: 3px solid green;
 }
 </style>

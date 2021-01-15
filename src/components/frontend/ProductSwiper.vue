@@ -11,7 +11,7 @@
             <div class="content">
               <p class="text-center h6">{{ product.title }}</p>
               <p class="product-content">{{ product.content }}</p>
-              <a href="#" class="h9 mt-5 d-block text-c3 text-right"
+              <a href="#" class="h9 mt-5 d-block text-light text-right"
                 >查看更多
                 <i class="far fa-hand-point-up"></i>
               </a>
@@ -114,7 +114,7 @@ export default {
   border: 5px solid rgba(0, 0, 0, 0.3);
 }
 .title-color {
-  color: #2d76c5;
+  color: #055fc1;
 }
 .swiper-hover {
   position: relative;

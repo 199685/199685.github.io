@@ -21,15 +21,15 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link :to="{ name: 'Index' }">
-                Home
+                首頁
               </router-link>
             </li>
             <li class="breadcrumb-item">
               <router-link :to="{ path: 'shoppingcart' }">
-                Shopping Cart
+                購物車
               </router-link>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            <li class="breadcrumb-item active" aria-current="page">結帳確認</li>
           </ol>
         </nav>
         <div class="col-md-10 container-75">

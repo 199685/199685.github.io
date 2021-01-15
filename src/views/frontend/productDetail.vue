@@ -24,12 +24,12 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link :to="{ name: 'Index' }">
-                Home
+                首頁
               </router-link>
             </li>
             <li class="breadcrumb-item">
               <router-link :to="{ name: 'Products' }">
-                Products
+                商品
               </router-link>
             </li>
             <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>

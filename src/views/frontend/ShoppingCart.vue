@@ -21,10 +21,10 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <router-link :to="{ path: 'index' }">
-                Home
+                首頁
               </router-link>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item active" aria-current="page">購物車</li>
           </ol>
         </nav>
         <div class="col text-center pb-5" :class="{ 'd-none': !zerocarts }">

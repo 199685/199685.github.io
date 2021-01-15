@@ -22,10 +22,10 @@
             <ol class="breadcrumb pt-0">
               <li class="breadcrumb-item">
                 <router-link :to="{ path: 'index' }">
-                  Home
+                  首頁
                 </router-link>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Products</li>
+              <li class="breadcrumb-item active" aria-current="page">商品</li>
             </ol>
           </nav>
 
@@ -61,7 +61,9 @@
                       :class="{ heartStyle: product.favourite }"
                       @click="addFavourite(product.id)"
                     >
-                      加入最愛 <i class="far fa-heart"></i>
+                      <span :class="{'d-none': product.favourite}">加入最愛</span>
+                      <span :class="{'d-none': !product.favourite}">移除最愛</span>
+                      <i class="far fa-heart"></i>
                     </p>
                     <p class="pointer w-100 text-center icon-hover" @click="addCart(product.id)">
                       加入購物車 <i class="fas fa-shopping-cart"></i>
@@ -78,8 +80,8 @@
                         原價{{ product.origin_price | currency }}
                       </p>
                       <div class="d-flex">
-                        <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取</p>
-                        <p class="text-danger h9 badges-boder-danger mb-0">不甜退差價</p>
+                        <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取貨</p>
+                        <p class="text-danger h9 badges-boder-danger mb-0">不甜退費</p>
                       </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
