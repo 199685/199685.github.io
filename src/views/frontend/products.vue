@@ -114,7 +114,6 @@ export default {
       colsepopup: false,
       cartsNumber: 0,
       products: [],
-      hotproducts: [],
       isLoading: false,
       cartProductID: [],
       cartID: [],

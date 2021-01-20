@@ -8,7 +8,7 @@
               <router-link :to="{ name: 'Index' }" class="text-color" @click.native="Top()">
                 <img class="" src="../../assets/images/logo-1.png" alt="" width="75" />
                 HAPPY FRUIT
-                <span class="h8 d-none d-md-inline-block ">since 1996</span>
+                <span class="h8 d-none d-md-inline-block">since 1996</span>
               </router-link>
             </h1>
 
@@ -142,7 +142,7 @@ export default {
     }
   },
   mounted() {
-    document.body.style.background = "#6c757d1a";
+    document.body.style.background = `url(${require("@/assets/images/背景-1.jpg")})`;
     window.addEventListener("scroll", this.showNav);
   },
   beforeDestroy() {
@@ -183,11 +183,11 @@ export default {
     left: 0;
     bottom: 0;
     z-index: 2;
-    transition: width .5s;
+    transition: width 0.5s;
     margin: auto;
   }
-  &:hover:before{
-    border-bottom: 3px solid ;
+  &:hover:before {
+    border-bottom: 3px solid;
     width: 80%;
   }
 }
@@ -203,7 +203,7 @@ export default {
   font-weight: bold;
   border-bottom: 3px solid transparent;
   position: relative;
-   &:before {
+  &:before {
     content: " ";
     width: 100%;
     height: 3px;
@@ -221,7 +221,15 @@ export default {
 .active {
   color: green;
   font-weight: bold;
-  padding-bottom: 0.5em;
-  border-bottom: 3px solid green;
+  padding-bottom: 0.3em;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    border-bottom: 3px solid green;
+    left: 40%;
+    right: 40%;
+    bottom: 0;
+  }
 }
 </style>

@@ -58,7 +58,7 @@
 }
 
 .change.bar3 {
-    transform: rotate(45deg) translate(-6px, -8px);
+    transform: rotate(45deg) translate(-6px, -7px);
     background: $c1;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .openstore {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 1);
     border-radius: 15px;
 }
 
@@ -336,13 +336,7 @@
         left: 0;
     }
 
-    &:hover .heartStyle {
-        color: red;
-
-        & i {
-            font-weight: bold;
-        }
-    }
+  
 
     &:hover .product-name {
         color: $c1;
@@ -614,4 +608,16 @@
 
 .swiper-container-fade.swiper-container-free-mode .swiper-slide {
     transition-timing-function: ease;
+}
+.fw-100{
+    font-weight: 100;
+}
+.fw-300{
+    font-weight: 300;
+}
+.fw-500{
+    font-weight: 500;
+}
+.fw-700{
+    font-weight: 700;
 }

@@ -23,7 +23,7 @@
           </div>
           <div class="vertical-rl mt-lg-9 text-c1">
             <p class="h5">有機水果專賣店</p>
-            <p class="m-0 h7">新鮮、營養、美味</p>
+            <p class="m-0 h7 fw-300">新鮮、營養、美味</p>
           </div>
           <div class=" h6 pointer mt-2 m-lg-0 social-1">
             <i class="fab fa-facebook-square d-inline-block mr-2"></i>
@@ -42,9 +42,19 @@
       </div>
     </div>
     <div class="container mt-5">
-      <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          <img
+            height="300"
+            class="d-none d-md-inline-block"
+            src="../../assets/images/農夫1.png"
+            alt="農夫"
+          />
+        </div>
         <div class="col-md-6">
-          <h6 class="text-c1 mb-3"><i class="fas fa-bullhorn d-inline-block mr-1"></i>最新消息</h6>
+          <h6 class="text-c1 mb-3 mb-3 fade-border">
+            <i class="fas fa-bullhorn d-inline-block mr-3"></i>最新消息
+          </h6>
           <p class="pointer new-border-b pb-1">2020/12/04<span class="pl-5">全店打八折</span></p>
           <p class="pointer new-border-b pb-1">2020/11/20<span class="pl-5">香蕉買一送一</span></p>
           <p class="pointer new-border-b pb-1">
@@ -54,23 +64,99 @@
             2020/10/06<span class="pl-5">買西瓜送木瓜汁</span>
           </p>
         </div>
-        <div class="col-md-6">
-        <img class="img-fluid" src="../../assets/images/農夫.png" alt="" />
-          <div class="openstore p-2 text-center mb-5 text-c1">
-            <div class="d-lg-flex justify-content-around align-items-center">
-              <h6>營業時間</h6>
-              <p class="h8">平日: 07:30~22:00</p>
-              <p class="h8">假日: 07:00~20:00</p>
-            </div>
-            <div class="d-lg-flex justify-content-around align-items-center">
-              <h6>電話</h6>
-              <p class="h8">(02)2666-6434</p>
-              <p class="h8">(02)2123-5892</p>
-            </div>
+        <div class="openstore p-2 text-center mb-5 text-c1 col-11 col-md-12">
+          <div class="d-md-flex justify-content-around align-items-center">
+            <h6 class="ml-3">營業時間</h6>
+            <p class="h8 fw-100">平日: 07:30~22:00</p>
+            <p class="h8 fw-100">假日: 07:00~20:00</p>
+          </div>
+          <div class="d-md-flex justify-content-around align-items-center">
+            <h6>電話</h6>
+            <p class="h8 fw-100">(02)2666-6434</p>
+            <p class="h8 fw-100">(02)2123-5892</p>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="container-fluid pb-5" style="background: white;">
+      <div class="container">
+        <h3 class="text-c1 py-md-5 py-3 fw-700 d-flex justify-content-center f-22">
+          <img class="img-fluid mr-2 min-50" src="../../assets/images/fruits.png" alt="水果好吃" />
+          保持水果好吃的秘訣
+        </h3>
+        <div class="row">
+          <div class="col-md-6">
+            <img class="img-fluid img-border" src="../../assets/images/無農藥.jpg" alt="無農藥" />
+          </div>
+          <div class="col-md-6">
+            <div class="position-relative">
+              <img class="img-fluid" src="../../assets/images/po-1.png" alt="point-1" />
+              <h4 class="position-absolute title-point text-c1 fw-700">有機種植</h4>
+            </div>
+
+            <p class="fz-20 fw-300 mt-2">
+              有機水果是完全不用人工合成的化學肥料、農藥、生長調節劑和飼料添加劑的生產制度。
+              它在可能的範圍內，儘量依靠輪作、作物秸杆、家畜糞尿、綠肥、外來的有機廢棄物、機械中耕、
+              含有無機養分的礦石及生物防治等方法，保持土壤的肥力和易耕性，供給作物養分，防治病蟲雜草危害。
+            </p>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-6 order-md-1">
+            <img class="img-fluid img-border" src="../../assets/images/採收-1.png" alt="採收" />
+          </div>
+          <div class="col-md-6">
+            <div class="position-relative">
+              <img class="img-fluid" src="../../assets/images/po-2.png" alt="point-2" />
+              <h4 class="position-absolute title-point text-c1 fw-700">當天現採</h4>
+            </div>
+
+            <p class="fz-20 fw-300 mt-2">
+              我們出產的水果都是當天採，當天賣！
+            </p>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-6">
+            <img class="img-fluid img-border" src="../../assets/images/cold-2.jpg" alt="低溫" />
+          </div>
+          <div class="col-md-6">
+            <div class="position-relative">
+              <img class="img-fluid" src="../../assets/images/po-3.png" alt="point-3" />
+              <h4 class="position-absolute title-point text-c1 fw-700">低溫運送</h4>
+            </div>
+
+            <p class="fz-20 fw-300 mt-2">
+              -10°C的超低溫配送環境，完美呈現水果的鮮甜。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container-fluid bg-cover sky-size"
+      :style="{ backgroundImage: `url(${require('@/assets/images/sky-2.jpg')})` }">
+      <div class="row">
+        <div class="col">
+          <div class="eatfruit text-center">
+          <h4 class="fw-700 mb-5">吃水果的好處</h4>
+          <p class="eatfruit-fontsize">熱量低，膳食纖維含量高</br>
+          富含維生素C，助於保護心血管</br>
+          降低消化道癌症機率</br>
+          延緩衰老，提高免疫力</br>
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <TopProducts :cartsID="cartsID" v-on:getcarts-event="getCarts">
+        <div class="col-12 col-md-6 text-center mt-2">
+         <button class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
+        </div>
+  </TopProducts>
 
     <Carticon :carts="cartsNumber"></Carticon>
   </div>
@@ -78,7 +164,7 @@
 
 <script>
 import Carticon from "@/components/frontend/carticon.vue";
-import ProductSwiper from "@/components/frontend/ProductSwiper.vue";
+import TopProducts from "@/components/frontend/topProducts.vue";
 
 export default {
   data() {
@@ -87,13 +173,8 @@ export default {
       colsepopup: false,
       cartsNumber: 0,
       isLoading: false,
-      products: [],
+      cartsID:[],
       img: {
-        point: [
-          require("../../assets/images/無農藥.jpg"),
-          require("../../assets/images/採收.jpg"),
-          require("../../assets/images/cold.jpg")
-        ],
         swiper: [
           require("../../assets/images/輪播-2.jpg"),
           require("../../assets/images/輪播-3.jpg"),
@@ -120,12 +201,12 @@ export default {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
         }
-      }
+      },
     };
   },
   components: {
     Carticon,
-    ProductSwiper
+    TopProducts
   },
   methods: {
     colsePopup() {
@@ -135,10 +216,13 @@ export default {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
       this.$http.get(api).then(response => {
-        this.cartsNumber = response.data.data.carts.length;
-        this.getProducts();
+        vm.cartsNumber = response.data.data.carts.length;
+        vm.cartsID = response.data.data.carts.map(product => ({
+          qty: product.qty,
+          id: product.id,
+          productID: product.product_id
+         }))
       });
     },
     Top() {
@@ -146,28 +230,12 @@ export default {
         top: 0,
         left: 0
       });
-    },
-    alertDisplay(text, type) {
-      const message = text;
-      const messageType = type;
-      this.$dlg.toast(message, {
-        messageType,
-        closeTime: 2,
-        position: "topCenter",
-        language: "en"
-      });
-    },
-    getProducts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.$http.get(api).then(response => {
-        vm.products = response.data.products;
-        vm.isLoading = false;
-      });
     }
+   
+  
   },
   created() {
-    // this.getCarts();
+    this.getCarts();
     // this.Top();
   },
   mounted() {
@@ -186,4 +254,53 @@ export default {
 .new-border-b {
   border-bottom: 1px solid #143c65;
 }
+.openstore {
+  border: 2px solid #d4d3d3;
+}
+
+.min-50 {
+  max-width: 50px;
+  max-height: 50px;
+}
+@media (max-width: 768px) {
+  .f-22 {
+    font-size: 22px;
+    align-items: center;
+  }
+  .title-point {
+    font-size: 28px;
+  }
+  .eatfruit-fontsize{
+    font-size: 20px;
+  }
+}
+.img-border {
+  border: 5px double rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.title-point {
+  top: 60%;
+  left: 10%;
+}
+.fz-20 {
+  font-size: 20px;
+  text-align: justify;
+}
+
+.eatfruit-fontsize{
+  font-size: 24px;
+  line-height: 2em;
+}
+.eatfruit{
+  padding-top: 15%;
+  padding-bottom: 15%;
+}
+@media (max-width: 768px) {
+  .eatfruit-fontsize{
+    font-size: 20px;
+  }
+}
+
 </style>
