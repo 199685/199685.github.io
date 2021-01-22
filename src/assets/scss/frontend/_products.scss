@@ -1,22 +1,22 @@
 .fruit {
-    color: $c4;
+    color: $dark;
     background: rgba(255, 255, 255, .4);
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
-
+    transition: background .2s;
     &:hover {
         text-decoration: none;
-        color: $c1;
-        background: $c2;
-        border-top: 1px solid $c1;
-        border-bottom: 1px solid $c1;
+        color: $light;
+        background: #c7c2c2;
     }
 }
 
 .fruit-item {
+    border: 1px solid rgb(199, 194, 194);
+    border-radius: 15px;
     .active {
-        background-color: $c2;
-        color: $c1;
+        background-color: #143c65;
+        color: #01ff3b;
         font-weight: bold;
     }
 }
@@ -30,11 +30,11 @@
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
 }
-
+//.........................................
 .sort {
     width: 100%;
     border-radius: 10px;
-    border: 1px solid $c2;
+    border: 1px solid rgb(199, 194, 194);
 
     &:focus {
         outline: none;

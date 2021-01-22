@@ -14,13 +14,17 @@
 .topProducts {
     overflow: hidden;
     transition: transform .3s ease-out;
+    border: 1px solid#c7c2c2;
+
     img {
         transition: transform .5s ease-out;
     }
-    &:hover{
+
+    &:hover {
         box-shadow: 0 0 5px 3px rgba(0, 0, 0, .3);
         transform: translateY(-5px);
     }
+
     &:hover img {
         transform: scale(1.2, 1.2);
     }
@@ -28,6 +32,7 @@
 
 .topProducts-link {
     color: black;
+
     &:hover {
         text-decoration: none;
     }
@@ -45,32 +50,39 @@
 .radius-1 {
     border-radius: 5px;
 }
-.touch-shopping-icon{
+
+.touch-shopping-icon {
     color: white;
     background-color: green;
     transition: all .3s;
+
     &:hover {
         background-color: #016301;
     }
 }
-.heart-icon{
+
+.heart-icon {
     transition: transform .3s;
-&:hover {
-    color: red;
-    transform: scale(1.1);
+
+    &:hover {
+        color: red;
+        transform: scale(1.1);
+    }
 }
-}
-.heartStyle{
+
+.heartStyle {
     color: red;
     font-weight: bold;
 }
-.new-btn-1{
+
+.new-btn-1 {
     border: 2px solid $c5;
     border-radius: 50px;
     position: relative;
     overflow: hidden;
     color: transparent;
     background-color: white;
+
     &:hover:before {
         background: $c1;
         animation: addHeight 0.3s forwards;
@@ -97,6 +109,7 @@
         color: transparent;
     }
 }
+
 .new-btn-more {
     &:after {
         content: "看更多水果";
@@ -109,7 +122,7 @@
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: center; 
+        align-items: center;
         border-radius: 50px;
         color: $c1;
         z-index: 3;

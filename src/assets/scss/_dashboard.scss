@@ -28,6 +28,7 @@ th {
 }
 
 @media (max-width: 768px) {
+
     .btn-group>.btn:not(:last-child):not(.dropdown-toggle),
     .btn-group>.btn:not(:first-child) {
         border-radius: 5px;
@@ -130,12 +131,14 @@ th {
     border-color: transparent;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
-.social-login{
-    p{
+
+.social-login {
+    p {
         color: $light;
         transition: all .3s;
         border-radius: 5px;
-        &:hover{
+
+        &:hover {
             color: green;
         }
     }

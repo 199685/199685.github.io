@@ -14,85 +14,106 @@
         </div>
       </div>
     </loading>
-    <div class="container mb-3">
-      <div class="row justify-content-center">
-        <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
-          <i class="far fa-thumbs-up"></i>精選水果
-        </h3>
-        <div
-          class="col-md-6 col-lg-4 col-xl-3 mb-3"
-          v-if="products"
-          v-for="product in randomProductsFilter">
-          <div class="topProducts pb-2" style="background: white;">
-            <a class="topProducts-link" href="#">
-              <div class="topProducts">
-                <img class="img-fluid" :src="product.imageUrl" alt="水果" />
-              </div>
 
-              <h4 class="topProducts-name h8 p-2 text-c1 fw-700 mb-0">{{ product.title }}</h4>
-            </a>
-            <div class="px-2">
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <small class="text-line-through d-block pt-1"
-                  >原價{{ product.origin_price || currency }}</small
-                >
-                <i
-                  class="far fa-heart d-inline-block h6 pointer mb-0 p-2 heart-icon"
-                  :class="{ heartStyle: product.favourite }"
-                  @click="addFavourite(product.id)"
-                ></i>
-              </div>
+    <slot name="title"></slot>
+    <div :class="TopProductsData.className" v-if="products" v-for="product in productsFilter">
+      <div class="topProducts pb-2" style="background: white;">
+        <a class="topProducts-link" href="#">
+          <div class="topProducts">
+            <img class="img-fluid" :src="product.imageUrl" v-if="productsFilter" alt="水果" />
+          </div>
 
-              <div class="d-flex justify-content-between align-items-center">
-                <strong class="h7 text-c4 mb-0">特價{{ product.price || currency }}</strong>
-                <p
-                  class="mb-0 p-1 radius-1 
+          <h4 class="topProducts-name h8 p-2 text-c1 fw-700 mb-0">{{ product.title }}</h4>
+        </a>
+        <div class="px-2">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <small class="text-line-through d-block pt-1"
+              >原價{{ product.origin_price || currency }}</small
+            >
+            <i
+              class="far fa-heart d-inline-block h6 pointer mb-0 p-2 heart-icon"
+              :class="{ heartStyle: product.favourite }"
+              @click="addFavourite(product.id)"
+            ></i>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <strong class="h7 text-c4 mb-0">特價{{ product.price || currency }}</strong>
+            <p
+              class="mb-0 p-1 radius-1 
               pointer touch-shopping-icon"
-                  @click="addCart(product)"
-                >
-                  <i class="fas fa-shopping-cart d-inline-block pr-1"></i>加入購物車
-                </p>
-              </div>
-            </div>
+              @click="addCart(product)"
+            >
+              <i class="fas fa-shopping-cart d-inline-block pr-1"></i>加入購物車
+            </p>
           </div>
         </div>
-       <slot></slot>
       </div>
     </div>
+
+    <ProductsPagination :PaginationData="pageData" v-on:pagination-event="changePage" v-if="TopProductsData.openPagination"></ProductsPagination>
   </div>
-   
 </template>
 
 <script>
+import ProductsPagination from "@/components/frontend/ProductsPagination.vue";
 export default {
   data() {
     return {
-      randomProducts: [],
       isLoading: false,
       products: [],
       cartProductID: [],
       cartID: [],
       quantityValue: 1,
-      favourite: []
+      favourite: [],
+      completefilter: [],
+      season: "",
+      page: {
+        nowPage: 1,
+        allPage: 1
+      }
     };
   },
-  props: ["cartsID"],
+  components: {
+    ProductsPagination 
+  },
+  props: ["TopProductsData"],
   computed: {
-    randomProductsFilter() {
-      let index = Math.floor(Math.random() * Math.floor(this.products.length));
-      if (this.products[index]) {
-        this.randomProducts.push(this.products[index]);
-        while (this.randomProducts.length < 8) {
-          let index = Math.floor(Math.random() * Math.floor(this.products.length));
-          let randomProductsName = this.randomProducts.map(item => item.id);
-          let sameProduct = randomProductsName.includes(this.products[index].id);
-          if (!sameProduct) {
-            this.randomProducts.push(this.products[index]);
-          }
+    productsFilter() {
+      let pushData = [];
+      this.TopProductsData.howFilter.forEach(item => {
+        switch (item) {
+          case "random":
+            pushData = this.randomproducts();
+            break;
+          case "all":
+          case "spring":
+          case "summer":
+          case "autumn":
+          case "winter":
+            this.seasonFilter(item);
+            this.season = item;
+            break;
+          case "default":
+          case "low":
+          case "hight":
+            this.sortFilter(item);
+            break;
+          case "page":
+            pushData = this.pageCount();
+            break;
+          default:
+            return "";
         }
-      }
-
-      return this.randomProducts;
+      });
+      return pushData;
+    },
+    pageData() {
+      let pagedata = {
+        nowPage: this.page.nowPage,
+        allPage: this.page.allPage
+      };
+      return pagedata;
     }
   },
   methods: {
@@ -145,10 +166,12 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       let newQty = parseInt(this.quantityValue, 10);
-      let sameproduct = vm.cartsID.findIndex(item => item.productID === addProudct.id);
+      let sameproduct = vm.TopProductsData.cartsID.findIndex(
+        item => item.productID === addProudct.id
+      );
       if (sameproduct >= 0) {
-        newQty += parseInt(vm.cartsID[sameproduct].qty, 10);
-        vm.removeProduct(vm.cartsID[sameproduct].id);
+        newQty += parseInt(vm.TopProductsData.cartsID[sameproduct].qty, 10);
+        vm.removeProduct(vm.TopProductsData.cartsID[sameproduct].id);
       }
       const Newproduct = {
         product_id: addProudct.id,
@@ -171,12 +194,77 @@ export default {
         vm.$emit("getcarts-event");
         vm.isLoading = false;
       });
+    },
+    randomproducts() {
+      if (this.products.length) {
+        while (this.completefilter.length < 8) {
+          let index = Math.floor(Math.random() * Math.floor(this.products.length));
+          let completefilterName = this.completefilter.map(item => item.id);
+          let sameProduct = completefilterName.includes(this.products[index].id);
+          if (!sameProduct) {
+            this.completefilter.push(this.products[index]);
+          }
+        }
+      }
+      return this.completefilter;
+    },
+    seasonFilter(season) {
+      const copyProductsData = JSON.parse(JSON.stringify(this.products));
+      if (season === "all") {
+        this.completefilter = copyProductsData;
+      } else {
+        this.completefilter = copyProductsData.filter(product => product.season.includes(season));
+      }
+      this.pageCount();
+    },
+    sortFilter(item) {
+      switch (item) {
+        case "hight":
+          this.completefilter.sort((a, b) => b.price - a.price);
+          break;
+        case "low":
+          this.completefilter.sort((a, b) => a.price - b.price);
+          break;
+        case "default":
+          this.seasonFilter(this.season);
+          break;
+        default:
+          return "";
+      }
+      this.pageCount();
+    },
+    changePage(uppage) {
+      this.page.nowPage = uppage;
+    },
+    pageCount() {
+      this.page.allPage = Math.ceil(this.completefilter.length / 6);
+      let productsIndex = this.page.nowPage * 6;
+      let i = productsIndex - 6;
+      if (productsIndex > this.completefilter.length) {
+        productsIndex = this.completefilter.length;
+      }
+      let completeProducts = [];
+      for (i; i < productsIndex; i++) {
+        completeProducts.push(this.completefilter[i]);
+      }
+      this.Top();
+      return completeProducts;
+    },
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0
+      });
     }
   },
   created() {
     this.getProducts();
   },
-  mounted() {}
+  watch: {
+    TopProductsData() {
+      this.page.nowPage = 1;
+    }
+  }
 };
 </script>
 

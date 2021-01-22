@@ -1,4 +1,4 @@
-.timeline-color-50{
+.timeline-color-50 {
     &:before {
         content: " ";
         width: 50%;
@@ -10,10 +10,9 @@
     }
 }
 
-    .form-control{
-        &:focus{
-            border-color: transparent;
-            box-shadow: 0 0 0 0.1rem $c2;
-        }
+.form-control {
+    &:focus {
+        border-color: transparent;
+        box-shadow: 0 0 0 0.1rem $c2;
     }
-   
+}

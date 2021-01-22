@@ -228,7 +228,7 @@ export default {
           break;
 
         case 'edit':
-          this.tempCoupon = Object.assign({}, item);
+          this.tempCoupon = Object.assign({...item });
           newDate = new Date(this.tempCoupon.due_date * 1000);
           year = newDate.getFullYear();
           month = newDate.getMonth() + 1;
@@ -245,7 +245,7 @@ export default {
           break;
 
         default:
-          this.tempCoupon = Object.assign({}, item);
+          this.tempCoupon = Object.assign({...item });
           this.isNew = 'delete';
           break;
       }

@@ -1,12 +1,13 @@
-.timeline{
+.timeline {
     height: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: $c5;
-    
+
 }
-.timepoint{
+
+.timepoint {
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -18,14 +19,17 @@
     border: 4px solid $c5;
     color: $c5;
 }
-.timepoint-color{
+
+.timepoint-color {
     border-color: $c1;
     color: $c1;
 }
-.line-name{
+
+.line-name {
     font-weight: bold;
 }
-.new-btn-order{
+
+.new-btn-order {
     &:after {
         content: "下一步";
         position: absolute;
@@ -46,6 +50,6 @@
     }
 }
 
-.bullhorn{
+.bullhorn {
     transform: rotateY(190deg);
 }

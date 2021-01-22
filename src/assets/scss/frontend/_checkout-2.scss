@@ -1,4 +1,4 @@
-.timeline-color-100{
+.timeline-color-100 {
     &:before {
         content: " ";
         width: 100%;
@@ -9,7 +9,8 @@
         background: $c1;
     }
 }
-.new-btn-order2{
+
+.new-btn-order2 {
     &:after {
         content: "確認付款";
         position: absolute;
@@ -29,10 +30,12 @@
         transition: all .3s;
     }
 }
-.table-border{
+
+.table-border {
     border: 1px solid $c1;
 }
-.new-btn-buy{
+
+.new-btn-buy {
     &:after {
         content: "繼續購買";
         position: absolute;
@@ -52,7 +55,8 @@
         transition: all .3s;
     }
 }
-.new-btn-index{
+
+.new-btn-index {
     &:after {
         content: "回首頁";
         position: absolute;

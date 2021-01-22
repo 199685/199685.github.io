@@ -32,10 +32,11 @@
         color: red;
         border-radius: 10px;
         transition: all .3s;
+
         &:hover {
             background: $c4;
             color: $light;
-           
+
         }
     }
 }
@@ -54,14 +55,16 @@
     }
 
 }
-.container-100{
+
+.container-100 {
     min-height: 100vh;
 }
-.container-25{
+
+.container-25 {
     min-height: 25vh;
 }
 
-.new-btn-checkout{
+.new-btn-checkout {
     &:after {
         content: "結帳去";
         position: absolute;

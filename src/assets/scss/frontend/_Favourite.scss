@@ -1,9 +1,9 @@
-.bg-Favourite{
+.bg-Favourite {
     box-shadow: 0px 0px 8px -1px $c1;
     background: rgba(225, 255, 128, .05);
 }
 
-.new-btn-favourite{
+.new-btn-favourite {
     &:after {
         content: "採購去~~";
         position: absolute;

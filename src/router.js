@@ -8,11 +8,11 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: 'Text',
+      redirect: 'Index',
     },
     {
       path: '/',
-      redirect: 'Text',
+      redirect: 'Index',
     },
     {
       path: '/admin',
@@ -125,14 +125,14 @@ export default new Router({
             title: '開心水果_訂單step3',
           },
         },
-        {
-          path: 'text',
-          name: 'Text',
-          component: () => import('./views/frontend/text.vue'),
-          meta: {
-            title: 'text',
-          },
-        },
+        // {
+        //   path: 'text',
+        //   name: 'Text',
+        //   component: () => import('./views/frontend/text.vue'),
+        //   meta: {
+        //     title: 'text',
+        //   },
+        // },
 
       ],
     },

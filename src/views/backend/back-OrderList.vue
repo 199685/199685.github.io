@@ -250,7 +250,7 @@ export default {
     },
     openModal(isNew, item) {
       if (isNew === 'edit') {
-        this.tempOrder = Object.assign({}, item);
+        this.tempOrder = Object.assign({...item });
         this.isNew = 'edit';
         const newDate = new Date(this.tempOrder.paid_date * 1000);
         const year = newDate.getFullYear();
