@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+
     <div class="container mt-md-4 mt-2 mb-3">
       <div class="row position-relative">
         <div class="col-lg-2">
@@ -123,10 +123,10 @@
 
     <div
       class="container-fluid bg-cover sky-size"
-      :style="{ backgroundImage: `url(${require('@/assets/images/sky-2.jpg')})` }">
+      :style="{ backgroundImage: `url(${require('@/assets/images/bg-3.jpg')})` }">
       <div class="row">
         <div class="col">
-          <div class="eatfruit text-center">
+          <div class="eatfruit text-center text-light">
           <h4 class="fw-700 mb-5">吃水果的好處</h4>
           <p class="eatfruit-fontsize">熱量低，膳食纖維含量高</br>
           富含維生素C，助於保護心血管</br>
@@ -139,26 +139,27 @@
     </div>
 
     <div class="container mb-3">
-        
-            <TopProducts :TopProductsData="TopProductsData" v-on:getcarts-event="getCarts" class="row">
+
+            <TopProducts :TopProductsData="TopProductsData"
+            v-on:getcarts-event="getCarts" class="row">
               <template v-slot:title>
                 <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
                   <i class="far fa-thumbs-up"></i>精選水果
                 </h3>
               </template>
             </TopProducts>
-      
-        
+
+
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-xl-6 text-center my-4">
              <router-link :to="{ name: 'Products' }">
                 <button class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
            </router-link>
           </div>
-          
+
         </div>
     </div>
-          <Carticon :carts="cartsNumber"></Carticon>
+    <Carticon :carts="cartsNumber"></Carticon>
 
     <div
       class="popup position-fixed justify-content-center align-items-center"
@@ -192,45 +193,45 @@
 </template>
 
 <script>
-import Carticon from "@/components/frontend/carticon.vue";
-import TopProducts from "@/components/frontend/topProducts.vue";
+import Carticon from '@/components/frontend/carticon.vue';
+import TopProducts from '@/components/frontend/topProducts.vue';
 
 
 export default {
   data() {
     return {
-      message: "HAPPYFRUIT3YEARS",
+      message: 'HAPPYFRUIT3YEARS',
       colsepopup: true,
       cartsNumber: 0,
       isLoading: false,
-      cartsID:[],
+      cartsID: [],
       img: {
         swiper: [
-          require("../../assets/images/輪播-2.jpg"),
-          require("../../assets/images/輪播-3.jpg"),
-          require("../../assets/images/輪播-4.jpg"),
-          require("../../assets/images/輪播-5.jpg"),
-          require("../../assets/images/輪播-6.jpg")
-        ]
+          require('../../assets/images/輪播-2.jpg'),
+          require('../../assets/images/輪播-3.jpg'),
+          require('../../assets/images/輪播-4.jpg'),
+          require('../../assets/images/輪播-5.jpg'),
+          require('../../assets/images/輪播-6.jpg'),
+        ],
       },
       swiperOption: {
         spaceBetween: 30,
         centeredSlides: true,
         loop: true,
-        effect: "fade",
+        effect: 'fade',
         autoplay: {
           delay: 4000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         },
         pagination: {
-          el: ".swiper-pagination",
+          el: '.swiper-pagination',
           clickable: true,
-          type: "fraction"
+          type: 'fraction',
         },
         navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
       },
     };
   },
@@ -241,32 +242,32 @@ export default {
   methods: {
     colsePopup() {
       this.colsepopup = true;
-      document.querySelector("body").classList.remove("hideScroll");
+      document.querySelector('body').classList.remove('hideScroll');
     },
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.cartsNumber = response.data.data.carts.length;
         vm.cartsID = response.data.data.carts.map(product => ({
           qty: product.qty,
           id: product.id,
-          productID: product.product_id
-         }))
+          productID: product.product_id,
+        }));
       });
     },
     Top() {
       window.scrollTo({
         top: 0,
-        left: 0
+        left: 0,
       });
-    }
-   
-  
+    },
+
+
   },
   computed: {
     TopProductsData() {
-      let mydata = {
+      const mydata = {
         cartsID: [this.cartsID],
         className: {
           'col-md-6': true,
@@ -275,11 +276,12 @@ export default {
           'mb-3': true,
         },
         howFilter: ['random'],
-        openPagination: false
-      }
-      return mydata
-    }
-   
+        openPagination: false,
+        randomCount: 8
+      };
+      return mydata;
+    },
+
   },
   created() {
     this.getCarts();
@@ -287,7 +289,7 @@ export default {
   },
   mounted() {
     // document.querySelector("body").classList.add("hideScroll");
-  }
+  },
 };
 </script>
 

@@ -118,7 +118,7 @@ export default {
   data() {
     return {
       changebar: false,
-      carts: []
+      carts: [],
     };
   },
   methods: {
@@ -127,27 +127,27 @@ export default {
       this.Top();
     },
     showNav() {
-      let Header = document.querySelector(".header");
-      if (window.pageYOffset > window.innerHeight / 4) {
-        Header.classList.add("header-fixed");
+      const Header = document.querySelector('.header');
+      if (window.pageYOffset > window.innerHeight / 3) {
+        Header.classList.add('header-fixed');
       } else {
-        Header.classList.remove("header-fixed");
+        Header.classList.remove('header-fixed');
       }
     },
     Top() {
       window.scrollTo({
         top: 0,
-        left: 0
+        left: 0,
       });
-    }
+    },
   },
   mounted() {
-    document.body.style.background = `url(${require("@/assets/images/背景-1.jpg")})`;
-    window.addEventListener("scroll", this.showNav);
+    document.body.style.background = `url(${require('@/assets/images/背景-1.jpg')})`;
+    window.addEventListener('scroll', this.showNav);
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.showNav);
-  }
+    window.removeEventListener('scroll', this.showNav);
+  },
 };
 </script>
 

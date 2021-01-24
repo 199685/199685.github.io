@@ -1,90 +1,33 @@
 <template>
-  <div>
-    <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-        </div>
-      </div>
-    </loading>
-
-    <div class="container-100  container my-4">
-      <div class="row bg-Favourite container-75">
-        <nav aria-label="breadcrumb" class="col-12">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <router-link :to="{ path: 'index' }">
-                首頁
+  <div class="container-70">
+    <div
+      class="container-fluid bg-cover sky-size"
+      :style="{ backgroundImage: `url(${require('@/assets/images/bg-1.jpg')})` }"
+    >
+      <div class="container mt-1">
+        <div class="row justify-content-center">
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': none }">
+            <p class="mb-5 font-1">目前最愛商品沒有任何商品</p>
+            <div class="text-center">
+              <router-link :to="{ path: 'products' }">
+                <button class="btn new-btn new-btn-favourite">逛逛商品</button>
               </router-link>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">最愛商品</li>
-          </ol>
-        </nav>
-        <div class="col text-center pb-5" :class="{ 'd-none': zerofavourite }">
-          <p class="h4 mb-5 text-c1">目前最愛商品沒有任何商品</p>
-          <div class="text-center">
-            <router-link :to="{ path: 'products' }">
-              <button class="btn new-btn new-btn-favourite">採購去~~</button>
-            </router-link>
-          </div>
-        </div>
-        <div
-          class="col-lg-4 col-md-6 mb-4 mb-0"
-          v-for="product in favouriteProducts"
-          :key="product.id"
-        >
-          <div class="position-relative product">
-            <img class="img-size pointer" :src="product.imageUrl" :alt="product.title" />
-            <div
-              class="position-absolute
-                        product-icon d-flex flex-column justify-content-center align-items-center"
-            >
-              <p
-                class="pointer w-100 text-center py-2 mb-3 icon-hover"
-                :class="{ heartStyle: product.favourite }"
-                @click="addFavourite(product.id)"
-              >
-                <span :class="{ 'd-none': product.favourite }">加入最愛</span>
-                <span :class="{ 'd-none': !product.favourite }">移除最愛</span>
-                <i class="far fa-heart"></i>
-              </p>
-              <p class="pointer w-100 text-center icon-hover" @click="addCart(product.id)">
-                加入購物車 <i class="fas fa-shopping-cart"></i>
-              </p>
             </div>
-            <router-link
-              class="product-item p-2 d-block"
-              :to="{ name: 'ProductDetail', params: { productId: product.id } }"
-            >
-              <p class="py-2 h7 product-name">{{ product.title }}</p>
-              <div class="cost d-flex justify-content-between align-items-center mb-2">
-                <p class="text-line-through h9 m-0">原價{{ product.origin_price | currency }}</p>
-                <div class="d-flex">
-                  <p class="text-success h9 badges-boder-success mr-1 mb-0">可超商取貨</p>
-                  <p class="text-danger h9 badges-boder-danger mb-0">不甜退費</p>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <p class="h5 text-c4">特價{{ product.price | currency }}</p>
-                <a href="#" class="h9 m-0"
-                  >查看更多
-                  <i class="far fa-hand-point-up"></i>
-                </a>
-              </div>
-            </router-link>
           </div>
-        </div>
-        <div class="col-12">
-          <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': !none }">
+            <p class="mb-5 font-2">最愛商品</p>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="container mt-3">
+      <TopProducts
+        :TopProductsData="TopProductsData"
+        v-on:getcarts-event="getchildEvent"
+        class="row"
+        ref="getData"
+      >
+      </TopProducts>
     </div>
 
     <Carticon :carts="cartsNumber"></Carticon>
@@ -93,145 +36,117 @@
 
 <script>
 import Carticon from "@/components/frontend/carticon.vue";
-import ProductSwiper from "@/components/frontend/ProductSwiper.vue";
+import TopProducts from "@/components/frontend/topProducts.vue";
 
 export default {
   data() {
     return {
       cartsNumber: 0,
-      products: [],
-      isLoading: false,
-      cartProductID: [], // 商品ID固定
-      cartID: [], // 下單商品ID不是唯一,內有qty
-      quantityValue: 1,
+      cartsID: [],
       favourite: [],
-      favouriteProducts: [],
-      zerofavourite: true
+      none: true
     };
   },
   components: {
     Carticon,
-    ProductSwiper
+    TopProducts
+  },
+  computed: {
+    TopProductsData() {
+      const mydata = {
+        cartsID: [this.cartsID],
+        className: {
+          "col-md-6": true,
+          "col-lg-4": true,
+          "col-xl-3": true,
+          "mb-3": true
+        },
+        howFilter: ["favourite"],
+        openPagination: false
+      };
+      return mydata;
+    }
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       this.$http.get(api).then(response => {
-        this.cartsNumber = response.data.data.carts.length;
-        vm.cartProductID.splice(0);
-        vm.cartID.splice(0);
-        response.data.data.carts.forEach(product => {
-          const data = {
-            id: product.id,
-            qty: product.qty
-          };
-          vm.cartID.push(data);
-          vm.cartProductID.push(product.product_id);
-        });
+        vm.cartsNumber = response.data.data.carts.length;
+        vm.cartsID = response.data.data.carts.map(product => ({
+          qty: product.qty,
+          id: product.id,
+          productID: product.product_id
+        }));
       });
     },
-    getProducts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.isLoading = true;
-      this.$http.get(api).then(response => {
-        this.products = response.data.products;
-        this.getFavourite();
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
       });
     },
-    getFavourite() {
-      const vm = this;
+    updateFavourite() {
       this.favourite = JSON.parse(localStorage.getItem("Favourite")) || [];
-      this.products.forEach(item => {
-        vm.$set(item, "favourite", false);
-        const favourite = vm.favourite.includes(item.id);
-        if (favourite) {
-          vm.$set(item, "favourite", true);
-        }
-        vm.isLoading = false;
-      });
-      if (this.favourite.length === 0) {
-        this.zerofavourite = false;
-      }
-      this.FavouriteProduct();
-    },
-    addCart(id) {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let newQty = parseInt(this.quantityValue, 10);
-      const sameID = this.cartProductID.indexOf(id);
-      vm.isLoading = true;
-      if (sameID >= 0) {
-        newQty += parseInt(vm.cartID[sameID].qty, 10);
-      }
-      const addproduct = {
-        product_id: id,
-        qty: newQty
-      };
-      this.$http.post(api, { data: addproduct }).then(() => {
-        if (sameID >= 0) {
-          vm.removeProduct(vm.cartID[sameID].id);
-        } else {
-          vm.getCarts();
-        }
-        vm.quantityValue = 1;
-        vm.alertDisplay("已加入購屋車", "info");
-        vm.isLoading = false;
-      });
-    },
-    removeProduct(id) {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      this.$http.delete(api).then(() => {
-        vm.getCarts();
-      });
-    },
-    addFavourite(id) {
-      const add = this.favourite.indexOf(id);
-      if (add > -1) {
-        this.favourite.splice(add, 1);
-        this.alertDisplay("已移除我的最愛", "warning");
+      if (this.favourite.length > 0) {
+        this.none = true;
       } else {
-        this.favourite.push(id);
-        this.alertDisplay("已加入我的最愛", "info");
+        this.none = false;
       }
-      localStorage.setItem("Favourite", JSON.stringify(this.favourite));
-
-      this.getFavourite();
     },
-    FavouriteProduct() {
-      this.favouriteProducts = this.products.filter(item => {
-        if (item.favourite === true) {
-          return item;
-        }
-        return null;
-      });
-    },
-    alertDisplay(text, type) {
-      const message = text;
-      const messageType = type;
-      this.$dlg.toast(message, {
-        messageType,
-        closeTime: 2,
-        position: "topCenter",
-        language: "en"
-      });
+    getchildEvent(useevent) {
+      switch (useevent) {
+        case "getCarts":
+          this.getCarts();
+          break;
+        case "updateFavourite":
+          this.updateFavourite();
+          break;
+        default:
+          return "";
+      }
     }
   },
   created() {
     this.getCarts();
-    this.getProducts();
+  },
+  mounted() {
+    this.Top();
+    this.updateFavourite();
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.icon-hover {
-  transition: font-size 0.3s;
-  &:hover {
-    color: yellow;
-    font-weight: bold;
-    font-size: 1.5em;
+.font-1 {
+  font-size: 40px;
+  color: white;
+}
+.font-2 {
+  font-size: 30px;
+  color: white;
+}
+.container-70 {
+  min-height: 70vh;
+}
+@media (max-width: 576px) {
+  .font-1 {
+    font-size: 18px;
+  }
+  .container-70 {
+    min-height: 100vh;
   }
 }
+
+.new-btn-favourite:after {
+  color: white;
+}
+.new-btn:hover:after {
+  color: white;
+}
+.new-btn {
+  border: 2px solid white;
+}
+
 </style>

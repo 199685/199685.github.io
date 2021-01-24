@@ -56,8 +56,8 @@
 
 }
 
-.container-100 {
-    min-height: 100vh;
+.container-60 {
+    min-height: 60vh;
 }
 
 .container-25 {
@@ -84,3 +84,31 @@
         transition: all .3s;
     }
 }
+
+
+.new-btn-favourite {
+    &:after {
+        content: "逛逛商品";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: 25px;
+        padding-right: 25px;
+        border-radius: 50px;
+        color: $c1;
+        z-index: 3;
+        transition: all .3s;
+        justify-content: center;
+    }
+}
+.boder-db {
+    border: 1px solid #dcd8d8;
+    background: rgba(255,255,255, .3);
+    box-shadow: 0 0 5px 5px rgba(197, 206, 192, .3);
+  }

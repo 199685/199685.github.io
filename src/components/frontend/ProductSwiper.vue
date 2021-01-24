@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      windowSize: "",
+      windowSize: '',
       changeSwiper: false,
       swiperOption: {
         spaceBetween: 30,
@@ -58,15 +58,15 @@ export default {
         freeMode: true,
         slidesPerGroup: 2,
         loop: true,
-        effect: "fade",
+        effect: 'fade',
         autoplay: {
           delay: 5000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         },
         pagination: {
-          el: ".swiper-pagination",
-          clickable: true
-        }
+          el: '.swiper-pagination',
+          clickable: true,
+        },
       },
       swiperOption1: {
         spaceBetween: 30,
@@ -74,15 +74,15 @@ export default {
         slidesPerView: 1,
         freeMode: true,
         loop: true,
-        effect: "fade",
+        effect: 'fade',
         autoplay: {
           delay: 4000,
-          disableOnInteraction: false
-        }
-      }
+          disableOnInteraction: false,
+        },
+      },
     };
   },
-  props: ["products"],
+  props: ['products'],
   methods: {
     Size() {
       const vm = this;
@@ -94,15 +94,15 @@ export default {
     },
     SwiperSize(e) {
       this.changeSwiper = e.matches;
-    }
+    },
   },
   created() {
     this.Size();
-    window.matchMedia("(max-width: 768px)").addEventListener("change", this.SwiperSize);
+    window.matchMedia('(max-width: 768px)').addEventListener('change', this.SwiperSize);
   },
   beforeDestroy() {
-    window.matchMedia("(max-width: 768px)").removeEventListener("change", this.SwiperSize);
-  }
+    window.matchMedia('(max-width: 768px)').removeEventListener('change', this.SwiperSize);
+  },
 };
 </script>
 

@@ -346,12 +346,12 @@ export default {
           break;
 
         case 'edit':
-          this.tempProduct = Object.assign({...item });
+          this.tempProduct = Object.assign({ ...item });
           this.isNew = 'edit';
           break;
 
         default:
-          this.tempProduct = Object.assign({...item });
+          this.tempProduct = Object.assign({ ...item });
           this.isNew = 'delete';
           break;
       }

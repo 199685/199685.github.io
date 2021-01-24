@@ -1,60 +1,34 @@
 <template>
-  <div class="my-4 container">
-    <div class="row bg-Favourite py-4 justify-content-center align-items-center">
+  <div class="container my-4">
+    <div class="row py-4 justify-content-center align-items-center">
       <div class="col-lg-10">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb pt-0">
-            <li class="breadcrumb-item pl-2">
-              <router-link :to="{ path: 'index' }">
-                Home
-              </router-link>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Products</li>
-          </ol>
-        </nav>
-        <div class="row">
-          <div class="col-lg-6 pointer mb-2 mt-4 my-lg-0">
-            <form class="form-signin p-lg-3 boder-db" @submit.prevent="signin">
-              <p class="text-center user-icon"><i class="fas fa-users"></i></p>
-              <h1 class="h3 mb-3 font-weight-normal text-center text-c1">登入</h1>
-              <label for="inputEmail" class="sr-only">Email address</label>
-              <input
-                type="email"
-                id="inputEmail"
-                class="form-control"
-                placeholder="Email address"
-                required
-                autofocus
-                v-model="user.username"
-              />
-              <label for="inputPassword" class="sr-only">Password</label>
-              <input
-                type="password"
-                id="inputPassword"
-                class="form-control"
-                placeholder="Password"
-                required
-                v-model="user.password"
-              />
-              <div class="checkbox mb-3 text-c1">
-                <label> <input type="checkbox" value="remember-me" /> 記住帳密 </label>
-              </div>
-              <button class="btn btn-lg btn-c1 btn-block" type="submit">登入</button>
-            </form>
+        <form class="form-signin p-lg-3 boder-db" @submit.prevent="signin">
+          <p class="text-center user-icon"><i class="fas fa-users"></i></p>
+          <h1 class="h3 mb-3 font-weight-normal text-center">登入</h1>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input
+            type="email"
+            id="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+            required
+            autofocus
+            v-model="user.username"
+          />
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input
+            type="password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            required
+            v-model="user.password"
+          />
+          <div class="checkbox mb-3 text-c1">
+            <label> <input type="checkbox" value="remember-me" /> 記住帳密 </label>
           </div>
-          <div class="col-lg-6 mb-2 mb-lg-0">
-            <form class="form-signin p-3 boder-db">
-              <h1 class="h3 mb-3 font-weight-normal text-center text-c1">快速登入</h1>
-              <div class="social-login text-center">
-                <p class="p-2 mb-1 bg-c2 h3 pointer">
-                  <i class="fab fa-facebook-square d-block"></i>Facebook
-                </p>
-                <p class="p-2 mb-1 h3 bg-c2 pointer"><i class="fab fa-google d-block"></i>Google</p>
-                <p class="p-2 h3 bg-c2 pointer"><i class="fab fa-yahoo d-block"></i>Yahoo</p>
-              </div>
-            </form>
-          </div>
-        </div>
+          <button class="btn btn-lg btn-outline-success btn-block" type="submit">登入</button>
+        </form>
       </div>
     </div>
     <Carticon :carts="cartsNumber"></Carticon>
@@ -165,9 +139,7 @@ body {
 .user-icon {
   font-size: 75px;
 }
-.boder-db {
-  border: 3px double green;
-}
+
 .form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
   border-color: green;

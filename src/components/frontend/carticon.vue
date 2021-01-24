@@ -21,34 +21,34 @@
 export default {
   data() {
     return {
-      changebar: false
+      changebar: false,
     };
   },
-  props: ["carts"],
+  props: ['carts'],
   methods: {
     Top() {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "smooth"
+        behavior: 'smooth',
       });
     },
     addhide() {
-      const icon = document.querySelector(".cart-icon");
-      const topicon = document.querySelector(".fa-arrow-circle-up");
+      const icon = document.querySelector('.cart-icon');
+      const topicon = document.querySelector('.fa-arrow-circle-up');
       if (window.pageYOffset > icon.offsetTop / 2) {
-        topicon.classList.remove("hide");
+        topicon.classList.remove('hide');
       } else {
-        topicon.classList.add("hide");
+        topicon.classList.add('hide');
       }
-    }
+    },
   },
   mounted() {
-    window.addEventListener("scroll", this.addhide);
+    window.addEventListener('scroll', this.addhide);
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.addhide);
-  }
+    window.removeEventListener('scroll', this.addhide);
+  },
 };
 </script>
 
@@ -126,7 +126,7 @@ export default {
   padding: 0 8px;
   right: -10px;
   top: -18px;
-  
+
 }
 .topiocn-size{
   font-size: 55px;
