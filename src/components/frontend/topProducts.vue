@@ -18,13 +18,14 @@
     <slot name="title"></slot>
     <div :class="TopProductsData.className" v-for="product in productsFilter" :key="product.id">
       <div class="topProducts pb-2" style="background: white;">
-        <a class="topProducts-link" href="#">
+        <router-link
+          class="topProducts-link"
+          :to="{ name: 'ProductDetail', params: { productId: product.id } }">
           <div class="topProducts">
             <img class="img-fluid" :src="product.imageUrl" v-if="productsFilter" alt="水果" />
           </div>
-
           <h4 class="topProducts-name h8 p-2 text-c1 fw-700 mb-0">{{ product.title }}</h4>
-        </a>
+        </router-link>
         <div class="px-2">
           <div class="d-flex align-items-center justify-content-between mb-1">
             <small class="text-line-through d-block pt-1"
@@ -158,7 +159,7 @@ export default {
         vm.isLoading = false;
       });
       vm.$emit('getcarts-event', 'updateFavourite');
-      return favouriteProducts 
+      return favouriteProducts
     },
     addFavourite(id) {
       const add = this.favourite.indexOf(id);

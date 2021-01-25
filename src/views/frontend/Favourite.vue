@@ -2,8 +2,7 @@
   <div class="container-70">
     <div
       class="container-fluid bg-cover sky-size"
-      :style="{ backgroundImage: `url(${require('@/assets/images/bg-1.jpg')})` }"
-    >
+      :style="{ backgroundImage: `url(${require('@/assets/images/bg-1.jpg')})` }">
       <div class="container mt-1">
         <div class="row justify-content-center">
           <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': none }">

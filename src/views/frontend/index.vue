@@ -141,7 +141,7 @@
     <div class="container mb-3">
 
             <TopProducts :TopProductsData="TopProductsData"
-            v-on:getcarts-event="getCarts" class="row">
+            v-on:getcarts-event="getchildEvent" class="row">
               <template v-slot:title>
                 <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
                   <i class="far fa-thumbs-up"></i>精選水果
@@ -262,7 +262,15 @@ export default {
         left: 0,
       });
     },
-
+    getchildEvent(useevent) {
+      switch (useevent) {
+        case "getCarts":
+          this.getCarts();
+          break;
+        default:
+          return "";
+      }
+    }
 
   },
   computed: {
@@ -281,6 +289,7 @@ export default {
       };
       return mydata;
     },
+  
 
   },
   created() {

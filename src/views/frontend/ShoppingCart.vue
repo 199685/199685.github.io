@@ -14,28 +14,29 @@
         </div>
       </div>
     </loading>
-
-    <div class="container-100 container my-4">
-      <div class="row bg-product justify-content-center container-75">
-        <nav aria-label="breadcrumb" class="col-12">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <router-link :to="{ path: 'index' }">
-                首頁
+    <div
+      class="container-fluid bg-cover sky-size"
+      :style="{ backgroundImage: `url(${require('@/assets/images/bg-2.jpg')})` }"
+    >
+      <div class="container mt-1">
+        <div class="row justify-content-center">
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': !zerocarts }">
+            <p class="mb-5 font-1">目前購物車沒有任何商品</p>
+            <div class="text-center">
+              <router-link :to="{ path: 'products' }">
+                <button class="btn new-btn new-btn-favourite">逛逛商品</button>
               </router-link>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">購物車</li>
-          </ol>
-        </nav>
-        <div class="col text-center pb-5" :class="{ 'd-none': !zerocarts }">
-          <p class="h4 mb-5 text-c1">目前購物車還沒有任何商品</p>
-          <div class="text-center">
-            <router-link :to="{ path: 'products' }">
-              <button class="btn new-btn new-btn-favourite">採購去~~</button>
-            </router-link>
+            </div>
+          </div>
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': zerocarts }">
+            <p class="mb-5 font-2">購物車</p>
           </div>
         </div>
-        <div class="col-md-10 mb-5 container-25" :class="{ 'd-none': zerocarts }">
+      </div>
+    </div>
+    <div class="container-30 container my-4">
+      <div class="row justify-content-center container-75">
+        <div class="col-11 mb-5 container-25" :class="{ 'd-none': zerocarts }">
           <div class="accordion" id="accordionExample"></div>
           <div class="card pb-1">
             <div class="card-header d-sm-flex justify-content-between py-1" id="headingOne">
@@ -51,8 +52,8 @@
                   顯示購物車細節<i class="fas fa-angle-down ml-1 text-c1"></i>
                 </button>
               </h2>
-              <h2 class="mb-0 pl-3 pl-sm-0 d-flex align-items-center">
-                <p class="d-inline-block h7 mb-0 pr-3">應付金額</p>
+              <h2 class="mb-0 pl-3 pl-sm-0 d-flex align-items-center titlefont">
+                <p class="d-inline-block mb-0 pr-3">應付金額</p>
                 {{ total[0] || 0 | currency }}
               </h2>
             </div>
@@ -79,8 +80,11 @@
                       ></i>
                     </td>
                     <td class="table-img">
-                      <img class="img-fluid" :src="product.product.imageUrl"
-                      :alt="product.product.title" />
+                      <img
+                        class="img-fluid"
+                        :src="product.product.imageUrl"
+                        :alt="product.product.title"
+                      />
                     </td>
 
                     <td>{{ product.product.title }}</td>
@@ -140,19 +144,13 @@
             <button class="btn new-btn new-btn-checkout" @click="nextpage()">結帳去</button>
           </div>
         </div>
-        <div class="col-12">
-          <ProductSwiper class="mb-3" :products="products"></ProductSwiper>
-        </div>
       </div>
     </div>
-
-    <Carticon :carts="cartsNumber"></Carticon>
   </div>
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
-import ProductSwiper from '@/components/frontend/ProductSwiper.vue';
+
 
 export default {
   data() {
@@ -163,22 +161,20 @@ export default {
       total: [],
       changeProductsID: [],
       zerocarts: true,
-      products: [],
+      products: []
     };
-  },
-  components: {
-    Carticon,
-    ProductSwiper,
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      this.$http.get(api).then(response => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
           vm.zerocarts = false;
+        }else{
+          vm.zerocarts = true;
         }
         vm.carts = response.data.data;
         vm.total = [response.data.data.total];
@@ -188,7 +184,7 @@ export default {
     quantity(name, product) {
       const changeproduct = product;
       changeproduct.qty = parseInt(changeproduct.qty, 10);
-      if (name === 'plus') {
+      if (name === "plus") {
         changeproduct.qty += 1;
         this.total[0] += parseInt(changeproduct.product.price, 10);
       } else if (changeproduct.qty > 1) {
@@ -203,9 +199,10 @@ export default {
       if (changeproduct.qty <= 0 || !changeproduct.qty) {
         changeproduct.qty = 1;
       }
-      const NewTotal = this.total[0]
-        - parseInt(changeproduct.total, 10)
-        + parseInt(changeproduct.product.price, 10) * changeproduct.qty;
+      const NewTotal =
+        this.total[0] -
+        parseInt(changeproduct.total, 10) +
+        parseInt(changeproduct.product.price, 10) * changeproduct.qty;
       vm.$set(vm.total, 0, NewTotal);
       changeproduct.total = parseInt(changeproduct.product.price, 10) * changeproduct.qty;
     },
@@ -217,7 +214,7 @@ export default {
         vm.total[0] -= product.qty * product.product.price;
         this.removeChangeProducts(product.product_id, index);
         vm.isLoading = false;
-        vm.alertDisplay(`${product.product.title}已移除購物車`, 'error');
+        vm.alertDisplay(`${product.product.title}已移除購物車`, "error");
       });
       vm.cartsNumber -= 1;
       if (vm.cartsNumber === 0) {
@@ -231,7 +228,7 @@ export default {
         const data = {
           id: product.id,
           qty: product.qty,
-          product_id: product.product_id,
+          product_id: product.product_id
         };
         this.changeProductsID.push(data);
       } else {
@@ -247,17 +244,17 @@ export default {
     nextpage() {
       const vm = this;
       vm.isLoading = true;
-      this.changeProductsID.forEach((item) => {
+      this.changeProductsID.forEach(item => {
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
         const apitwo = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${item.id}`;
         const addproduct = {
           product_id: item.product_id,
-          qty: item.qty,
+          qty: item.qty
         };
         this.$http.post(api, { data: addproduct }).then(() => {});
         this.$http.delete(apitwo).then(() => {});
       });
-      vm.$router.push('/checkout1');
+      vm.$router.push("/checkout1");
     },
     alertDisplay(text, type) {
       const message = text;
@@ -265,23 +262,74 @@ export default {
       this.$dlg.toast(message, {
         messageType,
         closeTime: 2,
-        position: 'topCenter',
-        language: 'en',
+        position: "topCenter",
+        language: "en"
       });
     },
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.$http.get(api).then((response) => {
+      this.$http.get(api).then(response => {
         this.products = response.data.products;
         vm.isLoading = false;
       });
-    },
+    }
   },
   created() {
     this.getCarts();
-  },
+  }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.font-1 {
+  font-size: 40px;
+  color: black;
+}
+.font-2 {
+  font-size: 40px;
+  color: black;
+}
+.container-70 {
+  min-height: 70vh;
+}
+@media (max-width: 576px) {
+  .font-1 {
+    font-size: 18px;
+  }
+  .container-70 {
+    min-height: 100vh;
+  }
+}
+
+.new-btn-favourite:after {
+  color: white;
+}
+.new-btn:hover:after {
+  color: white;
+}
+.new-btn {
+  border: 2px solid black;
+}
+.count {
+  height: 45px;
+  width: 45px;
+}
+.count:hover {
+  background: #ccd0d4;
+}
+.qtyInput__1dbgq {
+  height: 45px;
+}
+.titlefont {
+  font-size: 40px;
+}
+@media (max-width: 768px) {
+  .titlefont {
+    font-size: 24px;
+  }
+}
+.container-30{
+  min-height: 30vh; 
+}
+</style>

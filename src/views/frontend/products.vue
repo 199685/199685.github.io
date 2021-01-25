@@ -19,7 +19,7 @@
 
           <TopProducts
             :TopProductsData="TopProductsData"
-            v-on:getcarts-event="getCarts"
+            v-on:getcarts-event="getchildEvent"
             class="row"
           >
           </TopProducts>
@@ -32,50 +32,50 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
-import ProductsNavbar from '@/components/frontend/Products_Navbar.vue';
-import TopProducts from '@/components/frontend/topProducts.vue';
+import Carticon from "@/components/frontend/carticon.vue";
+import ProductsNavbar from "@/components/frontend/Products_Navbar.vue";
+import TopProducts from "@/components/frontend/topProducts.vue";
 
 export default {
   data() {
     return {
       cartsNumber: 0,
       cartsID: [],
-      select: 'all',
-      sort: 'default',
+      select: "all",
+      sort: "default"
     };
   },
   components: {
     Carticon,
     ProductsNavbar,
-    TopProducts,
+    TopProducts
   },
   computed: {
     TopProductsData() {
       const mydata = {
         cartsID: [this.cartsID],
         className: {
-          'col-md-6': true,
-          'col-lg-6': true,
-          'col-xl-4': true,
-          'mb-3': true,
+          "col-md-6": true,
+          "col-lg-6": true,
+          "col-xl-4": true,
+          "mb-3": true
         },
-        howFilter: [this.select, this.sort, 'page'],
-        openPagination: true,
+        howFilter: [this.select, this.sort, "page"],
+        openPagination: true
       };
       return mydata;
-    },
+    }
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
+      this.$http.get(api).then(response => {
         vm.cartsNumber = response.data.data.carts.length;
         vm.cartsID = response.data.data.carts.map(product => ({
           qty: product.qty,
           id: product.id,
-          productID: product.product_id,
+          productID: product.product_id
         }));
       });
     },
@@ -87,16 +87,25 @@ export default {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'smooth',
+        behavior: "smooth"
       });
     },
+    getchildEvent(useevent) {
+      switch (useevent) {
+        case "getCarts":
+          this.getCarts();
+          break;
+        default:
+          return "";
+      }
+    }
   },
   created() {
     this.getCarts();
   },
   mounted() {
     this.Top();
-  },
+  }
 };
 </script>
 
