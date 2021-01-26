@@ -128,7 +128,7 @@ export default {
     },
     showNav() {
       const Header = document.querySelector('.header');
-      if (window.pageYOffset > window.innerHeight*0.5) {
+      if (window.pageYOffset > window.innerHeight * 0.5) {
         Header.classList.add('header-fixed');
       } else {
         Header.classList.remove('header-fixed');

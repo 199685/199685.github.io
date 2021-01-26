@@ -236,7 +236,7 @@ export default {
         point: [
           require('../../assets/images/無農藥.jpg'),
           require('../../assets/images/採收-1.png'),
-          require('../../assets/images/cold-2.jpg')
+          require('../../assets/images/cold-2.jpg'),
         ],
         swiper: [
           require('../../assets/images/輪播-2.jpg'),
@@ -352,7 +352,7 @@ export default {
     this.Top();
   },
   mounted() {
-    document.querySelector("body").classList.add("hideScroll");
+    document.querySelector('body').classList.add('hideScroll');
     window.addEventListener('scroll', this.showimg, true);
   },
   beforeDestroy() {
