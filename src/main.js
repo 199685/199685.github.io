@@ -13,6 +13,8 @@ import numeral from 'numeral';
 import $ from 'jquery';
 import VueClipboard from 'vue-clipboard2';
 import vDialogs from 'v-dialogs';
+import animated from 'animate.css' 
+
 
 
 
@@ -39,7 +41,8 @@ Vue.filter('percent', percentFilter);
 Vue.filter('date', dateFilter);
 Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
-Vue.use(vDialogs)
+Vue.use(vDialogs);
+Vue.use(animated);
 Vue.config.productionTip = false;
 
 

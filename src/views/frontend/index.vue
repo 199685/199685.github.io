@@ -72,7 +72,7 @@
           保持水果好吃的秘訣
         </h3>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 img-show animate__animated">
             <img class="img-fluid img-border" src="../../assets/images/無農藥.jpg" alt="無農藥" />
           </div>
           <div class="col-md-6">
@@ -89,7 +89,7 @@
           </div>
         </div>
         <div class="row mt-2 mt-md-5">
-          <div class="col-md-6 order-md-1">
+          <div class="col-md-6 order-md-1 img-show animate__animated">
             <img class="img-fluid img-border" src="../../assets/images/採收-1.png" alt="採收" />
           </div>
           <div class="col-md-6">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="row mt-2 mt-md-5">
-          <div class="col-md-6">
+          <div class="col-md-6 img-show animate__animated">
             <img class="img-fluid img-border" src="../../assets/images/cold-2.jpg" alt="低溫" />
           </div>
           <div class="col-md-6">
@@ -122,7 +122,7 @@
     </div>
 
     <div
-      class="container-fluid bg-cover sky-size"
+      class="container-fluid bg-cover sky-size bg-fixed"
       :style="{ backgroundImage: `url(${require('@/assets/images/bg-3.jpg')})` }">
       <div class="row">
         <div class="col">
@@ -264,13 +264,26 @@ export default {
     },
     getchildEvent(useevent) {
       switch (useevent) {
-        case "getCarts":
+        case 'getCarts':
           this.getCarts();
           break;
         default:
-          return "";
+          return '';
       }
-    }
+      return '';
+    },
+    showimg() {
+      const imgtag = document.querySelectorAll('.img-show');
+      imgtag.forEach((item) => {
+        const showimg = window.pageYOffset + window.innerHeight
+        - (item.offsetHeight * 0.1) > item.offsetTop;
+        if (showimg) {
+          item.classList.add('animate__slideInUp');
+        } else {
+          item.classList.remove('animate__slideInUp');
+        }
+      });
+    },
 
   },
   computed: {
@@ -285,11 +298,11 @@ export default {
         },
         howFilter: ['random'],
         openPagination: false,
-        randomCount: 8
+        randomCount: 8,
       };
       return mydata;
     },
-  
+
 
   },
   created() {
@@ -298,6 +311,7 @@ export default {
   },
   mounted() {
     // document.querySelector("body").classList.add("hideScroll");
+    window.addEventListener('scroll', this.showimg, true);
   },
 };
 </script>

@@ -1,8 +1,22 @@
 <template>
   <div class="col-12 d-flex justify-content-center">
+    <loading :active.sync="isLoading">
+      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
+        <div class="ldio-2zmxuno6hnw">
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+        </div>
+      </div>
+    </loading>
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item">
+        <li class="page-item" :class="{disabled: PaginationData.nowPage === 1}">
           <a class="page-link" href="#" @click.prevent="changePage('reduce')">上一頁</a>
         </li>
 
@@ -15,7 +29,8 @@
           <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
         </li>
 
-        <li class="page-item">
+        <li class="page-item"
+        :class="{disabled: PaginationData.nowPage === PaginationData.allPage}">
           <a class="page-link" href="#" @click.prevent="changePage('add')">下一頁</a>
         </li>
       </ul>
@@ -39,11 +54,14 @@ export default {
   props: ['PaginationData'],
   methods: {
     changePage(page) {
+      const nextPage = this.PaginationData.nowPage;
       switch (page) {
         case 'add': {
           const maxPage = this.PaginationData.nowPage < this.PaginationData.allPage;
           if (maxPage) {
             this.PaginationData.nowPage += 1;
+            this.isLoading = true;
+            this.Top();
           }
           break;
         }
@@ -51,14 +69,29 @@ export default {
           const minPage = this.PaginationData.nowPage > 1;
           if (minPage) {
             this.PaginationData.nowPage -= 1;
+            this.isLoading = true;
+            this.Top();
           }
           break;
         }
         default:
           this.PaginationData.nowPage = parseInt(page, 10);
+          if (nextPage !== this.PaginationData.nowPage) {
+            this.isLoading = true;
+            this.Top();
+          }
           break;
       }
       this.$emit('pagination-event', this.PaginationData.nowPage);
+    },
+    Top() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+      });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
     },
   },
   mounted() {},
@@ -75,5 +108,7 @@ export default {
     border-color: #a6c6e8;
   }
 }
-
+.page-link:focus{
+  box-shadow: 0 0 0 0 transparent;
+}
 </style>

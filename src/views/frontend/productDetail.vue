@@ -289,6 +289,7 @@ export default {
           vm.$set(vm.product, "favourite", true);
         }
       });
+      this.isLoading = false;
     },
     addCart(id) {
       const vm = this;
@@ -310,7 +311,7 @@ export default {
           vm.getCarts();
         }
         vm.quantityValue = 1;
-        vm.alertDisplay("已加入購物車", "info");
+        vm.alertDisplay(`${this.product.title}已加入購物車`, "info");
       });
     },
     addFavourite() {
@@ -381,9 +382,19 @@ export default {
         case "getCarts":
           this.getCarts();
           break;
+        case "changeProductID":
+          this.changeProductID();
+          break;
         default:
           return "";
       }
+    },
+    changeProductID() {
+      this.productID = this.$route.params.productId;
+      this.quantityValue =1,
+      this.getProduct()
+      this.Top();
+     
     }
   },
   computed: {

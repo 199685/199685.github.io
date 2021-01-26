@@ -19,7 +19,7 @@
     <div :class="TopProductsData.className" v-for="product in productsFilter" :key="product.id">
       <div class="topProducts pb-2" style="background: white;">
         <router-link
-          class="topProducts-link"
+          class="topProducts-link" @click.native="changeproductsID()"
           :to="{ name: 'ProductDetail', params: { productId: product.id } }">
           <div class="topProducts">
             <img class="img-fluid" :src="product.imageUrl" v-if="productsFilter" alt="水果" />
@@ -147,19 +147,19 @@ export default {
     },
     getFavourite() {
       const vm = this;
-      let favouriteProducts = []
+      const favouriteProducts = [];
       this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
       this.products.forEach((item) => {
         vm.$set(item, 'favourite', false);
         const favourite = vm.favourite.includes(item.id);
         if (favourite) {
           vm.$set(item, 'favourite', true);
-          favouriteProducts.push(item)
+          favouriteProducts.push(item);
         }
         vm.isLoading = false;
       });
       vm.$emit('getcarts-event', 'updateFavourite');
-      return favouriteProducts
+      return favouriteProducts;
     },
     addFavourite(id) {
       const add = this.favourite.indexOf(id);
@@ -265,7 +265,6 @@ export default {
       for (i; i < productsIndex; i += 1) {
         completeProducts.push(this.completefilter[i]);
       }
-      this.Top();
       return completeProducts;
     },
     Top() {
@@ -273,6 +272,9 @@ export default {
         top: 0,
         left: 0,
       });
+    },
+    changeproductsID() {
+      this.$emit('getcarts-event', 'changeProductID');
     },
   },
   created() {

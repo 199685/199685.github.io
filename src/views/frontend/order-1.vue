@@ -165,13 +165,13 @@ export default {
       cartsProductID: [],
       carts: [],
       total: [],
-      CouponCode: ""
+      CouponCode: '',
     };
   },
   computed: {
     CouponMoney() {
       return this.carts.total - this.carts.final_total;
-    }
+    },
   },
   methods: {
     getCarts() {
@@ -179,7 +179,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then(response => {
+        this.$http.get(api).then((response) => {
           vm.cartsNumber = response.data.data.carts.length;
           vm.carts = response.data.data;
           vm.total = [response.data.data.total];
@@ -192,14 +192,14 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
       const postcoupon = {
-        code: this.CouponCode
+        code: this.CouponCode,
       };
-      this.$http.post(api, { data: postcoupon }).then(response => {
+      this.$http.post(api, { data: postcoupon }).then((response) => {
         vm.getCarts();
         if (response.data.success) {
-          vm.alertDisplay("優惠券使用成功", "success");
+          vm.alertDisplay('優惠券使用成功', 'success');
         } else {
-          vm.alertDisplay("優惠券已過期或輸入錯誤", "error");
+          vm.alertDisplay('優惠券已過期或輸入錯誤', 'error');
         }
       });
     },
@@ -207,7 +207,7 @@ export default {
       const vm = this;
       vm.isLoading = true;
       setTimeout(() => {
-        vm.$router.push("/checkout2");
+        vm.$router.push('/checkout2');
       }, 500);
     },
     alertDisplay(text, type) {
@@ -216,14 +216,14 @@ export default {
       this.$dlg.toast(message, {
         messageType,
         closeTime: 3,
-        position: "topCenter",
-        language: "en"
+        position: 'topCenter',
+        language: 'en',
       });
-    }
+    },
   },
   created() {
     this.getCarts();
-  }
+  },
 };
 </script>
 

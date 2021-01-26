@@ -142,7 +142,7 @@ export default {
     },
   },
   mounted() {
-    document.body.style.background = `url(${require('@/assets/images/背景-1.jpg')})`;
+    document.body.style.background = `url(${require('@/assets/images/背景-1.jpg')}) fixed`;
     window.addEventListener('scroll', this.showNav);
   },
   beforeDestroy() {

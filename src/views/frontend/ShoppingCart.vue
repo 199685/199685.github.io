@@ -161,7 +161,7 @@ export default {
       total: [],
       changeProductsID: [],
       zerocarts: true,
-      products: []
+      products: [],
     };
   },
   methods: {
@@ -169,11 +169,11 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
           vm.zerocarts = false;
-        }else{
+        } else {
           vm.zerocarts = true;
         }
         vm.carts = response.data.data;
@@ -184,7 +184,7 @@ export default {
     quantity(name, product) {
       const changeproduct = product;
       changeproduct.qty = parseInt(changeproduct.qty, 10);
-      if (name === "plus") {
+      if (name === 'plus') {
         changeproduct.qty += 1;
         this.total[0] += parseInt(changeproduct.product.price, 10);
       } else if (changeproduct.qty > 1) {
@@ -199,10 +199,9 @@ export default {
       if (changeproduct.qty <= 0 || !changeproduct.qty) {
         changeproduct.qty = 1;
       }
-      const NewTotal =
-        this.total[0] -
-        parseInt(changeproduct.total, 10) +
-        parseInt(changeproduct.product.price, 10) * changeproduct.qty;
+      const NewTotal = this.total[0]
+        - parseInt(changeproduct.total, 10)
+        + parseInt(changeproduct.product.price, 10) * changeproduct.qty;
       vm.$set(vm.total, 0, NewTotal);
       changeproduct.total = parseInt(changeproduct.product.price, 10) * changeproduct.qty;
     },
@@ -214,7 +213,7 @@ export default {
         vm.total[0] -= product.qty * product.product.price;
         this.removeChangeProducts(product.product_id, index);
         vm.isLoading = false;
-        vm.alertDisplay(`${product.product.title}已移除購物車`, "error");
+        vm.alertDisplay(`${product.product.title}已移除購物車`, 'warning');
       });
       vm.cartsNumber -= 1;
       if (vm.cartsNumber === 0) {
@@ -228,7 +227,7 @@ export default {
         const data = {
           id: product.id,
           qty: product.qty,
-          product_id: product.product_id
+          product_id: product.product_id,
         };
         this.changeProductsID.push(data);
       } else {
@@ -244,17 +243,17 @@ export default {
     nextpage() {
       const vm = this;
       vm.isLoading = true;
-      this.changeProductsID.forEach(item => {
+      this.changeProductsID.forEach((item) => {
         const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
         const apitwo = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${item.id}`;
         const addproduct = {
           product_id: item.product_id,
-          qty: item.qty
+          qty: item.qty,
         };
         this.$http.post(api, { data: addproduct }).then(() => {});
         this.$http.delete(apitwo).then(() => {});
       });
-      vm.$router.push("/checkout1");
+      vm.$router.push('/checkout1');
     },
     alertDisplay(text, type) {
       const message = text;
@@ -262,22 +261,22 @@ export default {
       this.$dlg.toast(message, {
         messageType,
         closeTime: 2,
-        position: "topCenter",
-        language: "en"
+        position: 'topCenter',
+        language: 'en',
       });
     },
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         this.products = response.data.products;
         vm.isLoading = false;
       });
-    }
+    },
   },
   created() {
     this.getCarts();
-  }
+  },
 };
 </script>
 
@@ -330,6 +329,6 @@ export default {
   }
 }
 .container-30{
-  min-height: 30vh; 
+  min-height: 30vh;
 }
 </style>
