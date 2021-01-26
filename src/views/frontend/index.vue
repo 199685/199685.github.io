@@ -73,7 +73,7 @@
         </h3>
         <div class="row">
           <div class="col-md-6 img-show animate__animated">
-            <img class="img-fluid img-border" src="../../assets/images/無農藥.jpg" alt="無農藥" />
+            <img class="img-fluid img-border" :src="img.point[0]" alt="無農藥" />
           </div>
           <div class="col-md-6">
             <div class="position-relative">
@@ -90,7 +90,7 @@
         </div>
         <div class="row mt-2 mt-md-5">
           <div class="col-md-6 order-md-1 img-show animate__animated">
-            <img class="img-fluid img-border" src="../../assets/images/採收-1.png" alt="採收" />
+            <img class="img-fluid img-border" :src="img.point[1]" alt="採收" />
           </div>
           <div class="col-md-6">
             <div class="position-relative">
@@ -105,7 +105,7 @@
         </div>
         <div class="row mt-2 mt-md-5">
           <div class="col-md-6 img-show animate__animated">
-            <img class="img-fluid img-border" src="../../assets/images/cold-2.jpg" alt="低溫" />
+            <img class="img-fluid img-border" :src="img.point[2]" alt="低溫" />
           </div>
           <div class="col-md-6">
             <div class="position-relative">
@@ -233,6 +233,11 @@ export default {
       isLoading: false,
       cartsID: [],
       img: {
+        point: [
+          require('../../assets/images/無農藥.jpg'),
+          require('../../assets/images/採收-1.png'),
+          require('../../assets/images/cold-2.jpg')
+        ],
         swiper: [
           require('../../assets/images/輪播-2.jpg'),
           require('../../assets/images/輪播-3.jpg'),

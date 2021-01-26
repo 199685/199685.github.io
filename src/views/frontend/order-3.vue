@@ -46,9 +46,9 @@
               </div>
             </div>
             <div class="line-name d-flex justify-content-between">
-              <p class="text-c1 w-1">確認購買</p>
-              <p class="text-c1 w-1">填寫資料</p>
-              <p class="text-c1 w-1">完成訂單</p>
+              <p class="text-c1 w-1 pt-1">確認購買</p>
+              <p class="text-c1 w-1 pt-1">填寫資料</p>
+              <p class="text-c1 w-1 pt-1">完成訂單</p>
             </div>
 
             <div class="row">
