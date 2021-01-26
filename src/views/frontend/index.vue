@@ -189,6 +189,33 @@
         </div>
       </div>
     </div>
+     <div
+      class="popup position-fixed justify-content-center align-items-center"
+      :class="{ 'd-none': colsepopup }" >
+      <div class="popup-content p-4 position-relative">
+        <h3 class="popup-title">
+          <i class="fas fa-seedling pr-1 mb-2"></i>週年慶全館85折<i
+            class="fas fa-seedling pl-1 d-none d-md-inline-block "
+          ></i>
+        </h3>
+        <p>適用通路：網路</p>
+        <p>適用商品：架上商品</p>
+        <p class="text-center popup-code p-2">{{ message }}</p>
+        <p>活動日期：2020/04/20 - 2020/5/19</p>
+        <div class="text-center">
+          <button
+            class="btn new-btn new-btn-code"
+            v-clipboard:copy="message"
+            @click="alertDisplay('複製成功', 'info')"
+          >
+            複製優惠序號
+          </button>
+        </div>
+        <div class="position-absolute close-circle pointer" @click="colsePopup()">
+          <i class="far fa-times-circle h5"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -201,7 +228,7 @@ export default {
   data() {
     return {
       message: 'HAPPYFRUIT3YEARS',
-      colsepopup: true,
+      colsepopup: false,
       cartsNumber: 0,
       isLoading: false,
       cartsID: [],
@@ -284,6 +311,16 @@ export default {
         }
       });
     },
+    alertDisplay(text, type) {
+      const message = text;
+      const messageType = type;
+      this.$dlg.toast(message, {
+        messageType,
+        closeTime: 2,
+        position: 'topCenter',
+        language: 'en',
+      });
+    },
 
   },
   computed: {
@@ -310,8 +347,11 @@ export default {
     this.Top();
   },
   mounted() {
-    // document.querySelector("body").classList.add("hideScroll");
+    document.querySelector("body").classList.add("hideScroll");
     window.addEventListener('scroll', this.showimg, true);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.showimg);
   },
 };
 </script>

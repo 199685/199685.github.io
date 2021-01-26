@@ -14,6 +14,6 @@ git add -A
 git commit -m 'deploy'
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:199685/199685.github.io.git master:gh-pages
+git push -f git@github.com:199685/Vue_HappyFruit_page.git master:gh-pages
 
 cd -

@@ -274,6 +274,7 @@ export default {
 }
 .w-1 {
   width: 75px;
+  text-align: center;
 }
 .font-1{
   font-size: 24px;

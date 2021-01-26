@@ -257,6 +257,7 @@ export default {
 }
 .w-1 {
   width: 75px;
+  text-align: center;
 }
 
 .container-70 {
