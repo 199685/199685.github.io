@@ -9,7 +9,7 @@
             <p class="mb-5 font-1">目前最愛商品沒有任何商品</p>
             <div class="text-center">
               <router-link :to="{ path: 'products' }">
-                <button class="btn new-btn new-btn-favourite">逛逛商品</button>
+                <button type="button" class="btn new-btn new-btn-favourite">逛逛商品</button>
               </router-link>
             </div>
           </div>
@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
-import TopProducts from '@/components/frontend/topProducts.vue';
+import Carticon from '@/components/frontend/Carticon.vue';
+import TopProducts from '@/components/frontend/TopProducts.vue';
 
 export default {
   data() {

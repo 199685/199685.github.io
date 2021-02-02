@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>
@@ -65,7 +65,8 @@
                   <td width="120" class="h7">數量</td>
                   <td>
                     <div class="d-flex">
-                      <button class="count" @click="quantity('minus')">
+                      <button type="button"
+                       class="count" @click="quantity('minus')">
                         <i class="fas fa-minus"></i>
                       </button>
                       <input
@@ -75,9 +76,10 @@
                         max="200"
                         name="quantity"
                         v-model="quantityValue"
-                        @change="inputQuanproduct(product)"
+                        @change="inputQuanproduct()"
                       />
-                      <button class="count" @click="quantity('plus')">
+                      <button type="button"
+                       class="count" @click="quantity('plus')">
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
@@ -120,7 +122,8 @@
               </table>
 
               <div class="text-right pr-3">
-                <button class="btn new-btn new-btn-cart" @click="addCart(product.id)">
+                <button type="button"
+                 class="btn new-btn new-btn-cart" @click="addCart(product.id)">
                   加入購物車
                 </button>
               </div>
@@ -223,9 +226,8 @@
 </template>
 
 <script>
-/* eslint-disable */
-import Carticon from "@/components/frontend/carticon.vue";
-import TopProducts from "@/components/frontend/topProducts.vue";
+import Carticon from '@/components/frontend/Carticon.vue';
+import TopProducts from '@/components/frontend/TopProducts.vue';
 
 export default {
   data() {
@@ -238,27 +240,27 @@ export default {
       favourite: [],
       openImg: false,
       product: [],
-      productID: "",
-      nav: "A",
-      cartsID:[]
+      productID: '',
+      nav: 'A',
+      cartsID: [],
     };
   },
   components: {
     Carticon,
-    TopProducts
+    TopProducts,
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         vm.cartProductID.splice(0);
         vm.cartID.splice(0);
-        response.data.data.carts.forEach(product => {
+        response.data.data.carts.forEach((product) => {
           const data = {
             id: product.id,
-            qty: product.qty
+            qty: product.qty,
           };
           vm.cartID.push(data);
           vm.cartProductID.push(product.product_id);
@@ -275,18 +277,18 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${this.productID}`;
       vm.isLoading = true;
-      this.$http.get(api).then(response => {
+      this.$http.get(api).then((response) => {
         vm.product = response.data.product;
         vm.getFavourite();
       });
     },
     getFavourite() {
       const vm = this;
-      this.favourite = JSON.parse(localStorage.getItem("Favourite")) || [];
-      vm.$set(vm.product, "favourite", false);
-      this.favourite.forEach(item => {
+      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
+      vm.$set(vm.product, 'favourite', false);
+      this.favourite.forEach((item) => {
         if (item === vm.product.id) {
-          vm.$set(vm.product, "favourite", true);
+          vm.$set(vm.product, 'favourite', true);
         }
       });
       this.isLoading = false;
@@ -302,124 +304,125 @@ export default {
       }
       const addproduct = {
         product_id: id,
-        qty: newQty
+        qty: newQty,
       };
-      this.$http.post(api, { data: addproduct }).then(response => {
+      this.$http.post(api, { data: addproduct }).then(() => {
         if (sameID >= 0) {
           vm.removeProduct(vm.cartID[sameID].id);
         } else {
           vm.getCarts();
         }
         vm.quantityValue = 1;
-        vm.alertDisplay(`${this.product.title}已加入購物車`, "info");
+        vm.alertDisplay(`${this.product.title}已加入購物車`, 'info');
       });
     },
     addFavourite() {
       const add = this.favourite.indexOf(this.product.id);
       if (add > -1) {
         this.favourite.splice(add, 1);
-        this.alertDisplay("已移除我的最愛", "warning");
+        this.alertDisplay('已移除我的最愛', 'warning');
       } else {
         this.favourite.push(this.product.id);
-        this.alertDisplay("已加入我的最愛", "info");
+        this.alertDisplay('已加入我的最愛', 'info');
       }
-      localStorage.setItem("Favourite", JSON.stringify(this.favourite));
+      localStorage.setItem('Favourite', JSON.stringify(this.favourite));
       this.getFavourite();
     },
     removeProduct(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      this.$http.delete(api).then(response => {
+      this.$http.delete(api).then(() => {
         vm.getCarts();
       });
     },
     quantity(name) {
       this.quantityValue = parseInt(this.quantityValue, 10);
-      if (name === "plus") {
+      if (name === 'plus') {
         this.quantityValue += 1;
       } else if (this.quantityValue > 1) {
         this.quantityValue -= 1;
       }
     },
-    inputQuanproduct(product) {
+    inputQuanproduct() {
       if (this.quantityValue <= 0 || !this.quantityValue) {
         this.quantityValue = 1;
       }
     },
     zoomImg() {
       this.openImg = !this.openImg;
-      document.querySelector("body").classList.toggle("hideScroll");
+      document.querySelector('body').classList.toggle('hideScroll');
     },
     Top() {
       window.scrollTo({
         top: 0,
-        left: 0
+        left: 0,
       });
     },
     alertDisplay(text, type) {
-      let message = text;
-      let messageType = type;
+      const message = text;
+      const messageType = type;
       this.$dlg.toast(message, {
-        messageType: messageType,
+        messageType,
         closeTime: 2,
-        position: "topCenter",
-        language: "en"
+        position: 'topCenter',
+        language: 'en',
       });
     },
     navClick(name) {
       switch (name) {
-        case "A":
-          this.nav = "A";
+        case 'A':
+          this.nav = 'A';
           break;
-        case "B":
-          this.nav = "B";
+        case 'B':
+          this.nav = 'B';
+          break;
         default:
-          return "";
+          return '';
       }
+      return '';
     },
     getchildEvent(useevent) {
       switch (useevent) {
-        case "getCarts":
+        case 'getCarts':
           this.getCarts();
           break;
-        case "changeProductID":
+        case 'changeProductID':
           this.changeProductID();
           break;
         default:
-          return "";
+          return '';
       }
+      return '';
     },
     changeProductID() {
       this.productID = this.$route.params.productId;
-      this.quantityValue =1,
-      this.getProduct()
+      this.quantityValue = 1;
+      this.getProduct();
       this.Top();
-     
-    }
+    },
   },
   computed: {
     TopProductsData() {
       const mydata = {
         cartsID: [this.cartsID],
         className: {
-          "col-md-6": true,
-          "col-lg-4": true,
-          // "col-xl-3": true,
-          "mb-3": true
+          'col-md-6': true,
+          'col-lg-4': true,
+          'mb-3': true,
         },
-        howFilter: ["random"],
+        howFilter: ['random'],
         openPagination: false,
-        randomCount: 3
+        randomCount: 3,
       };
       return mydata;
-    }
+    },
   },
   created() {
     this.Top();
     this.getCarts();
     this.productID = this.$route.params.productId;
     this.getProduct();
-  }
+  },
 };
 
 $(() => {

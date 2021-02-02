@@ -153,7 +153,8 @@
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-xl-6 text-center my-4">
              <router-link :to="{ name: 'Products' }">
-                <button class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
+                <button type="button"
+                class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
            </router-link>
           </div>
 
@@ -176,7 +177,7 @@
         <p class="text-center popup-code p-2">{{ message }}</p>
         <p>活動日期：2020/04/20 - 2020/5/19</p>
         <div class="text-center">
-          <button
+          <button type="button"
             class="btn new-btn new-btn-code"
             v-clipboard:copy="message"
             @click="alertDisplay('複製成功', 'info')"
@@ -203,7 +204,7 @@
         <p class="text-center popup-code p-2">{{ message }}</p>
         <p>活動日期：2020/04/20 - 2020/5/19</p>
         <div class="text-center">
-          <button
+          <button type="button"
             class="btn new-btn new-btn-code"
             v-clipboard:copy="message"
             @click="alertDisplay('複製成功', 'info')"
@@ -220,8 +221,8 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
-import TopProducts from '@/components/frontend/topProducts.vue';
+import Carticon from '@/components/frontend/Carticon.vue';
+import TopProducts from '@/components/frontend/TopProducts.vue';
 
 
 export default {

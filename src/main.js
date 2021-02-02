@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -13,9 +12,7 @@ import numeral from 'numeral';
 import $ from 'jquery';
 import VueClipboard from 'vue-clipboard2';
 import vDialogs from 'v-dialogs';
-import animated from 'animate.css' 
-
-
+import animated from 'animate.css';
 
 
 import './plugs/Swiper';
@@ -69,4 +66,3 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-

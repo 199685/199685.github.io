@@ -1,8 +1,8 @@
 <template>
   <div class="col-12 d-flex justify-content-center">
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>

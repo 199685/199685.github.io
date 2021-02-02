@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
+import Carticon from '@/components/frontend/Carticon.vue';
 import ProductsNavbar from '@/components/frontend/Products_Navbar.vue';
-import TopProducts from '@/components/frontend/topProducts.vue';
+import TopProducts from '@/components/frontend/TopProducts.vue';
 
 export default {
   data() {

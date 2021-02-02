@@ -1,9 +1,8 @@
 <template>
-  <!-- eslint-disable -->
   <div>
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>
@@ -15,7 +14,6 @@
         </div>
       </div>
     </loading>
-
     <div class="container-100 container my-4">
       <div class="row justify-content-center">
         <div class="col-11 boder-db">
@@ -170,9 +168,6 @@
 </template>
 
 <script>
-/* eslint-disable */
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-import Carticon from "@/components/frontend/carticon.vue";
 
 export default {
   data() {
@@ -181,18 +176,15 @@ export default {
       cartsNumber: 0,
       orderData: {
         user: {
-          name: "",
-          email: "",
-          tel: "",
-          address: "",
-          paymethod: ""
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
+          paymethod: '',
         },
-        message: ""
-      }
+        message: '',
+      },
     };
-  },
-  components: {
-    Carticon
   },
   methods: {
     getCarts() {
@@ -200,7 +192,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then(response => {
+        this.$http.get(api).then((response) => {
           this.cartsNumber = response.data.data.carts.length;
           vm.isLoading = false;
         });
@@ -211,42 +203,41 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       vm.isLoading = true;
 
-      this.$http.post(api, { data: vm.orderData }).then(response => {
+      this.$http.post(api, { data: vm.orderData }).then((response) => {
         vm.$router.push({ path: `/checkout3/${response.data.orderId}` });
 
         vm.isLoading = false;
       });
-    }
+    },
   },
   created() {
     this.getCarts();
   },
   mounted() {
-    (function() {
+    (function () {
       window.addEventListener(
-        "load",
+        'load',
         () => {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          const forms = document.getElementsByClassName("needs-validation");
-          // Loop over them and prevent submission
-          const validation = Array.prototype.filter.call(forms, form => {
+          const forms = document.getElementsByClassName('needs-validation');
+          const validation = Array.prototype.filter.call(forms, (form) => {
             form.addEventListener(
-              "submit",
-              event => {
+              'submit',
+              (event) => {
                 if (form.checkValidity() === false) {
                   event.preventDefault();
                   event.stopPropagation();
                 }
-                form.classList.add("was-validated");
+                form.classList.add('was-validated');
               },
-              false
+              false,
             );
           });
+          return validation;
         },
-        false
+        false,
       );
-    })();
-  }
+    }());
+  },
 };
 </script>
 

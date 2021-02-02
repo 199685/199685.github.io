@@ -7,22 +7,13 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '*',
-      redirect: 'Index',
-    },
-    {
-      path: '/',
-      redirect: 'Index',
-    },
-    {
       path: '/admin',
-      name: 'Dashboard',
       component: () => import('./components/backend/Dashboard.vue'),
       children: [
         {
-          path: 'adminproducts',
+          path: '',
           name: 'adminProducts',
-          component: () => import('./views/backend/back-Products.vue'),
+          component: () => import('./views/backend/Back-Products.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_產品列表',
@@ -31,7 +22,7 @@ export default new Router({
         {
           path: 'order_list',
           name: 'OrderList',
-          component: () => import('./views/backend/back-OrderList.vue'),
+          component: () => import('./views/backend/Back-OrderList.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_訂單列表',
@@ -40,7 +31,7 @@ export default new Router({
         {
           path: 'coupons',
           name: 'Coupons',
-          component: () => import('./views/backend/back-Coupons.vue'),
+          component: () => import('./views/backend/Back-Coupons.vue'),
           meta: {
             requiresAuth: true,
             title: '開心水果_優惠券',
@@ -50,13 +41,12 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Layout',
-      component: () => import('./components/frontend/layout.vue'),
+      component: () => import('./components/frontend/Layout.vue'),
       children: [
         {
-          path: 'index',
+          path: '',
           name: 'Index',
-          component: () => import('./views/frontend/index.vue'),
+          component: () => import('./views/frontend/Index.vue'),
           meta: {
             title: '開心水果_首頁',
           },
@@ -64,7 +54,7 @@ export default new Router({
         {
           path: 'product/:productId',
           name: 'ProductDetail',
-          component: () => import('./views/frontend/productDetail.vue'),
+          component: () => import('./views/frontend/ProductDetail.vue'),
           meta: {
             title: '開心水果_產品',
           },
@@ -88,7 +78,7 @@ export default new Router({
         {
           path: 'products',
           name: 'Products',
-          component: () => import('./views/frontend/products.vue'),
+          component: () => import('./views/frontend/Products.vue'),
           meta: {
             title: '開心水果_商店',
           },
@@ -96,7 +86,7 @@ export default new Router({
         {
           path: 'login_index',
           name: 'LoginIndex',
-          component: () => import('./views/backend/back-Login.vue'),
+          component: () => import('./views/backend/Back-Login.vue'),
           meta: {
             title: '開心水果_會員登入',
           },
@@ -104,7 +94,7 @@ export default new Router({
         {
           path: 'checkout1',
           name: 'Checkout1',
-          component: () => import('./views/frontend/order-1.vue'),
+          component: () => import('./views/frontend/Order-1.vue'),
           meta: {
             title: '開心水果_訂單step1',
           },
@@ -112,7 +102,7 @@ export default new Router({
         {
           path: 'checkout2',
           name: 'Checkout2',
-          component: () => import('./views/frontend/order-2.vue'),
+          component: () => import('./views/frontend/Order-2.vue'),
           meta: {
             title: '開心水果_訂單step2',
           },
@@ -120,21 +110,21 @@ export default new Router({
         {
           path: 'checkout3/:orderId',
           name: 'Checkout3',
-          component: () => import('./views/frontend/order-3.vue'),
+          component: () => import('./views/frontend/Order-3.vue'),
           meta: {
             title: '開心水果_訂單step3',
           },
         },
-        // {
-        //   path: 'text',
-        //   name: 'Text',
-        //   component: () => import('./views/frontend/text.vue'),
-        //   meta: {
-        //     title: 'text',
-        //   },
-        // },
 
       ],
+    },
+    {
+      path: '*',
+      redirect: '/',
+    },
+    {
+      path: '/admin*',
+      redirect: '/admin',
     },
 
 

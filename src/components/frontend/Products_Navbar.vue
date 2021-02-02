@@ -61,7 +61,6 @@ export default {
   methods: {
     touchKind(name) {
       const touchName = name;
-      // this.select = touchName;
       this.$emit('touchKind', touchName);
     },
   },

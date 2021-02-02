@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>
@@ -61,15 +61,11 @@
                 placeholder="優惠券代碼"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                v-model="CouponCode"
+                v-model="couponCode"
               />
               <div class="input-group-append">
-                <button
-                  class="btn btn-outline-c1"
-                  type="button"
-                  id="button-addon2"
-                  @click="Couponinput()"
-                >
+                <button type="button" class="btn btn-outline-c1"
+                id="button-addon2" @click="Couponinput()">
                   確認輸入
                 </button>
               </div>
@@ -86,8 +82,8 @@
               <div class="card-header d-sm-flex justify-content-between py-1" id="headingOne">
                 <h2 class="mb-0">
                   <button
-                    class="btn btn-link btn-block text-left"
                     type="button"
+                    class="btn btn-link btn-block text-left"
                     data-toggle="collapse"
                     data-target="#collapseOne"
                     aria-expanded="true"
@@ -147,7 +143,8 @@
             </div>
 
             <div class="text-right my-2">
-              <button class="btn new-btn new-btn-order" @click="nextpage()">下一步</button>
+              <button type="button"
+              class="btn new-btn new-btn-order" @click="nextpage()">下一步</button>
             </div>
           </div>
         </div>
@@ -165,7 +162,7 @@ export default {
       cartsProductID: [],
       carts: [],
       total: [],
-      CouponCode: '',
+      couponCode: '',
     };
   },
   computed: {
@@ -192,7 +189,7 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
       const postcoupon = {
-        code: this.CouponCode,
+        code: this.couponCode,
       };
       this.$http.post(api, { data: postcoupon }).then((response) => {
         vm.getCarts();

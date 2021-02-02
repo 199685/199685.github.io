@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
+import Carticon from '@/components/frontend/Carticon.vue';
 
 export default {
   data() {
@@ -58,7 +58,7 @@ export default {
           const { expired } = response.data;
 
           document.cookie = `hexCookie=${token}; expires=${new Date(expired)};`;
-          vm.$router.push('/admin/adminproducts');
+          vm.$router.push('/admin');
         } else {
           vm.alertDisplay('帳號或密碼輸入錯誤', 'warning');
         }

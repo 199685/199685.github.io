@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>
@@ -69,7 +69,7 @@
                     </h2>
                     <h2 class="mb-0 pl-3 pl-sm-0 d-flex font-1 align-items-center">
                       <p class="d-inline-block mb-0 pr-3">應付金額</p>
-                      {{ Order.total || 0 | currency }}
+                      {{ order.total || 0 | currency }}
                     </h2>
                   </div>
 
@@ -110,7 +110,7 @@
                         </tr>
                         <tr>
                           <td colspan="3" class="text-right">合計</td>
-                          <th class="text-right">{{ Order.total || 0 | currency }}</th>
+                          <th class="text-right">{{ order.total || 0 | currency }}</th>
                         </tr>
                       </table>
                     </div>
@@ -122,28 +122,28 @@
                   <table class="table">
                     <tr>
                       <th>姓名</th>
-                      <td>{{ Order.user.name }}</td>
+                      <td>{{ order.user.name }}</td>
                     </tr>
                     <tr>
                       <th>電話</th>
-                      <td>{{ Order.user.tel }}</td>
+                      <td>{{ order.user.tel }}</td>
                     </tr>
                     <tr>
                       <th>Email</th>
-                      <td>{{ Order.user.email }}</td>
+                      <td>{{ order.user.email }}</td>
                     </tr>
                     <tr>
                       <th>地址</th>
-                      <td>{{ Order.user.address }}</td>
+                      <td>{{ order.user.address }}</td>
                     </tr>
                     <tr>
                       <th>付款方式</th>
-                      <td>{{ Order.user.paymethod }}</td>
+                      <td>{{ order.user.paymethod }}</td>
                     </tr>
                     <tr>
                       <th>付款狀態</th>
-                      <th class="text-c1" v-show="Order.is_paid">完成付款</th>
-                      <td class="text-danger" v-show="!Order.is_paid">尚未付款</td>
+                      <th class="text-c1" v-show="order.is_paid">完成付款</th>
+                      <td class="text-danger" v-show="!order.is_paid">尚未付款</td>
                     </tr>
                   </table>
                 </div>
@@ -154,20 +154,20 @@
               <button
                 class="btn new-btn new-btn-order2"
                 type="button"
-                v-show="!Order.is_paid"
+                v-show="!order.is_paid"
                 @click="pay()"
               >
                 確認付款
               </button>
 
               <router-link :to="{ name: 'Index' }">
-                <button class="btn new-btn new-btn-index mr-2" type="button" v-show="Order.is_paid">
+                <button class="btn new-btn new-btn-index mr-2" type="button" v-show="order.is_paid">
                   回首頁
                 </button>
               </router-link>
 
               <router-link :to="{ name: 'Products' }">
-                <button class="btn new-btn new-btn-buy" type="button" v-show="Order.is_paid">
+                <button class="btn new-btn new-btn-buy" type="button" v-show="order.is_paid">
                   繼續購買
                 </button>
               </router-link>
@@ -176,21 +176,19 @@
         </div>
       </div>
     </div>
-
-    <Carticon :carts="cartsNumber"></Carticon>
   </div>
 </template>
 
 <script>
-import Carticon from '@/components/frontend/carticon.vue';
+
 
 export default {
   data() {
     return {
       isLoading: false,
       cartsNumber: 0,
-      OrderId: '',
-      Order: {
+      orderId: '',
+      order: {
         user: {
           name: '',
         },
@@ -198,12 +196,9 @@ export default {
       products: [],
     };
   },
-  components: {
-    Carticon,
-  },
   computed: {
     couponsmoney() {
-      const { total } = this.Order;
+      const { total } = this.order;
       let oraingeTotal = 0;
       this.products.forEach((item) => {
         oraingeTotal += item.total;
@@ -212,16 +207,16 @@ export default {
     },
   },
   methods: {
-    getOrder() {
+    getorder() {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.OrderId}`;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.orderId}`;
       vm.isLoading = true;
       this.$http.get(api).then((response) => {
-        vm.Order = response.data.order;
+        vm.order = response.data.order;
         vm.isLoading = false;
-        const productsID = Object.keys(vm.Order.products);
+        const productsID = Object.keys(vm.order.products);
         productsID.forEach((item) => {
-          vm.products.push(vm.Order.products[item]);
+          vm.products.push(vm.order.products[item]);
         });
       });
     },
@@ -230,7 +225,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.OrderId}`;
       vm.isLoading = true;
       this.$http.post(api).then(() => {
-        vm.Order.is_paid = true;
+        vm.order.is_paid = true;
         vm.isLoading = false;
         vm.alertDisplay('付款成功', 'success');
       });
@@ -247,8 +242,8 @@ export default {
     },
   },
   created() {
-    this.OrderId = this.$route.params.orderId;
-    this.getOrder();
+    this.orderId = this.$route.params.orderId;
+    this.getorder();
   },
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading">
-      <div class="loadingio-spinner-spin-5xz8vi7q1c2">
-        <div class="ldio-2zmxuno6hnw">
+      <div class="loading-blue">
+        <div class="ldio-loading">
           <div><div></div></div>
           <div><div></div></div>
           <div><div></div></div>
@@ -20,15 +20,16 @@
     >
       <div class="container mt-1">
         <div class="row justify-content-center">
-          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': !zerocarts }">
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': !zeroCarts }">
             <p class="mb-5 font-1">目前購物車沒有任何商品</p>
             <div class="text-center">
               <router-link :to="{ path: 'products' }">
-                <button class="btn new-btn new-btn-favourite">逛逛商品</button>
+                <button type="button"
+                 class="btn new-btn new-btn-favourite">逛逛商品</button>
               </router-link>
             </div>
           </div>
-          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': zerocarts }">
+          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': zeroCarts }">
             <p class="mb-5 font-2">購物車</p>
           </div>
         </div>
@@ -36,7 +37,7 @@
     </div>
     <div class="container-30 container my-4">
       <div class="row justify-content-center container-75">
-        <div class="col-11 mb-5 container-25" :class="{ 'd-none': zerocarts }">
+        <div class="col-11 mb-5 container-25" :class="{ 'd-none': zeroCarts }">
           <div class="accordion" id="accordionExample"></div>
           <div class="card pb-1">
             <div class="card-header d-sm-flex justify-content-between py-1" id="headingOne">
@@ -91,6 +92,7 @@
                     <td>
                       <div class="d-flex">
                         <button
+                          type="button"
                           class="count"
                           @click="
                             quantity('minus', product);
@@ -113,6 +115,7 @@
                         />
                         <button
                           class="count"
+                          type="button"
                           @click="
                             quantity('plus', product);
                             addChangeProducts(product);
@@ -141,7 +144,8 @@
           </div>
 
           <div class="text-right mt-2">
-            <button class="btn new-btn new-btn-checkout" @click="nextpage()">結帳去</button>
+            <button  type="button"
+            class="btn new-btn new-btn-checkout" @click="nextpage()">結帳去</button>
           </div>
         </div>
       </div>
@@ -160,7 +164,7 @@ export default {
       carts: [],
       total: [],
       changeProductsID: [],
-      zerocarts: true,
+      zeroCarts: true,
       products: [],
     };
   },
@@ -172,9 +176,9 @@ export default {
       this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
-          vm.zerocarts = false;
+          vm.zeroCarts = false;
         } else {
-          vm.zerocarts = true;
+          vm.zeroCarts = true;
         }
         vm.carts = response.data.data;
         vm.total = [response.data.data.total];
@@ -217,7 +221,7 @@ export default {
       });
       vm.cartsNumber -= 1;
       if (vm.cartsNumber === 0) {
-        vm.zerocarts = true;
+        vm.zeroCarts = true;
       }
     },
     addChangeProducts(product) {

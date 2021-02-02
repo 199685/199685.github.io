@@ -13,7 +13,6 @@
 
 <script>
 export default {
-  // name: 'Navbar',
   data() {
     return {
       messages: [],
@@ -51,7 +50,6 @@ export default {
     vm.$bus.$on('messsage:push', (message, status = 'warning') => {
       vm.updateMessage(message, status);
     });
-    // vm.$bus.$emit('messsage:push');
   },
 };
 </script>

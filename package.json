@@ -42,7 +42,8 @@
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "node": true,
+      "jquery": true
     },
     "extends": [
       "plugin:vue/essential",
@@ -51,6 +52,7 @@
     "rules": {
       "linebreak-style": 0,
       "global-require": 0,
+      "func-names": 0,
       "eslint linebreak-style": [
         0,
         "error",
