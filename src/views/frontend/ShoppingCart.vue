@@ -173,7 +173,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
           vm.zeroCarts = false;
@@ -210,10 +210,10 @@ export default {
       changeproduct.total = parseInt(changeproduct.product.price, 10) * changeproduct.qty;
     },
     removeProduct(product, index) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${product.id}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${product.id}`;
       vm.isLoading = true;
-      this.$http.delete(api).then(() => {
+      vm.$http.delete(api).then(() => {
         vm.total[0] -= product.qty * product.product.price;
         this.removeChangeProducts(product.product_id, index);
         vm.isLoading = false;
@@ -254,8 +254,8 @@ export default {
           product_id: item.product_id,
           qty: item.qty,
         };
-        this.$http.post(api, { data: addproduct }).then(() => {});
-        this.$http.delete(apitwo).then(() => {});
+        vm.$http.post(api, { data: addproduct }).then(() => {});
+        vm.$http.delete(apitwo).then(() => {});
       });
       vm.$router.push('/checkout1');
     },
@@ -272,7 +272,7 @@ export default {
     getProducts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         this.products = response.data.products;
         vm.isLoading = false;
       });

@@ -253,7 +253,7 @@ export default {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         vm.cartProductID.splice(0);
         vm.cartID.splice(0);
@@ -277,7 +277,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${this.productID}`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.product = response.data.product;
         vm.getFavourite();
       });
@@ -306,7 +306,7 @@ export default {
         product_id: id,
         qty: newQty,
       };
-      this.$http.post(api, { data: addproduct }).then(() => {
+      vm.$http.post(api, { data: addproduct }).then(() => {
         if (sameID >= 0) {
           vm.removeProduct(vm.cartID[sameID].id);
         } else {
@@ -331,7 +331,7 @@ export default {
     removeProduct(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      this.$http.delete(api).then(() => {
+      vm.$http.delete(api).then(() => {
         vm.getCarts();
       });
     },

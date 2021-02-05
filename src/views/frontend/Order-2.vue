@@ -192,8 +192,8 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then((response) => {
-          this.cartsNumber = response.data.data.carts.length;
+        vm.$http.get(api).then((response) => {
+          vm.cartsNumber = response.data.data.carts.length;
           vm.isLoading = false;
         });
       }, 1500);
@@ -203,7 +203,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       vm.isLoading = true;
 
-      this.$http.post(api, { data: vm.orderData }).then((response) => {
+      vm.$http.post(api, { data: vm.orderData }).then((response) => {
         vm.$router.push({ path: `/checkout3/${response.data.orderId}` });
 
         vm.isLoading = false;

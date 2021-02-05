@@ -1,154 +1,154 @@
 .breadcrumb {
-    background-color: transparent;
+  background-color: transparent;
 
-    a {
-        color: $c1;
+  a {
+    color: $c1;
 
-        &:hover {
-            text-decoration: none;
-        }
+    &:hover {
+      text-decoration: none;
     }
+  }
 }
 
 .bg-product {
-    background: rgba(255, 255, 255, .6);
-    box-shadow: 0px 0px 8px -1px $c1;
+  background: rgba(255, 255, 255, .6);
+  box-shadow: 0px 0px 8px -1px $c1;
 }
 
 .img-size-1 {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .big-size {
-    max-height: 656px;
-    padding: 0.5em;
+  max-height: 656px;
+  padding: 0.5em;
 }
 
 .product-table {
-    tr {
-        display: block;
-        margin-bottom: 30px;
-    }
+  tr {
+    display: block;
+    margin-bottom: 30px;
+  }
 }
 
 .count {
-    background: none;
-    width: 2em;
-    height: 2em;
-    padding: 0;
-    border: 2px solid $c5;
-    border-radius: 0;
+  background: none;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  border: 2px solid $c5;
+  border-radius: 0;
 
-    &:focus {
-        outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 
-    &:hover {
-        background: $c2;
-    }
+  &:hover {
+    background: $c2;
+  }
 }
 
 input[type="number"] {
-    background: #fff;
-    border: 2px solid $c5;
-    border-left-width: 0;
-    border-right-width: 0;
-    border-radius: 0;
-    text-align: center;
+  background: #fff;
+  border: 2px solid $c5;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-radius: 0;
+  text-align: center;
 
-    &:focus {
-        outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 
 }
 
 .count {
-    color: $c5;
+  color: $c5;
 }
 
 .tooltip-inner {
-    max-width: 200px;
-    padding: 3px 8px;
-    color: #fff;
-    text-align: center;
-    background-color: $info;
-    border-radius: .25rem;
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: $info;
+  border-radius: .25rem;
 }
 
 .tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before,
 .tooltip.bs-tooltip-top .arrow::before {
-    margin-left: -3px;
-    content: "";
-    border-width: 5px 5px 0;
-    border-top-color: $info;
+  margin-left: -3px;
+  content: "";
+  border-width: 5px 5px 0;
+  border-top-color: $info;
 }
 
 
 .btn {
-    &:focus {
-        box-shadow: 0 0 0 0;
-    }
+  &:focus {
+    box-shadow: 0 0 0 0;
+  }
 }
 
 
 .new-btn-cart {
-    &:after {
-        content: "加入購物車";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding-left: 25px;
-        padding-right: 25px;
-        border-radius: 50px;
-        color: $c1;
-        z-index: 3;
-        transition: all .3s;
-    }
+  &:after {
+    content: "加入購物車";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 50px;
+    color: $c1;
+    z-index: 3;
+    transition: all .3s;
+  }
 }
 
 
 .favouriteStyle {
-    font-weight: bold;
-    color: $danger;
+  font-weight: bold;
+  color: $danger;
 }
 
 .zoom {
-    cursor: zoom-in;
+  cursor: zoom-in;
 }
 
 .zoom-img {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    text-align: center;
-    z-index: 300;
-    background: $c5;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 300;
+  background: $c5;
 
 
-    .img-size-1 {
-        margin-top: 10%;
-    }
+  .img-size-1 {
+    margin-top: 10%;
+  }
 }
 
 @media (max-width: 576px) {
-    .zoom-img {
-        .img-size-1 {
-            margin-top: 50%;
-        }
+  .zoom-img {
+    .img-size-1 {
+      margin-top: 50%;
     }
+  }
 
 }
 
 .font-space {
-    letter-spacing: 0.3em;
-    line-height: 1.7em;
-    text-align: justify;
+  letter-spacing: 0.3em;
+  line-height: 1.7em;
+  text-align: justify;
 }

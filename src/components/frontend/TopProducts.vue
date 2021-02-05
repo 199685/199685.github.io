@@ -191,7 +191,7 @@ export default {
         product_id: addProudct.id,
         qty: newQty,
       };
-      this.$http.post(api, { data: Newproduct }).then(() => {
+      vm.$http.post(api, { data: Newproduct }).then(() => {
         if (!sameproduct >= 0) {
           vm.$emit('getcarts-event', 'getCarts');
           vm.isLoading = false;
@@ -204,7 +204,7 @@ export default {
     removeProduct(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      this.$http.delete(api).then(() => {
+      vm.$http.delete(api).then(() => {
         vm.$emit('getcarts-event', 'getCarts');
         vm.isLoading = false;
       });

@@ -73,7 +73,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <img :src="product.imageUrl" class="img-fluid" alt="" />
+            <img :src="product.imageUrl" class="img-fluid" :alt="product.title" />
             <blockquote class="blockquote mt-3">
               <p class="mb-0">{{ product.content }}</p>
               <footer class="blockquote-footer text-right">{{ product.description }}</footer>
@@ -294,7 +294,7 @@ export default {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products`;
       vm.isLoading = true;
-      this.$http.get(url).then((response) => {
+      vm.$http.get(url).then((response) => {
         vm.products = response.data.products;
 
         vm.isLoading = false;
@@ -306,7 +306,7 @@ export default {
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
       vm.status.loadingItem = id;
 
-      this.$http.get(url).then((response) => {
+      vm.$http.get(url).then((response) => {
         vm.product = response.data.product;
 
         $('#productModal').modal('show');
@@ -322,7 +322,7 @@ export default {
         product_id: id,
         qty,
       };
-      this.$http.post(url, { data: cart }).then(() => {
+      vm.$http.post(url, { data: cart }).then(() => {
         vm.status.loadingItem = '';
         vm.getCart();
 
@@ -333,7 +333,7 @@ export default {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
-      this.$http.get(url).then((response) => {
+      vm.$http.get(url).then((response) => {
         vm.cart = response.data.data;
 
         vm.isLoading = false;
@@ -343,7 +343,7 @@ export default {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       vm.isLoading = true;
-      this.$http.delete(url).then(() => {
+      vm.$http.delete(url).then(() => {
         vm.getCart();
       });
     },
@@ -354,7 +354,7 @@ export default {
         code: vm.coupon_code,
       };
       vm.isLoading = true;
-      this.$http.post(url, { data: coupon }).then(() => {
+      vm.$http.post(url, { data: coupon }).then(() => {
         vm.getCart();
 
         vm.isLoading = false;
@@ -365,7 +365,7 @@ export default {
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       const order = vm.form;
 
-      this.$http.post(url, { data: order }).then((response) => {
+      vm.$http.post(url, { data: order }).then((response) => {
         vm.isLoading = false;
         if (response.data.success) {
           vm.$router.push(`customer_order/${response.data.orderId}`);

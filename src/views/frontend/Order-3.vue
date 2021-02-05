@@ -211,7 +211,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${this.orderId}`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.order = response.data.order;
         vm.isLoading = false;
         const productsID = Object.keys(vm.order.products);
@@ -224,7 +224,7 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${this.OrderId}`;
       vm.isLoading = true;
-      this.$http.post(api).then(() => {
+      vm.$http.post(api).then(() => {
         vm.order.is_paid = true;
         vm.isLoading = false;
         vm.alertDisplay('付款成功', 'success');

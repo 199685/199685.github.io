@@ -176,7 +176,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       vm.isLoading = true;
       setTimeout(() => {
-        this.$http.get(api).then((response) => {
+        vm.$http.get(api).then((response) => {
           vm.cartsNumber = response.data.data.carts.length;
           vm.carts = response.data.data;
           vm.total = [response.data.data.total];
@@ -191,7 +191,7 @@ export default {
       const postcoupon = {
         code: this.couponCode,
       };
-      this.$http.post(api, { data: postcoupon }).then((response) => {
+      vm.$http.post(api, { data: postcoupon }).then((response) => {
         vm.getCarts();
         if (response.data.success) {
           vm.alertDisplay('優惠券使用成功', 'success');

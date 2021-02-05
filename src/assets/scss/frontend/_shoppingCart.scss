@@ -1,114 +1,115 @@
 .btn-link {
+  color: $c1;
+
+  &:hover {
+    text-decoration: none;
     color: $c1;
+  }
 
-    &:hover {
-        text-decoration: none;
-        color: $c1;
-    }
-
-    &:focus {
-        text-decoration: none;
-    }
+  &:focus {
+    text-decoration: none;
+  }
 }
 
 .shopping-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 
-    img {
-        width: 100px;
+  img {
+    width: 100px;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  .table-img {
+    width: 130px;
+  }
+
+  .fa-trash-alt {
+    color: red;
+    border-radius: 10px;
+    transition: all .3s;
+
+    &:hover {
+      background: $c4;
+      color: $light;
+
     }
-
-    td {
-        vertical-align: middle;
-    }
-
-    .table-img {
-        width: 130px;
-    }
-
-    .fa-trash-alt {
-        color: red;
-        border-radius: 10px;
-        transition: all .3s;
-
-        &:hover {
-            background: $c4;
-            color: $light;
-
-        }
-    }
+  }
 }
 
 
 @media (max-width: 576px) {
-    .shopping-table {
-        .table-img {
-            width: 0px;
-            padding: 0;
-        }
-
-        img {
-            display: none;
-        }
+  .shopping-table {
+    .table-img {
+      width: 0px;
+      padding: 0;
     }
+
+    img {
+      display: none;
+    }
+  }
 
 }
 
 .container-60 {
-    min-height: 60vh;
+  min-height: 60vh;
 }
 
 .container-25 {
-    min-height: 25vh;
+  min-height: 25vh;
 }
 
 .new-btn-checkout {
-    &:after {
-        content: "結帳去";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding-left: 25px;
-        padding-right: 25px;
-        border-radius: 50px;
-        color: $c1;
-        z-index: 3;
-        transition: all .3s;
-    }
+  &:after {
+    content: "結帳去";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 50px;
+    color: $c1;
+    z-index: 3;
+    transition: all .3s;
+  }
 }
 
 
 .new-btn-favourite {
-    &:after {
-        content: "逛逛商品";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding-left: 25px;
-        padding-right: 25px;
-        border-radius: 50px;
-        color: $c1;
-        z-index: 3;
-        transition: all .3s;
-        justify-content: center;
-    }
-}
-.boder-db {
-    border: 1px solid #dcd8d8;
-    background: rgba(255,255,255, .6);
-    box-shadow: 0 0 5px 5px rgba(197, 206, 192, .3);
+  &:after {
+    content: "逛逛商品";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 50px;
+    color: $c1;
+    z-index: 3;
+    transition: all .3s;
+    justify-content: center;
   }
+}
+
+.boder-db {
+  border: 1px solid #dcd8d8;
+  background: rgba(255, 255, 255, .6);
+  box-shadow: 0 0 5px 5px rgba(197, 206, 192, .3);
+}

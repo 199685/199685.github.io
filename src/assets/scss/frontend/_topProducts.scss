@@ -1,131 +1,131 @@
 .fade-border {
-    position: relative;
-    padding-bottom: 0.3em;
+  position: relative;
+  padding-bottom: 0.3em;
 
-    &:before {
-        content: "";
-        position: absolute;
-        border-bottom: 2px solid green;
-        width: 200px;
-        bottom: 0;
-    }
+  &:before {
+    content: "";
+    position: absolute;
+    border-bottom: 2px solid green;
+    width: 200px;
+    bottom: 0;
+  }
 }
 
 .topProducts {
-    overflow: hidden;
-    transition: transform .3s ease-out;
-    border: 1px solid#c7c2c2;
+  overflow: hidden;
+  transition: transform .3s ease-out;
+  border: 1px solid#c7c2c2;
 
-    img {
-        transition: transform .5s ease-out;
-    }
+  img {
+    transition: transform .5s ease-out;
+  }
 
-    &:hover {
-        box-shadow: 0 0 5px 3px rgba(0, 0, 0, .3);
-        transform: translateY(-5px);
-    }
+  &:hover {
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, .3);
+    transform: translateY(-5px);
+  }
 
-    &:hover img {
-        transform: scale(1.2, 1.2);
-    }
+  &:hover img {
+    transform: scale(1.2, 1.2);
+  }
 }
 
 .topProducts-link {
-    color: black;
+  color: black;
 
-    &:hover {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: none;
+  }
 
 }
 
 .topProducts-name {
-    &:hover {
-        text-decoration: underline;
-        color: green;
-    }
+  &:hover {
+    text-decoration: underline;
+    color: green;
+  }
 
 }
 
 .radius-1 {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 .touch-shopping-icon {
-    color: white;
-    background-color: green;
-    transition: all .3s;
+  color: white;
+  background-color: green;
+  transition: all .3s;
 
-    &:hover {
-        background-color: #016301;
-    }
+  &:hover {
+    background-color: #016301;
+  }
 }
 
 .heart-icon {
-    transition: transform .3s;
+  transition: transform .3s;
 
-    &:hover {
-        color: red;
-        transform: scale(1.1);
-    }
+  &:hover {
+    color: red;
+    transform: scale(1.1);
+  }
 }
 
 .heartStyle {
-    color: red;
-    font-weight: bold;
+  color: red;
+  font-weight: bold;
 }
 
 .new-btn-1 {
-    border: 2px solid $c5;
-    border-radius: 50px;
-    position: relative;
-    overflow: hidden;
+  border: 2px solid $c5;
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  color: transparent;
+  background-color: white;
+
+  &:hover:before {
+    background: $c1;
+    animation: addHeight 0.3s forwards;
+  }
+
+  &:hover {
     color: transparent;
-    background-color: white;
+  }
 
-    &:hover:before {
-        background: $c1;
-        animation: addHeight 0.3s forwards;
-    }
+  &:hover:after {
+    color: $light;
+  }
 
-    &:hover {
-        color: transparent;
-    }
-
-    &:hover:after {
-        color: $light;
-    }
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        border-radius: 50px;
-        color: transparent;
-    }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    color: transparent;
+  }
 }
 
 .new-btn-more {
-    &:after {
-        content: "看更多水果";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50px;
-        color: $c1;
-        z-index: 3;
-        transition: all 0.3s;
-    }
+  &:after {
+    content: "看更多水果";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: $c1;
+    z-index: 3;
+    transition: all 0.3s;
+  }
 }

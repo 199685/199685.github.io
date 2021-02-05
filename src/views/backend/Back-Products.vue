@@ -106,7 +106,7 @@
                     @change="uploadFile()"
                   />
                 </div>
-                <img :src="tempProduct.imageUrl" class="img-fluid" alt="" />
+                <img :src="tempProduct.imageUrl" class="img-fluid" alt="水果圖" />
               </div>
               <div class="col-sm-8">
                 <div class="form-group">
@@ -327,10 +327,10 @@ export default {
   },
   methods: {
     getProducts(page = 1) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.isLoading = false;
         vm.products = response.data.products;
         vm.pagination = response.data.pagination;
@@ -363,8 +363,8 @@ export default {
       }
     },
     updateProduct() {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       const vm = this;
+      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       let httpMethod = 'post';
 
       switch (vm.isNew) {
@@ -382,7 +382,7 @@ export default {
           break;
       }
 
-      this.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
+      vm.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
             $('#productModal').modal('hide');
@@ -394,13 +394,13 @@ export default {
       });
     },
     uploadFile() {
-      const uploadedFile = this.$refs.files.files[0];
       const vm = this;
+      const uploadedFile = this.$refs.files.files[0];
       const formData = new FormData();
       formData.append('file-to-upload', uploadedFile);
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/upload`;
       vm.status.fileUploading = true;
-      this.$http
+      vm.$http
         .post(url, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',

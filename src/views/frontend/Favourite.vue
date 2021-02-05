@@ -70,7 +70,7 @@ export default {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.cartsNumber = response.data.data.carts.length;
         vm.cartsID = response.data.data.carts.map(product => ({
           qty: product.qty,

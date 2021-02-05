@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="container mt-md-4 mt-2 mb-3">
       <div class="row position-relative">
         <div class="col-lg-2">
@@ -16,7 +15,6 @@
             <i class="fab fa-instagram-square"></i>
           </div>
         </div>
-
         <swiper class="swiper swiper-size col-lg-10  ml-auto" :options="swiperOption">
           <swiper-slide
             v-for="url in img.swiper"
@@ -139,16 +137,14 @@
     </div>
 
     <div class="container mb-3">
-
-            <TopProducts :TopProductsData="TopProductsData"
-            v-on:getcarts-event="getchildEvent" class="row">
-              <template v-slot:title>
-                <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
-                  <i class="far fa-thumbs-up"></i>精選水果
-                </h3>
-              </template>
-            </TopProducts>
-
+        <TopProducts :TopProductsData="TopProductsData"
+          v-on:getcarts-event="getchildEvent" class="row">
+          <template v-slot:title>
+            <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
+              <i class="far fa-thumbs-up"></i>精選水果
+            </h3>
+          </template>
+        </TopProducts>
 
         <div class="row justify-content-center">
           <div class="col-12 col-md-8 col-xl-6 text-center my-4">
@@ -157,7 +153,6 @@
                 class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
            </router-link>
           </div>
-
         </div>
     </div>
     <Carticon :carts="cartsNumber"></Carticon>
@@ -280,7 +275,7 @@ export default {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.cartsNumber = response.data.data.carts.length;
         vm.cartsID = response.data.data.carts.map(product => ({
           qty: product.qty,

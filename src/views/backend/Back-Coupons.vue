@@ -209,7 +209,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
       const vm = this;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.isLoading = false;
         vm.coupons = response.data.coupons;
         vm.pagination = response.data.pagination;
@@ -228,7 +228,7 @@ export default {
           break;
 
         case 'edit':
-          this.tempCoupon = Object.assign({ ...item });
+          this.tempCoupon = { ...item };
           newDate = new Date(this.tempCoupon.due_date * 1000);
           year = newDate.getFullYear();
           month = newDate.getMonth() + 1;
@@ -257,8 +257,8 @@ export default {
       }
     },
     updateCoupon() {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       const vm = this;
+      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       let httpMethod = 'post';
 
       switch (vm.isNew) {
@@ -276,7 +276,7 @@ export default {
           break;
       }
 
-      this.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
+      vm.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
             $('#couponModal').modal('hide');

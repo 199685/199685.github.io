@@ -239,10 +239,10 @@ export default {
   },
   methods: {
     getorders(page = 1) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${page}`;
       const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${page}`;
       vm.isLoading = true;
-      this.$http.get(api).then((response) => {
+      vm.$http.get(api).then((response) => {
         vm.isLoading = false;
         vm.orders = response.data.orders;
         vm.pagination = response.data.pagination;
@@ -250,7 +250,7 @@ export default {
     },
     openModal(isNew, item) {
       if (isNew === 'edit') {
-        this.tempOrder = Object.assign({ ...item });
+        this.tempOrder = { ...item };
         this.isNew = 'edit';
         const newDate = new Date(this.tempOrder.paid_date * 1000);
         const year = newDate.getFullYear();
@@ -270,15 +270,15 @@ export default {
       }
     },
     upOrders() {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/order`;
       const vm = this;
+      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/order`;
       const httpMethod = 'put';
 
       if (vm.isNew === 'edit') {
         api = `${api}/${vm.tempOrder.id}`;
       }
 
-      this.$http[httpMethod](api, { data: vm.tempOrder }).then((response) => {
+      vm.$http[httpMethod](api, { data: vm.tempOrder }).then((response) => {
         if (response.data.success) {
           if (vm.isNew !== 'delete') {
             $('#orderModal').modal('hide');

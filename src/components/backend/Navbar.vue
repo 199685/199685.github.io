@@ -31,7 +31,7 @@ export default {
     signout() {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/logout`;
-      this.$http.post(url).then((response) => {
+      vm.$http.post(url).then((response) => {
         if (response.data.success) {
           vm.$router.push('/sigin');
         }

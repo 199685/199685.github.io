@@ -50,9 +50,9 @@ export default {
   },
   methods: {
     signin() {
-      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`; // 加admin是為了存cookies
       const vm = this;
-      this.$http.post(api, vm.user).then((response) => {
+      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`; // 加admin是為了存cookies
+      vm.$http.post(api, vm.user).then((response) => {
         if (response.data.success) {
           const { token } = response.data;
           const { expired } = response.data;
@@ -66,7 +66,6 @@ export default {
     },
     getCarts() {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-
       this.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
       });
