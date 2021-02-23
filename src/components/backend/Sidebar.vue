@@ -15,15 +15,15 @@
                     <li class="nav-item gray-hover"
                      @click="linkname='products'">
                         <router-link to="/admin" class="nav-link"
-                        active-class="gray-active">
+                        exact-active-class="gray-active">
                         <i class="fas fa-box-open mr-1"></i>
                         <p class="d-inline-block m-0">產品列表</p>
                         </router-link>
                     </li>
-                    <li class="nav-item gray-hover"
+                    <li class="nav-item gray-hover d-none"
                      @click="linkname='order'">
                        <router-link to="/admin/order_list" class="nav-link"
-                       active-class="gray-active">
+                       exact-active-class="gray-active">
 
                         <i class="far fa-list-alt mr-1"></i>
                         <p class="d-inline-block m-0">訂單列表</p>
@@ -32,7 +32,7 @@
                     <li class="nav-item gray-hover"
                     @click="linkname='coupons'">
                         <router-link to="/admin/coupons" class="nav-link"
-                        active-class="gray-active">
+                        exact-active-class="gray-active">
                         <i class="fas fa-ticket-alt mr-1"></i>
                          <p class="d-inline-block m-0">優惠券</p>
                         </router-link>

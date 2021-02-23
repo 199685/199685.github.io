@@ -21,14 +21,10 @@
           <nav aria-label="breadcrumb" class="pl-0">
             <ol class="breadcrumb mb-0 pl-0">
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'Index' }">
-                  首頁
-                </router-link>
+                <router-link :to="{ name: 'Index' }"> 首頁 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ path: 'shoppingcart' }">
-                  購物車
-                </router-link>
+                <router-link :to="{ path: 'shoppingcart' }"> 購物車 </router-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">結帳確認</li>
             </ol>
@@ -39,10 +35,10 @@
               <div class="timepoint position-relative timepoint-color">
                 <i class="far fa-sticky-note"></i>
               </div>
-              <div class="timepoint position-relative ">
+              <div class="timepoint position-relative">
                 <i class="fas fa-edit"></i>
               </div>
-              <div class="timepoint position-relative ">
+              <div class="timepoint position-relative">
                 <i class="fas fa-truck"></i>
               </div>
             </div>
@@ -64,8 +60,12 @@
                 v-model="couponCode"
               />
               <div class="input-group-append">
-                <button type="button" class="btn btn-outline-c1"
-                id="button-addon2" @click="Couponinput()">
+                <button
+                  type="button"
+                  class="btn btn-outline-c1"
+                  id="button-addon2"
+                  @click="Couponinput()"
+                >
                   確認輸入
                 </button>
               </div>
@@ -143,8 +143,9 @@
             </div>
 
             <div class="text-right my-2">
-              <button type="button"
-              class="btn new-btn new-btn-order" @click="nextpage()">下一步</button>
+              <button type="button" class="btn new-btn new-btn-order" @click="nextpage()">
+                下一步
+              </button>
             </div>
           </div>
         </div>
@@ -271,5 +272,8 @@ export default {
   .titlefont {
     font-size: 24px;
   }
+}
+.container-100 {
+  min-height: 120vh;
 }
 </style>

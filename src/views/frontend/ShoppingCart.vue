@@ -335,4 +335,7 @@ export default {
 .container-30{
   min-height: 30vh;
 }
+.container-75{
+  min-height: 80vh;
+}
 </style>
