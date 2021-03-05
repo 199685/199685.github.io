@@ -8,7 +8,7 @@ Demo: [Happy Fruit](https://199685.github.io/Vue_HappyFruit_page/#/index)
 
 * Vue.js : 用資料與雙向綁定去渲染畫面，減少直接取用 DOM addEventListener
 * Vue Router : 動態路由的配置，導航守衛的運用
-* Vuex : 將會重複使用的data集中管理
+* Vuex : 將會重複使用的Data集中管理
 * Vue CLI : 將模組與資源打包
 * Axios : 支援 ES6 Promise 能解決 AJAX 非同步的問題
 * Bootstrap 4 : 用 SCSS 修改 Bootstrap Variables 來客製化響應式版型
