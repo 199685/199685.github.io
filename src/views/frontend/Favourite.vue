@@ -92,9 +92,6 @@ export default {
   .font-1 {
     font-size: 18px;
   }
-  .container-70 {
-    min-height: 100vh;
-  }
 }
 
 .new-btn-favourite:after {

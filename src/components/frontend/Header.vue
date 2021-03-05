@@ -14,7 +14,7 @@
         </div>
       </div>
     </loading>
-    <div class="header py-2" :class="{ openmenu: changebar }">
+    <div class="header py-2" :class="{ openmenu: changebar }" ref="Header">
       <div class="container px-0">
         <div class="row mx-0">
           <div class="col-11 col-lg-12 px-0 d-flex">
@@ -143,8 +143,14 @@ export default {
     },
     showNav() {
       const Header = document.querySelector('.header');
-      if (window.pageYOffset > window.innerHeight * 0.5) {
-        Header.classList.add('header-fixed');
+      const hight = document.querySelector('.allhight');
+      if (window.pageYOffset > this.$refs.Header.clientHeight * 3) {
+        if (
+          (hight.offsetHeight - window.pageYOffset - window.innerHeight
+          > this.$refs.Header.clientHeight)
+        ) {
+          Header.classList.add('header-fixed');
+        }
       } else {
         Header.classList.remove('header-fixed');
       }
@@ -172,7 +178,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.stop-click{
+.stop-click {
   background: transparent;
   position: fixed;
   width: 100vw;

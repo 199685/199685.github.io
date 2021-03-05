@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="container-30 container my-4">
-      <div class="row justify-content-center container-75">
-        <div class="col-11 mb-5 container-25" :class="{ 'd-none': zeroCarts }">
+      <div class="row justify-content-center">
+        <div class="col-11 mb-5" :class="{ 'd-none': zeroCarts }">
           <div class="accordion" id="accordionExample"></div>
           <div class="card pb-1">
             <div class="card-header d-sm-flex justify-content-between py-1" id="headingOne">
