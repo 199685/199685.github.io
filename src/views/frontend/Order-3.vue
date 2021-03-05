@@ -26,7 +26,7 @@
                 </router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link :to="{ path: 'shoppingcart' }">
+                <router-link :to="{ name: 'ShoppingCart' }">
                   購物車
                 </router-link>
               </li>
@@ -186,7 +186,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      cartsNumber: 0,
       orderId: '',
       order: {
         user: {

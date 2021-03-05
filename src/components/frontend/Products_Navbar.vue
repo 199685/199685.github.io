@@ -53,20 +53,23 @@
 <script>
 export default {
   props: ['select'],
-  data() {
-    return {
-
-    };
-  },
   methods: {
     touchKind(name) {
       const touchName = name;
-      this.$emit('touchKind', touchName);
+      const vm = this;
+      if (vm.beforeSelect !== touchName) {
+        vm.$store.commit('UPDATELOADING', true);
+        vm.$emit('touchKind', touchName);
+        setTimeout(() => { vm.$store.commit('UPDATELOADING', false); }, 500);
+      }
+    },
+  },
+  computed: {
+    beforeSelect() {
+      return this.select;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

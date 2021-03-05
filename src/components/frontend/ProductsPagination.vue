@@ -15,7 +15,7 @@
       </div>
     </loading>
     <nav aria-label="Page navigation example">
-      <ul class="pagination">
+      <ul class="pagination mt-xl-5">
         <li class="page-item" :class="{disabled: PaginationData.nowPage === 1}">
           <a class="page-link" href="#" @click.prevent="changePage('reduce')">上一頁</a>
         </li>
@@ -42,13 +42,7 @@
 export default {
   data() {
     return {
-      randomProducts: [],
       isLoading: false,
-      products: [],
-      cartProductID: [],
-      cartID: [],
-      quantityValue: 1,
-      favourite: [],
     };
   },
   props: ['PaginationData'],

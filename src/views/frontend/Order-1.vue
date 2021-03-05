@@ -159,8 +159,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      cartsNumber: 0,
-      cartsProductID: [],
       carts: [],
       total: [],
       couponCode: '',
@@ -178,12 +176,11 @@ export default {
       vm.isLoading = true;
       setTimeout(() => {
         vm.$http.get(api).then((response) => {
-          vm.cartsNumber = response.data.data.carts.length;
           vm.carts = response.data.data;
           vm.total = [response.data.data.total];
           vm.isLoading = false;
         });
-      }, 1500);
+      }, 500);
     },
     Couponinput() {
       const vm = this;

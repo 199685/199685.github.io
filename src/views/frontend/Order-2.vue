@@ -173,7 +173,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      cartsNumber: 0,
       orderData: {
         user: {
           name: '',
@@ -187,17 +186,6 @@ export default {
     };
   },
   methods: {
-    getCarts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
-      setTimeout(() => {
-        vm.$http.get(api).then((response) => {
-          vm.cartsNumber = response.data.data.carts.length;
-          vm.isLoading = false;
-        });
-      }, 1500);
-    },
     createOrder() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
@@ -209,9 +197,6 @@ export default {
         vm.isLoading = false;
       });
     },
-  },
-  created() {
-    this.getCarts();
   },
   mounted() {
     (function () {

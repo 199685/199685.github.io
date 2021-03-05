@@ -1,19 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading">
-      <div class="loading-blue">
-        <div class="ldio-loading">
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-        </div>
-      </div>
-    </loading>
     <div
       class="container-fluid bg-cover sky-size"
       :style="{ backgroundImage: `url(${require('@/assets/images/bg-2.jpg')})` }"
@@ -24,8 +10,7 @@
             <p class="mb-5 font-1">目前購物車沒有任何商品</p>
             <div class="text-center">
               <router-link :to="{ path: 'products' }">
-                <button type="button"
-                 class="btn new-btn new-btn-favourite">逛逛商品</button>
+                <button type="button" class="btn new-btn new-btn-favourite">逛逛商品</button>
               </router-link>
             </div>
           </div>
@@ -144,8 +129,9 @@
           </div>
 
           <div class="text-right mt-2">
-            <button  type="button"
-            class="btn new-btn new-btn-checkout" @click="nextpage()">結帳去</button>
+            <button type="button" class="btn new-btn new-btn-checkout" @click="nextpage()">
+              結帳去
+            </button>
           </div>
         </div>
       </div>
@@ -154,25 +140,21 @@
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
-      isLoading: false,
       cartsNumber: 0,
       carts: [],
       total: [],
       changeProductsID: [],
-      zeroCarts: true,
-      products: [],
+      zeroCarts: false,
     };
   },
   methods: {
     getCarts() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
+      vm.$store.commit('UPDATELOADING', true);
       vm.$http.get(api).then((response) => {
         this.cartsNumber = response.data.data.carts.length;
         if (vm.cartsNumber > 0) {
@@ -211,18 +193,18 @@ export default {
     },
     removeProduct(product, index) {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${product.id}`;
-      vm.isLoading = true;
-      vm.$http.delete(api).then(() => {
-        vm.total[0] -= product.qty * product.product.price;
-        this.removeChangeProducts(product.product_id, index);
-        vm.isLoading = false;
-        vm.alertDisplay(`${product.product.title}已移除購物車`, 'warning');
-      });
+      vm.$store.commit('UPDATELOADING', true);
+      vm.$store.dispatch('removeProduct', product.id);
+      vm.total[0] -= product.qty * product.product.price;
+      this.removeChangeProducts(product.product_id, index);
+      vm.alertDisplay(`${product.product.title}已移除購物車`, 'warning');
       vm.cartsNumber -= 1;
       if (vm.cartsNumber === 0) {
         vm.zeroCarts = true;
       }
+      setTimeout(() => {
+        vm.$store.commit('UPDATELOADING', false);
+      }, 300);
     },
     addChangeProducts(product) {
       const changeID = this.changeProductsID.map(item => item.product_id);
@@ -245,19 +227,22 @@ export default {
       this.carts.carts.splice(index, 1);
     },
     nextpage() {
-      const vm = this;
-      vm.isLoading = true;
-      this.changeProductsID.forEach((item) => {
-        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-        const apitwo = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${item.id}`;
-        const addproduct = {
-          product_id: item.product_id,
-          qty: item.qty,
-        };
-        vm.$http.post(api, { data: addproduct }).then(() => {});
-        vm.$http.delete(apitwo).then(() => {});
-      });
-      vm.$router.push('/checkout1');
+      if (this.$store.state.run) {
+        const vm = this;
+        vm.$store.commit('RUN', false);
+        this.changeProductsID.forEach((item) => {
+          const Newproduct = {
+            product_id: item.product_id,
+            qty: item.qty,
+          };
+          vm.$store.dispatch('addCart', { Newproduct });
+          vm.$store.dispatch('removeProduct', item.id);
+        });
+        setTimeout(() => {
+          vm.$store.commit('RUN', true);
+          vm.$router.push('/checkout1');
+        }, 1000);
+      }
     },
     alertDisplay(text, type) {
       const message = text;
@@ -270,16 +255,16 @@ export default {
       });
     },
     getProducts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      vm.$http.get(api).then((response) => {
-        this.products = response.data.products;
-        vm.isLoading = false;
-      });
+      this.$store.dispatch('getProducts');
     },
   },
   created() {
     this.getCarts();
+  },
+  computed: {
+    products() {
+      return this.$store.state.products;
+    },
   },
 };
 </script>
@@ -332,10 +317,10 @@ export default {
     font-size: 24px;
   }
 }
-.container-30{
+.container-30 {
   min-height: 30vh;
 }
-.container-75{
+.container-75 {
   min-height: 80vh;
 }
 </style>

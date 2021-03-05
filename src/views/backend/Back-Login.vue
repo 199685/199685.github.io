@@ -31,7 +31,7 @@
         </form>
       </div>
     </div>
-    <Carticon :carts="cartsNumber"></Carticon>
+    <Carticon></Carticon>
   </div>
 </template>
 
@@ -45,7 +45,6 @@ export default {
         username: '',
         password: '',
       },
-      cartsNumber: 0,
     };
   },
   methods: {
@@ -64,12 +63,6 @@ export default {
         }
       });
     },
-    getCarts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      this.$http.get(api).then((response) => {
-        this.cartsNumber = response.data.data.carts.length;
-      });
-    },
     alertDisplay(text, type) {
       const message = text;
       const messageType = type;
@@ -79,6 +72,14 @@ export default {
         position: 'topCenter',
         language: 'en',
       });
+    },
+    getCarts() {
+      const vm = this;
+      vm.$store.commit('UPDATELOADING', true);
+      vm.$store.dispatch('getCarts');
+      setTimeout(() => {
+        vm.$store.commit('UPDATELOADING', false);
+      }, 250);
     },
   },
   components: {

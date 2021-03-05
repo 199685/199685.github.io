@@ -2,10 +2,14 @@
   <div class="container-70">
     <div
       class="container-fluid bg-cover"
-      :style="{ backgroundImage: `url(${require('@/assets/images/bg-1.jpg')})` }">
+      :style="{ backgroundImage: `url(${require('@/assets/images/bg-1.jpg')})` }"
+    >
       <div class="container mt-1">
         <div class="row justify-content-center">
-          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': none }">
+          <div
+            class="col-11 col-md-12 text-center px-3 py-7"
+            :class="{ 'd-none': favouriteNumber }"
+          >
             <p class="mb-5 font-1">目前最愛商品沒有任何商品</p>
             <div class="text-center">
               <router-link :to="{ path: 'products' }">
@@ -13,23 +17,20 @@
               </router-link>
             </div>
           </div>
-          <div class="col-11 col-md-12 text-center px-3 py-7" :class="{ 'd-none': !none }">
+          <div
+            class="col-11 col-md-12 text-center px-3 py-7"
+            :class="{ 'd-none': !favouriteNumber }"
+          >
             <p class="mb-5 font-2">最愛商品</p>
           </div>
         </div>
       </div>
     </div>
     <div class="container mt-3">
-      <TopProducts
-        :TopProductsData="TopProductsData"
-        v-on:getcarts-event="getchildEvent"
-        class="row"
-        ref="getData"
-      >
-      </TopProducts>
+      <TopProducts :TopProductsData="TopProductsData" class="row" ref="getData"> </TopProducts>
     </div>
 
-    <Carticon :carts="cartsNumber"></Carticon>
+    <Carticon></Carticon>
   </div>
 </template>
 
@@ -38,14 +39,6 @@ import Carticon from '@/components/frontend/Carticon.vue';
 import TopProducts from '@/components/frontend/TopProducts.vue';
 
 export default {
-  data() {
-    return {
-      cartsNumber: 0,
-      cartsID: [],
-      favourite: [],
-      none: true,
-    };
-  },
   components: {
     Carticon,
     TopProducts,
@@ -53,7 +46,6 @@ export default {
   computed: {
     TopProductsData() {
       const mydata = {
-        cartsID: [this.cartsID],
         className: {
           'col-md-6': true,
           'col-lg-4': true,
@@ -65,20 +57,11 @@ export default {
       };
       return mydata;
     },
+    favouriteNumber() {
+      return this.$store.state.favouriteNumber;
+    },
   },
   methods: {
-    getCarts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(api).then((response) => {
-        vm.cartsNumber = response.data.data.carts.length;
-        vm.cartsID = response.data.data.carts.map(product => ({
-          qty: product.qty,
-          id: product.id,
-          productID: product.product_id,
-        }));
-      });
-    },
     Top() {
       window.scrollTo({
         top: 0,
@@ -86,34 +69,9 @@ export default {
         behavior: 'smooth',
       });
     },
-    updateFavourite() {
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
-      if (this.favourite.length > 0) {
-        this.none = true;
-      } else {
-        this.none = false;
-      }
-    },
-    getchildEvent(useevent) {
-      switch (useevent) {
-        case 'getCarts':
-          this.getCarts();
-          break;
-        case 'updateFavourite':
-          this.updateFavourite();
-          break;
-        default:
-          return '';
-      }
-      return '';
-    },
-  },
-  created() {
-    this.getCarts();
   },
   mounted() {
     this.Top();
-    this.updateFavourite();
   },
 };
 </script>
@@ -148,5 +106,4 @@ export default {
 .new-btn {
   border: 2px solid white;
 }
-
 </style>

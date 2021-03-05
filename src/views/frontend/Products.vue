@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="container container-60 mt-4">
-      <div class="row">
+    <div class="container mt-4">
+      <div class="row mb-xl-5">
         <div class="col-lg-3">
           <ProductsNavbar :select="select" @touchKind="touchKind"> </ProductsNavbar>
         </div>
@@ -19,7 +19,6 @@
 
           <TopProducts
             :TopProductsData="TopProductsData"
-            v-on:getcarts-event="getchildEvent"
             class="row"
           >
           </TopProducts>
@@ -27,7 +26,7 @@
       </div>
     </div>
 
-    <Carticon :carts="cartsNumber"></Carticon>
+    <Carticon></Carticon>
   </div>
 </template>
 
@@ -53,7 +52,6 @@ export default {
   computed: {
     TopProductsData() {
       const mydata = {
-        cartsID: [this.cartsID],
         className: {
           'col-md-6': true,
           'col-lg-6': true,
@@ -67,18 +65,6 @@ export default {
     },
   },
   methods: {
-    getCarts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(api).then((response) => {
-        vm.cartsNumber = response.data.data.carts.length;
-        vm.cartsID = response.data.data.carts.map(product => ({
-          qty: product.qty,
-          id: product.id,
-          productID: product.product_id,
-        }));
-      });
-    },
     touchKind(name) {
       const touchName = name;
       this.select = touchName;
@@ -90,23 +76,17 @@ export default {
         behavior: 'smooth',
       });
     },
-    getchildEvent(useevent) {
-      switch (useevent) {
-        case 'getCarts':
-          this.getCarts();
-          break;
-        default:
-          return '';
-      }
-      return '';
-    },
-  },
-  created() {
-    this.getCarts();
   },
   mounted() {
     this.Top();
   },
+  watch: {
+    sort() {
+      this.$store.commit('UPDATELOADING', true);
+      setTimeout(() => { this.$store.commit('UPDATELOADING', false); }, 500);
+    },
+  },
+
 };
 </script>
 

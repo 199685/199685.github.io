@@ -24,7 +24,6 @@ export default {
       changebar: false,
     };
   },
-  props: ['carts'],
   methods: {
     Top() {
       window.scrollTo({
@@ -49,11 +48,16 @@ export default {
   beforeDestroy() {
     window.removeEventListener('scroll', this.addhide);
   },
+  computed: {
+    carts() {
+      return this.$store.getters.cartsNumber;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.shopping-cart{
+.shopping-cart {
   transition: all 0.3s;
   color: white;
 }
@@ -65,7 +69,6 @@ export default {
   &:hover .shopping-cart {
     transform: scale(1.1);
   }
-
 }
 .cart-icon {
   right: 1%;
@@ -126,9 +129,8 @@ export default {
   padding: 0 8px;
   right: -10px;
   top: -18px;
-
 }
-.topiocn-size{
+.topiocn-size {
   font-size: 55px;
 }
 </style>

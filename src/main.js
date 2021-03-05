@@ -13,16 +13,17 @@ import $ from 'jquery';
 import VueClipboard from 'vue-clipboard2';
 import vDialogs from 'v-dialogs';
 import animated from 'animate.css';
+import Loading from 'vue-loading-overlay';
+import store from './store';
 
 
 import './plugs/Swiper';
 import './plugs/vee-validate';
 
-import Loading from 'vue-loading-overlay';
+
 import 'vue-loading-overlay/dist/vue-loading.css';
 import App from './App.vue';
 import router from './router';
-
 import './bus';
 import currencyFilter from './filters/currency';
 import percentFilter from './filters/percent';
@@ -45,6 +46,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app');
 

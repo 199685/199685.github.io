@@ -1,20 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading">
-      <div class="loading-blue">
-        <div class="ldio-loading">
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-        </div>
-      </div>
-    </loading>
-
     <div class="container my-4">
       <div class="position-fixed zoom-img show" :class="{ openshow: openImg }" @click="zoomImg()">
         <img class="img-size-1 big-size" :src="product.imageUrl" :alt="product.title" />
@@ -65,8 +50,7 @@
                   <td width="120" class="h7">數量</td>
                   <td>
                     <div class="d-flex">
-                      <button type="button"
-                       class="count" @click="quantity('minus')">
+                      <button type="button" class="count" @click="quantity('minus')">
                         <i class="fas fa-minus"></i>
                       </button>
                       <input
@@ -78,8 +62,7 @@
                         v-model="quantityValue"
                         @change="inputQuanproduct()"
                       />
-                      <button type="button"
-                       class="count" @click="quantity('plus')">
+                      <button type="button" class="count" @click="quantity('plus')">
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
@@ -122,8 +105,7 @@
               </table>
 
               <div class="text-right pr-3">
-                <button type="button"
-                 class="btn new-btn new-btn-cart" @click="addCart(product.id)">
+                <button type="button" class="btn new-btn new-btn-cart" @click="addCart(product.id)">
                   加入購物車
                 </button>
               </div>
@@ -221,7 +203,7 @@
       </div>
     </div>
 
-    <Carticon :carts="cartsNumber"></Carticon>
+    <Carticon></Carticon>
   </div>
 </template>
 
@@ -232,17 +214,12 @@ import TopProducts from '@/components/frontend/TopProducts.vue';
 export default {
   data() {
     return {
-      isLoading: false,
-      cartsNumber: 0,
-      cartProductID: [],
-      cartID: [],
       quantityValue: 1,
       favourite: [],
       openImg: false,
       product: [],
       productID: '',
       nav: 'A',
-      cartsID: [],
     };
   },
   components: {
@@ -251,35 +228,16 @@ export default {
   },
   methods: {
     getCarts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(api).then((response) => {
-        this.cartsNumber = response.data.data.carts.length;
-        vm.cartProductID.splice(0);
-        vm.cartID.splice(0);
-        response.data.data.carts.forEach((product) => {
-          const data = {
-            id: product.id,
-            qty: product.qty,
-          };
-          vm.cartID.push(data);
-          vm.cartProductID.push(product.product_id);
-        });
-        vm.cartsID = response.data.data.carts.map(product => ({
-          qty: product.qty,
-          id: product.id,
-          productID: product.product_id,
-        }));
-        vm.isLoading = false;
-      });
+      this.$store.dispatch('getCarts');
     },
     getProduct() {
       const vm = this;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${this.productID}`;
-      vm.isLoading = true;
+      vm.$store.commit('UPDATELOADING', true);
       vm.$http.get(api).then((response) => {
         vm.product = response.data.product;
         vm.getFavourite();
+        vm.$store.commit('UPDATELOADING', false);
       });
     },
     getFavourite() {
@@ -291,30 +249,34 @@ export default {
           vm.$set(vm.product, 'favourite', true);
         }
       });
-      this.isLoading = false;
     },
     addCart(id) {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let newQty = parseInt(this.quantityValue, 10);
-      vm.isLoading = true;
-      const sameID = this.cartProductID.indexOf(id);
-      if (sameID >= 0) {
-        newQty += parseInt(vm.cartID[sameID].qty, 10);
-      }
-      const addproduct = {
-        product_id: id,
-        qty: newQty,
-      };
-      vm.$http.post(api, { data: addproduct }).then(() => {
+      if (this.$store.state.run) {
+        const vm = this;
+        vm.$store.commit('RUN', false);
+        const newQty = parseInt(this.quantityValue, 10);
+        const allProductsID = vm.cartsID.map(item => item.productID);
+        const sameID = allProductsID.findIndex(item => item === id);
+        const Newproduct = {
+          product_id: id,
+          qty: newQty,
+        };
         if (sameID >= 0) {
-          vm.removeProduct(vm.cartID[sameID].id);
+          vm.removeProduct(vm.cartsID[sameID].id).then(() => {
+            Newproduct.qty = newQty + parseInt(vm.cartsID[sameID].qty, 10);
+            vm.$store.dispatch('addCart', {
+              Newproduct,
+              alert: [`${vm.product.title}已加入購物車`, 'info'],
+            });
+          });
         } else {
-          vm.getCarts();
+          vm.$store.dispatch('addCart', {
+            Newproduct,
+            alert: [`${vm.product.title}已加入購物車`, 'info'],
+          });
         }
         vm.quantityValue = 1;
-        vm.alertDisplay(`${this.product.title}已加入購物車`, 'info');
-      });
+      }
     },
     addFavourite() {
       const add = this.favourite.indexOf(this.product.id);
@@ -330,10 +292,7 @@ export default {
     },
     removeProduct(id) {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      vm.$http.delete(api).then(() => {
-        vm.getCarts();
-      });
+      return vm.$store.dispatch('removeProduct', id);
     },
     quantity(name) {
       this.quantityValue = parseInt(this.quantityValue, 10);
@@ -383,9 +342,6 @@ export default {
     },
     getchildEvent(useevent) {
       switch (useevent) {
-        case 'getCarts':
-          this.getCarts();
-          break;
         case 'changeProductID':
           this.changeProductID();
           break;
@@ -404,7 +360,6 @@ export default {
   computed: {
     TopProductsData() {
       const mydata = {
-        cartsID: [this.cartsID],
         className: {
           'col-md-6': true,
           'col-lg-4': true,
@@ -416,12 +371,23 @@ export default {
       };
       return mydata;
     },
+    alert() {
+      return this.$store.state.alert;
+    },
+    cartsID() {
+      return this.$store.getters.cartsID;
+    },
   },
   created() {
     this.Top();
     this.getCarts();
     this.productID = this.$route.params.productId;
     this.getProduct();
+  },
+  watch: {
+    alert() {
+      this.alertDisplay(this.alert[0], this.alert[1]);
+    },
   },
 };
 

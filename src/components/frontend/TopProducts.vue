@@ -1,26 +1,13 @@
 <template>
   <div>
-    <loading :active.sync="isLoading">
-      <div class="loading-blue">
-        <div class="ldio-loading">
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-          <div><div></div></div>
-        </div>
-      </div>
-    </loading>
-
     <slot name="title"></slot>
     <div :class="TopProductsData.className" v-for="product in productsFilter" :key="product.id">
       <div class="topProducts pb-2" style="background: white;">
         <router-link
-          class="topProducts-link" @click.native="changeproductsID()"
-          :to="{ name: 'ProductDetail', params: { productId: product.id } }">
+          class="topProducts-link"
+          @click.native="changeproductsID()"
+          :to="{ name: 'ProductDetail', params: { productId: product.id } }"
+        >
           <div class="topProducts">
             <img class="img-fluid" :src="product.imageUrl" v-if="productsFilter" alt="水果" />
           </div>
@@ -33,8 +20,8 @@
             >
             <i
               class="far fa-heart d-inline-block h6 pointer mb-0 p-2 heart-icon"
-              :class="{ heartStyle: product.favourite }"
-              @click="addFavourite(product.id)"
+              :class="{ heartStyle: favourite.includes(product.id) }"
+              @click="addFavourite(product)"
             ></i>
           </div>
 
@@ -67,18 +54,14 @@ import ProductsPagination from '@/components/frontend/ProductsPagination.vue';
 export default {
   data() {
     return {
-      isLoading: false,
-      products: [],
-      cartProductID: [],
-      cartID: [],
       quantityValue: 1,
-      favourite: [],
       completefilter: [],
       season: '',
       page: {
         nowPage: 1,
         allPage: 1,
       },
+      favouriteID: [],
     };
   },
   components: {
@@ -109,7 +92,7 @@ export default {
             pushData = this.pageCount();
             break;
           case 'favourite':
-            pushData = this.getFavourite();
+            pushData = this.favouriteProducts;
             break;
           default:
             return '';
@@ -125,6 +108,21 @@ export default {
       };
       return pagedata;
     },
+    products() {
+      return this.$store.state.products;
+    },
+    favourite() {
+      return this.favouriteID;
+    },
+    favouriteProducts() {
+      return this.products.filter(product => this.favourite.includes(product.id));
+    },
+    alert() {
+      return this.$store.state.alert;
+    },
+    cartsID() {
+      return this.$store.getters.cartsID;
+    },
   },
   methods: {
     alertDisplay(text, type) {
@@ -138,76 +136,57 @@ export default {
       });
     },
     getProducts() {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      this.isLoading = true;
-      this.$http.get(api).then((response) => {
-        this.products = response.data.products;
-        this.getFavourite();
-      });
+      this.$store.dispatch('getProducts');
     },
     getFavourite() {
-      const vm = this;
-      const favouriteProducts = [];
-      this.favourite = JSON.parse(localStorage.getItem('Favourite')) || [];
-      this.products.forEach((item) => {
-        vm.$set(item, 'favourite', false);
-        const favourite = vm.favourite.includes(item.id);
-        if (favourite) {
-          vm.$set(item, 'favourite', true);
-          favouriteProducts.push(item);
-        }
-        vm.isLoading = false;
-      });
-      vm.$emit('getcarts-event', 'updateFavourite');
-      return favouriteProducts;
+      this.favouriteID = JSON.parse(localStorage.getItem('Favourite')) || [];
+      this.$store.commit('FAVOURITE', this.favouriteID.length);
     },
     addFavourite(id) {
-      const add = this.favourite.indexOf(id);
+      const add = this.favouriteID.indexOf(id.id);
       if (add > -1) {
-        this.favourite.splice(add, 1);
-        this.alertDisplay('已移除我的最愛', 'warning');
+        this.favouriteID.splice(add, 1);
+        this.alertDisplay(`${id.title}已移除我的最愛`, 'warning');
       } else {
-        this.favourite.push(id);
-        this.alertDisplay('已加入我的最愛', 'info');
+        this.favouriteID.push(id.id);
+        this.alertDisplay(`${id.title}已加入我的最愛`, 'info');
       }
-
-      localStorage.setItem('Favourite', JSON.stringify(this.favourite));
-
+      localStorage.setItem('Favourite', JSON.stringify(this.favouriteID));
       this.getFavourite();
     },
     addCart(addProudct) {
-      const vm = this;
-      vm.isLoading = true;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let newQty = parseInt(this.quantityValue, 10);
-      const sameproduct = vm.TopProductsData.cartsID[0].findIndex(
-        item => item.productID === addProudct.id,
-      );
-      if (sameproduct >= 0) {
-        newQty += parseInt(vm.TopProductsData.cartsID[0].[sameproduct].qty, 10);
-        vm.removeProduct(vm.TopProductsData.cartsID[0].[sameproduct].id);
-      }
-      const Newproduct = {
-        product_id: addProudct.id,
-        qty: newQty,
-      };
-      vm.$http.post(api, { data: Newproduct }).then(() => {
-        if (!sameproduct >= 0) {
-          vm.$emit('getcarts-event', 'getCarts');
-          vm.isLoading = false;
+      if (this.$store.state.run) {
+        const vm = this;
+        vm.$store.commit('RUN', false);
+        let newQty = parseInt(this.quantityValue, 10);
+        const allProductsID = vm.cartsID.map(id => id.productID);
+        const sameproduct = allProductsID.findIndex(item => item === addProudct.id);
+        const Newproduct = {
+          product_id: addProudct.id,
+          qty: newQty,
+        };
+        if (sameproduct >= 0) {
+          newQty += parseInt(vm.cartsID[sameproduct].qty, 10);
+          Newproduct.qty = newQty;
+          vm.removeProduct(vm.cartsID[sameproduct].id).then(() => {
+            vm.$store.dispatch('addCart', {
+              Newproduct,
+              alert: [`${addProudct.title}已加入購物車`, 'info'],
+            });
+          });
+        } else {
+          vm.$store.dispatch('addCart', {
+            Newproduct,
+            alert: [`${addProudct.title}已加入購物車`, 'info'],
+          });
         }
+
         vm.quantityValue = 1;
-        const notice = `${addProudct.title}已加入購物車`;
-        vm.alertDisplay(notice, 'info');
-      });
+      }
     },
     removeProduct(id) {
       const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      vm.$http.delete(api).then(() => {
-        vm.$emit('getcarts-event', 'getCarts');
-        vm.isLoading = false;
-      });
+      return vm.$store.dispatch('removeProduct', id);
     },
     randomproducts() {
       if (this.products.length) {
@@ -228,9 +207,8 @@ export default {
       if (this.season === 'all') {
         this.completefilter = copyProductsData;
       } else {
-        this.completefilter = copyProductsData.filter(
-          product => product.season.includes(this.season),
-        );
+        this.completefilter = (
+          copyProductsData.filter(product => product.season.includes(this.season)));
       }
       this.pageCount();
     },
@@ -276,13 +254,21 @@ export default {
     changeproductsID() {
       this.$emit('getcarts-event', 'changeProductID');
     },
+    getCarts() {
+      this.$store.dispatch('getCarts');
+    },
   },
   created() {
     this.getProducts();
+    this.getFavourite();
+    this.getCarts();
   },
   watch: {
     season() {
       this.page.nowPage = 1;
+    },
+    alert() {
+      this.alertDisplay(this.alert[0], this.alert[1]);
     },
   },
   mounted() {},

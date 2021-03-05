@@ -1,5 +1,19 @@
 <template>
   <div>
+    <loading :active.sync="isLoading">
+      <div class="loading-blue">
+        <div class="ldio-loading">
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+          <div><div></div></div>
+        </div>
+      </div>
+    </loading>
     <div class="header py-2" :class="{ openmenu: changebar }">
       <div class="container px-0">
         <div class="row mx-0">
@@ -110,6 +124,7 @@
         </h3>
       </div>
     </div>
+    <p class="stop-click" v-show="isLoading"></p>
   </div>
 </template>
 
@@ -148,10 +163,23 @@ export default {
   beforeDestroy() {
     window.removeEventListener('scroll', this.showNav);
   },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.stop-click{
+  background: transparent;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  z-index: 9999;
+}
 @media (min-width: 992px) {
   .width-50 {
     width: 50%;

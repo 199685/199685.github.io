@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="container mt-md-4 mt-2 mb-3">
       <div class="row position-relative">
         <div class="col-lg-2">
@@ -137,54 +138,26 @@
     </div>
 
     <div class="container mb-3">
-        <TopProducts :TopProductsData="TopProductsData"
+      <TopProducts :TopProductsData="TopProductsData"
           v-on:getcarts-event="getchildEvent" class="row">
-          <template v-slot:title>
-            <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
-              <i class="far fa-thumbs-up"></i>精選水果
-            </h3>
-          </template>
-        </TopProducts>
+        <template v-slot:title>
+          <h3 class="col-12 my-3 text-c1 fw-700 fade-border text-center">
+            <i class="far fa-thumbs-up"></i>精選水果
+          </h3>
+        </template>
+      </TopProducts>
 
-        <div class="row justify-content-center">
-          <div class="col-12 col-md-8 col-xl-6 text-center my-4">
-             <router-link :to="{ name: 'Products' }">
-                <button type="button"
-                class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
-           </router-link>
-          </div>
-        </div>
-    </div>
-    <Carticon :carts="cartsNumber"></Carticon>
-
-    <div
-      class="popup position-fixed justify-content-center align-items-center"
-      :class="{ 'd-none': colsepopup }">
-      <div class="popup-content p-4 position-relative">
-        <h3 class="popup-title">
-          <i class="fas fa-seedling pr-1 mb-2"></i>週年慶全館85折<i
-            class="fas fa-seedling pl-1 d-none d-md-inline-block "
-          ></i>
-        </h3>
-
-        <p>適用通路：網路</p>
-        <p>適用商品：架上商品</p>
-        <p class="text-center popup-code p-2">{{ message }}</p>
-        <p>活動日期：2020/04/20 - 2020/5/19</p>
-        <div class="text-center">
-          <button type="button"
-            class="btn new-btn new-btn-code"
-            v-clipboard:copy="message"
-            @click="alertDisplay('複製成功', 'info')"
-          >
-            複製優惠序號
-          </button>
-        </div>
-        <div class="position-absolute close-circle pointer" @click="colsePopup()">
-          <i class="far fa-times-circle h5"></i>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-xl-6 text-center my-4">
+           <router-link :to="{ name: 'Products' }">
+              <button type="button"
+              class="btn new-btn-1 new-btn-more w-100">看更多水果</button>
+         </router-link>
         </div>
       </div>
     </div>
+    <Carticon></Carticon>
+
      <div
       class="popup position-fixed justify-content-center align-items-center"
       :class="{ 'd-none': colsepopup }" >
@@ -225,9 +198,6 @@ export default {
     return {
       message: 'HAPPYFRUIT3YEARS',
       colsepopup: false,
-      cartsNumber: 0,
-      isLoading: false,
-      cartsID: [],
       img: {
         point: [
           require('../../assets/images/無農藥.jpg'),
@@ -273,16 +243,7 @@ export default {
       document.querySelector('body').classList.remove('hideScroll');
     },
     getCarts() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(api).then((response) => {
-        vm.cartsNumber = response.data.data.carts.length;
-        vm.cartsID = response.data.data.carts.map(product => ({
-          qty: product.qty,
-          id: product.id,
-          productID: product.product_id,
-        }));
-      });
+      this.$store.dispatch('getCarts');
     },
     Top() {
       window.scrollTo({
@@ -327,7 +288,6 @@ export default {
   computed: {
     TopProductsData() {
       const mydata = {
-        cartsID: [this.cartsID],
         className: {
           'col-md-6': true,
           'col-lg-4': true,
@@ -340,11 +300,8 @@ export default {
       };
       return mydata;
     },
-
-
   },
   created() {
-    this.getCarts();
     this.Top();
   },
   mounted() {
